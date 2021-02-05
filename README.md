@@ -9,7 +9,7 @@ Requisitos minimos para rodar:
     Python3.7+
     Qualquer sistema que rode bash
 
-![shocase1](https://user-images.githubusercontent.com/67431981/106668939-aea66f00-6589-11eb-8361-66c09275910b.png)
+![Screenshot from 2021-02-05 09-00-28](https://user-images.githubusercontent.com/67431981/107061390-e6462e80-67b6-11eb-9341-a0e55b303a92.png)
 
 ## Como rodar
     Execute python3 tfiles.py
