@@ -13,8 +13,6 @@ Requisitos minimos para rodar:
 
 ## Como rodar
 Execute python3 tfiles.py<br />
-
 OBS: Você precisa das bibliotecas: os, getpass, shutil, random, linecache, readline, clipboard, mimetypes e time<br />
-
 OBS²: Você pode rodar "./install.sh" para criar um comando que executa o script ("tfiles") e instalar as bibliotecas necessárias<br />
 
