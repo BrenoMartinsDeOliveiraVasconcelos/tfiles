@@ -7,12 +7,10 @@ echo "python3 '/opt/tfiles/script/tfiles.py'" >> "/usr/bin/tfiles"
 chmod +x "/usr/bin/tfiles"
 mkdir "/opt/tfiles"
 mkdir "/opt/tfiles/script"
-touch "/opt/tfiles/cdt"
-echo "33" > "/opt/tfiles/cdt"
-touch "/opt/tfiles/deco"
-echo "⚘ = * •" > "/opt/tfiles/deco"
 cp "tfiles.py" "/opt/tfiles/script/tfiles.py"
-cp "unistall.py" "/opt/tfiles/unistall.py"
+cp "uninstall.py" "/opt/tfiles/uninstall.py"
+cp "uninstall.sh" "/opt/tfiles/uninstall.sh"
+apt-get update
 apt-get install python3-pip
 apt-get install xclip
 python3 -m pip install clipboard

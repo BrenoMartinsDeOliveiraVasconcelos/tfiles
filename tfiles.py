@@ -14,8 +14,6 @@ try:
     vsf = int(hhaa[1])
     guest = False
     os.system("clear")
-    title = linecache.getline('/opt/tfiles/cdt', 1).replace('\n', '')
-
 
 
     def get_size(start_path = '.'):
@@ -77,6 +75,7 @@ try:
     errortipo = 'Nulo'
     gado = []
     gado2 = []
+    gado3 = []
     narnia = ''
     darosinal = False
     corno = 0
@@ -86,31 +85,46 @@ try:
     dobreak = False
     errorstatusdev = 0
 
-    decos = str(''.join((open("/opt/tfiles/deco", 'r').readlines())).replace("\n", '')).split(' ')
     comandos = ['/', '/a', '/d', '/e', '/h', '/k', '/l', '/m', '/r', '/fdel', '/del', '/rename', '/*', '/info', '/md',
-                '/usrbin', '/texto', '/cor', '/deco', '/reset', '/bash', '/cln', '/search', '/i']
+                '/usrbin', '/texto', '/bash', '/cln', '/search', '/i', '/shexec', '/full']
     while True:
         if run == 0:
             pass
         else:
-            if getpass.getuser() == 'root':
-                print('')
-                print("\033[31mCuidado! TFiles está em modo root.", end='')
-            print(f"\033[{title}m", end='')
-            print("")
-            print(f'{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4), end='')
-            if len(path) > 1:
-                nextpath = input(f"""Onder ir agora?
-Caminho: {''.join(path[1:])}/""")
+            print('')
+            colluns = int(hhaa[0])
+            ctotal = int(colluns - (3 + 2 + ((len(contents) / 2) - 0.1)))
+            collunswasted = 0
+            elgadobonito = []
+            ctotal = ctotal - 1
+            if ctotal > 1:
+                os.system('setterm -background white -foreground white')
+                ctexto = f''
+                print(f"\033[1;30m{ctexto}", end='')
+                print(' '* int(vsf - len(ctexto)))
+                os.system('setterm -background black -foreground black')
+                for printit in range(1, ctotal):
+                    print(f'{"Apenas isso por enquanto":^{vsf}}')
             else:
-                nextpath = input(f"""Onde ir agora?
-Caminho: {''.join(path)}""")
+                pass
+            if run > 1:
+                os.system("setterm -background white -foreground white")
+                print(" "*vsf)
+                os.system('setterm -background black -foreground black')
+                print(f'\033[1;37mOnde ir agora?')
+                os.system('setterm -background black -foreground black')
+                nextpath = input(f"""\033[1;37mCaminho: {''.join(path[1:])}/""")
+            else:
+                nextpath = '/*'
+                os.system('setterm -background black foreground white')
+                for hinata in range(0, 10000):
+                    print("")
+                clear()
             if nextpath == 'dev':
                 errorstatusdev = 1
             nextpath = nextpath.split('/')
             if nextpath[0] == '':
                 nextpath[0] = '/'
-            print(f'{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
             if errorstatusdev == 1:
                 errorstatusdev = 0
             print('\u001b[37m')
@@ -163,6 +177,8 @@ Caminho: {''.join(path)}""")
                         print(f"\033[31mArquivo já existe.")
                 elif commandpath == '/e':
                     print('\033[0m', end='')
+                    os.system("setterm -default")
+                    clear()
                     exit()
                 elif commandpath == '/del':
                     path = last(path)
@@ -260,47 +276,46 @@ Caminho: {''.join(path)}""")
                 elif commandpath == '/help':
                     print("""
 
-    Simbolos
+Simbolos
 
-    [•] Arquivo de texto
-    [>] Arquivo de aplicação
-    [𝄞] Arquivo de áudio
-    [▶] Arquivo de vídeo
-    [☀] Arquivo de imagem
-    [𝕥] Arquivo de fonte
-    [?] Arquivo genérico ou binário
-    [0] Arquivo binário
-    [+] Diretório
+[•] Arquivo de texto
+[>] Arquivo de aplicação
+[𝄞] Arquivo de áudio
+[▶] Arquivo de vídeo
+[☀] Arquivo de imagem
+[𝕥] Arquivo de fonte
+[?] Arquivo genérico ou binário
+[0] Arquivo binário
+[+] Diretório
 
-    Comandos
+Comandos
 
-    / Voltar ao diretório passado
-    /* Atualizar configurações e o diretório atual
-    /a Criar um arquivo
-    /bash Tela de comandos bash para ações mais complexas
-    /cln Tela de comando rápido
-    /cor Trocar a cor do gerenciador de arquivos
-    /d Criar um diretório
-    /deco Troca a decoração de titulo
-    /del Apagar um diretório
-    /e Sair
-    /fdel Apagar um arquivo
-    /h Vai para a pasta home do user atual
-    /help Exibe essa tela
-    /i Informações sobre algum arquivo ou diretório
-    /info Informações do TFiles
-    /k Copiar e colar um arquivo ou diretório
-    /l Lê um arquivo e exibe seu conteúdo
-    /m Mover um arquivo/diretório
-    /md Ir para /media/{usuário atual}
-    /r Ir para a pasta root
-    /rename Renomear um arquivo/diretório
-    /reset Restaura as configurações de design para o padrão
-    /search Pesquisa por arquivos/diretórios que contenham uma string especifica
-    /usrbin Ir para /usr/bin
-    /texto Editor de texto (Básico, recomendado apenas para edições simples)
-        OBS: .help para ajuda em comandos.
-    Apenas "ENTER" volta dois diretórios
+/ Voltar ao diretório passado
+/* Atualizar configurações e o diretório atual
+/a Criar um arquivo
+/bash Tela de comandos bash para ações mais complexas
+/cln Tela de comando rápido
+/d Criar um diretório
+/del Apagar um diretório
+/e Sair
+/fdel Apagar um arquivo
+/full Exibe o nome de um arquivo sem corte
+/h Vai para a pasta home do user atual
+/help Exibe essa tela
+/i Informações sobre algum arquivo ou diretório
+/info Informações do TFiles
+/k Copiar e colar um arquivo ou diretório
+/l Lê um arquivo e exibe seu conteúdo
+/m Mover um arquivo/diretório
+/md Ir para /media/{usuário atual}
+/r Ir para a pasta root
+/rename Renomear um arquivo/diretório
+/search Pesquisa por arquivos/diretórios que contenham uma string especifica
+/shexec Executa um arquivo em shell
+/usrbin Ir para /usr/bin
+/texto Editor de texto (Básico, recomendado apenas para edições simples)
+    OBS: .help para ajuda em comandos.
+Apenas "ENTER" volta dois diretórios
 
                     """)
                     path = last(path)
@@ -310,7 +325,10 @@ Caminho: {''.join(path)}""")
                     arquivo = str(input("Arquivo: "))
                     try:
                         y = open(f'{"".join(path)}/{arquivo}', 'r')
-                        print(''.join(y.readlines()))
+                        yotta = 0
+                        for hans in y.readlines():
+                            yotta = yotta + 1
+                            print(f"\033[33m[{yotta}] \033[37m{hans}", end='')
                         enter()
                     except IsADirectoryError:
                         print('\033[31;1mNão é um arquivo.')
@@ -329,14 +347,12 @@ Caminho: {''.join(path)}""")
                         enter()
                 elif commandpath == '/*':
                     path = last(path)
-                    decos = str(''.join((open("/opt/tfiles/deco", 'r').readlines())).replace("\n", '')).split(' ')
-                    title = "".join(open("/opt/tfiles/cdt", 'r').readlines()).replace("\n", "")
                 elif commandpath == '/info':
                     path = last(path)
-                    print("TFiles v1.4.0b")
+                    print("TFiles v1.0.0")
                     print("Desenvolvedor: Breno Martins de Oliveira Vasconcelos")
                     print(
-                        "GitHub: https://github.com/BrenoMartinsDeOliveiraVasconcelos/Terminal-Files-Manager/tree/main/"
+                        "GitHub: https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles"
                     )
                     enter()
                 elif commandpath == '/md':
@@ -381,10 +397,10 @@ Caminho: {''.join(path)}""")
                     nsv = False
                     while not cancelar:
                         pathdotreco = f"{''.join(path[1:])}/{arquivo}/"
-                        print(f'\033[{title}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                        print(f'\033[{title}m{f"Editor de Texto":^{vsf}}')
-                        print(f'\033[{title}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                        print('\n')
+                        os.system('setterm -background white -foreground white')
+                        print(f"\033[1;30m{'Terminal Explorer':^{vsf}}")
+                        os.system('setterm -background black foreground black')
+                        print("")
                         try:
                             texto = w.readlines()
                         except UnicodeDecodeError:
@@ -397,28 +413,25 @@ Caminho: {''.join(path)}""")
                         firstrun = -1
                         for cont in texto:
                             line = line + 1
-                            print(f'\033[{title}m[{line}]\033[37m {cont}', end='')
+                            print(f'\033[33m[{line}]\033[37m {cont}', end='')
                         while True:
                             if firstrun == -1:
                                 line = line + 1
-                                ca = input(f"\033[{title}m[{line}]\033[37m ")
+                                ca = input(f"\033[33m[{line}]\033[37m ")
                             else:
                                 clear()
-                                print(
-                                    f'\033[{title}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}'* int(int(vsf)/4)
-                                )
-                                print(f'\033[{title}m{f"Editor de Texto":^80}')
-                                print(
-                                    f'\033[{title}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                                print('\n')
+                                os.system('setterm -background white -foreground white')
+                                print(f"\033[1;30m{'Terminal Explorer':^{vsf}}")
+                                os.system('setterm -background black -foreground black')
+                                print('')
                                 line = 0
                                 for cont in texto:
                                     line = line + 1
-                                    print(f'\033[{title}m[{line}]\033[37m {cont}', end='')
-                                ca = input(f"\033[{title}m[{line + 1}]\033[37m ")
+                                    print(f'\033[33m[{line}]\033[37m {cont}', end='')
+                                ca = input(f"\033[33m[{line + 1}]\033[37m ")
                             texto.append(f'{ca}\n')
                             firstrun = firstrun + 1
-                            if texto[-1] == '.stop\n':
+                            if texto[-1] == '.exit\n':
                                 del texto[-1]
                                 quebrar = True
                                 break
@@ -433,15 +446,17 @@ Caminho: {''.join(path)}""")
                                 del texto[-1]
                                 print("""
                             
-    .al Adiciona um número especifico de linhas com um texto especificado
-    .cancel Sai sem salvar
-    .clear Limpa o arquivo de texto, apagando todo seu conteudo mas mantendo o arquivo
-    .dl Deleta uma linha
-    .dlnum Deleta númericamente especifico as últimas linhas 
-    .el Edita uma linha
-    .help Tela de ajuda do editor de textos
-    .stop Salva e fecha o arquivo
-    .whereami Mostra o caminho do arquivo atual
+.al Adiciona um número especifico de linhas com um texto especificado
+.cancel Sai sem salvar
+.clear Limpa o arquivo de texto, apagando todo seu conteudo mas mantendo o arquivo
+.dl Deleta uma linha
+.dlnum Deleta númericamente especifico as últimas linhas 
+.el Edita uma linha
+.exit Salva e fecha o arquivo
+.help Tela de ajuda do editor de textos
+.save Salva o arquivo sem fechar
+.search Procura algum texto especifico
+.whereami Mostra o caminho do arquivo atual
 
     OBS: Para adicionar comandos como texto normal, adicione espaço antes ou depois do tal comando
 
@@ -492,6 +507,31 @@ Caminho: {''.join(path)}""")
                                 quebrar = True
                                 nsv = True
                                 break
+                            elif texto[-1] == '.save\n':
+                                del texto[-1]
+                                try:
+                                    w = open(f'{"".join(path)}/{arquivo}', 'w')
+                                    w.write(''.join(texto))
+                                    w.close()
+                                except PermissionError:
+                                    print('\033[31mAcesso de escrita negado.')
+                                    enter()
+                                    w.close()
+                            elif texto[-1] == '.search\n':
+                                del texto[-1]
+                                search_query = input("Pesquisar: ")
+                                núm = 0
+                                numdencontros = 0
+                                possuiem = []
+                                for linhas in texto:
+                                    núm = núm + 1
+                                    if search_query in linhas:
+                                        numdencontros = numdencontros + 1
+                                        print(f'\033[32mEncontrado \033[35m"{search_query}"\033[32m na linha {núm}.')
+                                    else:
+                                        pass
+                                print(f"\033[37mAo todo, foram encontrados resultados em \033[32m{numdencontros} \033[37mlinhas.")
+                                enter()
                         if quebrar:
                             if not nsv:
                                 try:
@@ -505,132 +545,12 @@ Caminho: {''.join(path)}""")
                             else:
                                 w.close()
                             break
-                elif commandpath == '/cor':
-                    path = last(path)
-                    confirmar = False
-                    print("\033[37mSelecione a cor desejada.")
-                    while not confirmar:
-                        for coresid in range(0, 8):
-                            print(f'ID: {coresid}, resultado: \033[3{coresid}m123\033[37m')
-                        while True:
-                            try:
-                                cordousuario = int(input("\033[37mID da cor desejada: "))
-                                break
-                            except (ValueError, TypeError):
-                                print("\033[31mIsso não é um ID!")
-                                pass
-                        while str(cordousuario) not in '01234567':
-                            try:
-                                cordousuario = int(input("\033[31mCor inválida. ID da cor desejada: "))
-                            except (ValueError, TypeError):
-                                cordousuario = int(input("\033[31mApenas números podem ser aceitos. ID da cor desejada: "))
-                        print("Ok, o resultado final será mais ou menos este:")
-                        print(f'\033[3{cordousuario}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                        print(f'\033[3{cordousuario}m{"Gerenciador de Arquivos":^{vsf}}')
-                        print(f'\033[3{cordousuario}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                        print('')
-                        print(
-                            '\033[37mUbuntu Linux Live USB \033[32m[+]                \033[37mSansumgDisk 1TB \033[32m[+]')
-                        print('')
-                        print(f'\033[3{cordousuario}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                        print(f"\033[3{cordousuario}mCaminho: /media/Lucas/")
-                        print(f'\033[3{cordousuario}m{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-                        confirmarao = input(
-                            f"\033[37mTem certeza que deseja aplicar a cor de id \033[3{cordousuario}m{cordousuario}\033[37m? [S/N] ")
-                        while confirmarao not in 'SsNn':
-                            confirmarao = input(
-                                f"\033[37mTem certeza que deseja aplicar a cor de id \033[3{cordousuario}m{cordousuario}\033[37m? [S/N] ")
-                        if confirmarao in 'Ss':
-                            title = int(f'3{cordousuario}')
-                            try:
-                                cor = open("/opt/tfiles/cdt", 'w')
-                                cor.write(f'3{cordousuario}')
-                                cor.close()
-                            except PermissionError:
-                                print(
-                                    "\033[31mVocê precisa rodar esse comando como root (em sudo) para alterar isso permanentemente. (O arquivo de configuração está em (/opt/tfiles/)")
-                                enter()
-                            confirmar = True
-                        else:
-                            pass
-                elif commandpath == '/deco':
-                    times = 0
-                    notexecute = False
-                    path = last(path)
-                    confirmar = False
-                    while not confirmar:
-                        stringd = input("String decorativa (separar cada caractére por espaço): ")
-                        while ' ' not in stringd:
-                            times = times + 1
-                            if times < 3:
-                                stringd = input("String decorativa (PONHA PELO MENOS 1 ESPAÇO): ")
-                            else:
-                                notexecute = True
-                                break
-                        if not notexecute:
-                            print('Ficará algo do tipo: ')
-                            sample = stringd.split(" ")
-                            print(
-                                f"\033[{title}m{random.choice(sample)}{random.choice(sample)}{random.choice(sample)}" * int(int(vsf)/4))
-                            print(f"\033[{title}m{'Gerenciador de Arquivos':^60}")
-                            print(
-                                f"\033[{title}m{random.choice(sample)}{random.choice(sample)}{random.choice(sample)}" * int(int(vsf)/4))
-                            print('')
-                            print(f'\033[37mLucas \033[32m[+]                              \033[37mEduardo \033[32m[+]')
-                            print('')
-                            print(
-                                f"\033[{title}m{random.choice(sample)}{random.choice(sample)}{random.choice(sample)}" * int(int(vsf)/4))
-                            print("Caminho: /home/")
-                            print(f"{random.choice(sample)}{random.choice(sample)}{random.choice(sample)}" * int(int(vsf)/4))
-                            confirm = ' '
-                            while confirm not in 'SsNn':
-                                confirm = input("\033[37mConfirmar? [S/N] ")
-                            if confirm in 'Ss':
-                                break
-                            else:
-                                pass
-                        else:
-                            break
-                    if not notexecute:
-                        try:
-                            acb = open("/opt/tfiles/deco", 'w')
-                            acb.write(stringd)
-                            acb.close()
-                        except PermissionError:
-                            print('\033[31mVocê precisa de previlégios de administrador para editar arquivos em /opt.')
-                            enter()
-                    else:
-                        pass
-                elif commandpath == '/reset':
-                    path = last(path)
-                    print('\033[31mIsso vai restaurar TODAS as configruações para o padrão de fábrica.')
-                    continuarisso = input("Você deseja prosseguir com a operação? Isso não pode ser desfeito! [S/N] ")
-                    if len(continuarisso) > 0:
-                        if continuarisso in 'Ss':
-                            print('')
-                            abrir = ['/opt/tfiles/deco', '/opt/tfiles/cdt']
-                            for reset in abrir:
-                                if reset == abrir[0]:
-                                    rest = open(reset, 'w')
-                                    rest.write("⚘ = * •")
-                                    rest.close()
-                                elif reset == abrir[1]:
-                                    rest = open(reset, 'w')
-                                    rest.write("33")
-                                    rest.close()
-                            print("\033[32m/* para surtir efeito.")
-                            enter()
-                    else:
-                        pass
                 elif commandpath == '/cln':
                     path = last(path)
                     os.system(input("Commando: "))
                     enter()
                 elif commandpath == '/bash':
                     path = last(path)
-                    os.system("bash --version")
-                    print("Para sair, basta digitar 'exit'.")
-                    print("\033[0m")
                     os.system("bash")
                     enter()
                 elif commandpath == '/search':
@@ -652,10 +572,10 @@ Caminho: {''.join(path)}""")
                     else:
                         pass
                     if len(parece) > 1:
-                        crtz = input(f"\033[{title}mDeseja exibir todos os \033[35m{len(parece)} \033[{title}marquivos/diretórios encontrados? ")
+                        crtz = input(f"\033[32mDeseja exibir todos os \033[35m{len(parece)} \033[32marquivos/diretórios encontrados? ")
                     else:
                         if len(parece) == 1:
-                            crtz = input(f"\033[{title}mDeseja exibir o arquivo/diretório encontrado? ")
+                            crtz = input(f"\033[32mDeseja exibir o arquivo/diretório encontrado? ")
                         else:
                             crtz = ''
                     numb = 0
@@ -684,7 +604,7 @@ Caminho: {''.join(path)}""")
                                 else:
                                     symb = '\033[34m[0]'
                             numb = numb+1
-                            print(f'\033[{title}m[{numb}] \033[37m{xablau} {symb}\033[37m')
+                            print(f'\033[33m[{numb}] \033[37m{xablau} {symb}\033[37m')
                         aiai = input('Deseja copiar algum nome de arquivo/diretório? ')
                         if aiai in 'Ss' and aiai != '':
                             while True:
@@ -736,7 +656,24 @@ Criado: {time.ctime(os.path.getctime(f"{''.join(path)}/{arqv}"))}
 Modificado: {time.ctime(os.path.getmtime(f"{''.join(path)}/{arqv}"))}
                     """)
                     enter()
-
+                elif commandpath == '/shexec':
+                    path = last(path)
+                    sudo = input("Sudo? [S/N]")
+                    if sudo in "Ss":
+                        runsudo = 'sudo'
+                    else:
+                        runsudo = ''
+                    arquivo = input("Arquivo: ")
+                    os.system(f"{runsudo} sh {''.join(path)}/{arquivo}")
+                    enter()
+                elif commandpath == '/full':
+                    path = last(path)
+                    contents = sorted(os.listdir(f"{''.join(path)}"))
+                    fid = -1
+                    for prin in contents:
+                        fid = fid + 1
+                        print(f"[{fid+1}] {prin}")
+                    enter()
             else:
                 path = ['/']
             try:
@@ -756,18 +693,48 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(path)}/{arqv}"))}
                 errortipo = 'Root'
         run = run + 1
         texto = []
-        if errorstatus == 0:
-            hhaa = os.popen('stty size', 'r').read().split()
-            vsf = int(hhaa[1])
-            # Exibir conteudo do diretório
-            clear()
-            print(f'\033[1;{title}m', end='')
-            print(f'{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
-            print(f"\033[1;{title}m{'Gerenciador de Arquivos':^{vsf}}")
-            print(f'{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}{random.choice(decos)}' * int(int(vsf)/4))
+        if errorstatus == 1:
+            if errortipo == 'Nome':
+                wuhan = path[:]
+                print(f'\033[31m\nOcorreu um erro! Verifique a ortografia e tente novamente.')
+                enter()
+            elif errortipo == 'Tipo':
+                print(f'\033[31m\n"{"""""".join(path[1:])}/{commandpath}" não é um diretório!')
+                enter()
+            elif errortipo == 'Root':
+                print(f'\033[31m\nVocê não tem permissão para acessar "{"""""".join(path[1:])}/{commandpath}".')
+                enter()
+        hhaa = os.popen('stty size', 'r').read().split()
+        vsf = int(hhaa[1])
+        kontinue = True
+        # Exibir conteudo do diretório
+        if run == 1:
+            kontinue = False
+        clear()
+        if kontinue:
+            os.system('setterm -background white -foreground white')
+            if getpass.getuser() != 'root':
+                print(f"\033[1;30m{'Terminal Explorer':^{vsf}}")
+            else:
+                print(f"\033[1;30m{'Terminal Explorer (ROOT)':^{vsf}}")
+            os.system('setterm -background black foreground black')
             contents = sorted(contents)
+            nwloop = []
             for loop in range(0, len(contents)):
-                gado2.append(contents[loop])
+                char = 0
+                if len(contents[loop]) > 15:
+                    for huo in contents[loop]:
+                        char = char + 1
+                        if char <= 15:
+                            nwloop.append(huo)
+                        else:
+                            nwloop.append('...')
+                            break
+                    nwloop = ''.join(nwloop)
+                    gado2.append(nwloop)
+                else:
+                    gado2.append(contents[loop])
+                nwloop = []
                 tipo = mimetypes.guess_type(f"{''.join(path)}/{contents[loop]}")
                 try:
                     if 'text' in tipo[0]:
@@ -817,21 +784,13 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(path)}/{arqv}"))}
                 else:
                     print(f'\033[37;1m{gado[-1]}')
                     break
+            gado3 = gado[:]
             gado = []
             manso = -1
             corno2 = -2
             rango = 0
-            # Erros
-        else:
-            if errortipo == 'Nome':
-                wuhan = path[:]
-                print(f'\033[31m\nOcorreu um erro! Verifique a ortografia e tente novamente.')
-                enter()
-            elif errortipo == 'Tipo':
-                print(f'\033[31m\n"{"""""".join(path[1:])}/{commandpath}" não é um diretório!')
-                enter()
-            elif errortipo == 'Root':
-                print(f'\033[31m\nVocê não tem permissão para acessar "{"""""".join(path[1:])}/{commandpath}".')
-                enter()
 except KeyboardInterrupt:
     print("\n\033[0m")
+    os.system("setterm -default")
+    os.system("clear")
+    exit()
