@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 try:
     # Caminho e comandos
     import os
@@ -9,17 +10,28 @@ try:
     import clipboard
     import mimetypes
     import time
+    import keyboard
+    import sys
 
     hhaa = os.popen('stty size', 'r').read().split()
     vsf = int(hhaa[1])
     guest = False
     os.system("clear")
+    sys.argv.append('')
 
 
     def get_size(start_path = '.'):
+        count = 0
         total_size = 0
         for dirpath, dirnames, filenames in os.walk(start_path):
             dirnames = dirnames
+            count = count + 1
+            try:
+                if keyboard.is_pressed("c"):
+                    break
+            except ImportError:
+                if count == 1:
+                    print("\033[31mDevido a uma limitação do Linux, 'c' para cancelar só é possivel via root.\033[37m")
             for f in filenames:
                 fp = os.path.join(dirpath, f)
                 try:
@@ -58,7 +70,21 @@ try:
     run = 0
 
     completepath = []
-    path = os.getcwd().split('/')
+    if sys.argv[1] == '':
+        path = os.getcwd().split('/')
+    else:
+        try:
+            path = sys.argv[1].split('/')
+            os.listdir(f'/{sys.argv[1]}')
+        except FileNotFoundError:
+            print("\033[1;31mIsso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.")
+            exit()
+        except PermissionError:
+            print("\033[1;31mEsse diretório só é acessivel em modo root.")
+            exit()
+        except NotADirectoryError:
+            print("\033[1;31mEsse diretório só é acessivel em modo root.")
+            exit()
     for peti in path:
         completepath.append(f'/{peti}')
     path = completepath[:]

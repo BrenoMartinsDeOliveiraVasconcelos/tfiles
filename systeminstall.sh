@@ -1,6 +1,8 @@
 #!/bin/bash
-# Instala os componentes necessários para rodar o tfiles.
+# Instala o tfiles como comando do sistema.
 apt-get install python3
+cp "tfiles.py" "/usr/bin/tfiles"
+chmod +x "/usr/bin/tfiles"
 apt-get update
 apt-get install python3-pip
 apt-get install xclip
