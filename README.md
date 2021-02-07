@@ -20,5 +20,3 @@ Mas, pode ser instalado automáticamente com: <br />
 Você também pode instalar um comando para o sistema operacional junto com as dependências necessárias com: <br />
 ####    chmod +x systeminstall.sh <br />
 ####    sudo ./systeminstall.sh <br />
-OBS²: Você pode rodar "./install.sh" para criar um comando que executa o script ("tfiles") e instalar as bibliotecas necessárias<br />
-
