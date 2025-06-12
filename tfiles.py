@@ -132,7 +132,7 @@ try:
                     os.system('setterm -background black -foreground black')
                     print(f'\033[1;37mOnde ir agora?')
                     os.system('setterm -background black -foreground black')
-                    next_command = input(f"""\033[1;37mCaminho: {''.join(current_path[1:])}/""")
+                    next_command = h.ask_input(f"Caminho: {''.join(current_path[1:])}/")
                 else:
                     next_command = '/*'
                     os.system('setterm -background black foreground white')
@@ -169,7 +169,7 @@ try:
                             pass
                     elif command_path == '/d':
                         current_path = remove_last_items(current_path)
-                        n = str(input("Nome do diretório: "))
+                        n = h.ask_input("Nome do diretório: ")
                         try:
                             os.mkdir(f"{''.join(current_path)}/{n}")
                         except PermissionError:
@@ -183,7 +183,7 @@ try:
                             wait_for_enter()
                     elif command_path == '/a':
                         current_path = remove_last_items(current_path)
-                        n = str(input("Nome do arquivo: "))
+                        n = h.ask_input("Nome do arquivo: ")
                         if n not in directory_contents:
                             try:
                                 open(f'{"".join(current_path)}/{n}', 'w+')
@@ -205,7 +205,7 @@ try:
                         exit()
                     elif command_path == '/del':
                         current_path = remove_last_items(current_path)
-                        n = str(input("Nome do diretório: "))
+                        n = h.ask_input("Nome do diretório: ")
                         if n == "/":
                             print("HEY! PERMISSÃO NEGADA!")
                             exit()
@@ -213,7 +213,7 @@ try:
                             os.system(f'rm -r "{"""""".join(current_path)}/{n}" >/dev/null 2>&1')
                     elif command_path == '/fdel':
                         current_path = remove_last_items(current_path)
-                        n = str(input("Nome do arquivo: "))
+                        n = h.ask_input("Nome do arquivo: ")
                         try:
                             os.remove(f"{''.join(current_path)}/{n}")
                         except PermissionError:
@@ -230,8 +230,8 @@ try:
                         current_path = ['/']
                     elif command_path == '/k':
                         current_path = remove_last_items(current_path)
-                        src = str(input("Nome do arquivo/diretório a copiar: "))
-                        dst = str(input("Local a colar: "))
+                        src = h.ask_input("Nome do arquivo/diretório a copiar: ")
+                        dst = h.ask_input("Local a colar: ")
                         try:
                             shutil.copyfile(f"{''.join(current_path)}/{src}", f"{dst}/{src}")
                         except IsADirectoryError:
@@ -257,8 +257,8 @@ try:
                             wait_for_enter()
                     elif command_path == '/m':
                         current_path = remove_last_items(current_path)
-                        src = str(input("Nome do arquivo/diretório a mover: "))
-                        dst = str(input("Local de destino: "))
+                        src = h.ask_input("Nome do arquivo/diretório a mover: ")
+                        dst = h.ask_input("Local de destino: ")
                         if dst and src != '':
                             try:
                                 shutil.move(f'{"".join(current_path)}/{src}', f'{dst}/{src}')
@@ -275,8 +275,8 @@ try:
                             pass
                     elif command_path == '/rename':
                         current_path = remove_last_items(current_path)
-                        src = str(input("Nome do arquivo/diretório a renomear: "))
-                        dst = str(input("Novo nome: "))
+                        src = h.ask_input("Nome do arquivo/diretório a renomear: ")
+                        dst = h.ask_input("Novo nome: ")
                         try:
                             os.rename(f'{"".join(current_path)}/{src}', f'{"".join(current_path)}/{dst}')
                         except FileNotFoundError:
@@ -345,7 +345,7 @@ try:
                         wait_for_enter()
                     elif command_path == '/l':
                         current_path = remove_last_items(current_path)
-                        file_name = str(input("Arquivo: "))
+                        file_name = h.ask_input("Arquivo: ")
                         try:
                             file_handle = open(f'{"".join(current_path)}/{file_name}', 'r')
                             line_count = 0
@@ -389,7 +389,7 @@ try:
                         file_name = ''
                         cancel_flag = False
                         while True:
-                            file_name = input('Arquivo de texto: ')
+                            file_name = h.ask_input('Arquivo de texto: ')
                             try:
                                 file_handle = open(f'{"".join(current_path)}/{file_name}', 'r')
                                 break
@@ -440,7 +440,7 @@ try:
                             while True:
                                 if first_run == -1:
                                     line_num = line_num + 1
-                                    command_input = input(f"\033[33m[{line_num}]\033[37m ")
+                                    command_input = h.ask_input(f"{line_num}]")
                                 else:
                                     clear_screen()
                                     os.system('setterm -background white -foreground white')
@@ -451,7 +451,7 @@ try:
                                     for line_content in text_content:
                                         line_num = line_num + 1
                                         print(f'\033[33m[{line_num}]\033[37m {line_content}', end='')
-                                    command_input = input(f"\033[33m[{line_num + 1}]\033[37m ")
+                                    command_input = h.ask_input(f"{line_num + 1}] ")
                                 text_content.append(f'{command_input}\n')
                                 first_run = first_run + 1
                                 if text_content[-1] == '.exit\n':
@@ -461,7 +461,7 @@ try:
                                 elif text_content[-1] == '.dl\n':
                                     del text_content[-1]
                                     try:
-                                        line_to_delete = int(input('Número da linha: ')) - 1
+                                        line_to_delete = int(h.ask_input('Número da linha: ')) - 1
                                         del text_content[line_to_delete]
                                     except (TypeError, ValueError, IndexError):
                                         pass
@@ -488,7 +488,7 @@ try:
                                 elif text_content[-1] == '.el\n':
                                     del text_content[-1]
                                     try:
-                                        edit_line = int(input("Linha: ")) - 1
+                                        edit_line = int(h.ask_input("Linha: ")) - 1
                                     except (ValueError, TypeError):
                                         edit_line = -1
                                     try:
@@ -500,7 +500,7 @@ try:
                                     del text_content[-1]
                                     line_text = f"{input('Texto: ')}\n"
                                     try:
-                                        num_lines = int(input("Número de linhas: "))
+                                        num_lines = int(h.ask_input("Número de linhas: "))
                                     except (TypeError, ValueError):
                                         num_lines = 1
 
@@ -510,7 +510,7 @@ try:
                                     del text_content[-1]
                                     while True:
                                         try:
-                                            num_lines = int(input("Número de linhas a deletar: "))
+                                            num_lines = int(h.ask_input("Número de linhas a deletar: "))
                                             break
                                         except (ValueError, TypeError):
                                             print('\033[31mIsso não é um número!\033[37m')
@@ -542,7 +542,7 @@ try:
                                         file_handle.close()
                                 elif text_content[-1] == '.search\n':
                                     del text_content[-1]
-                                    search_query = input("Pesquisar: ")
+                                    search_query = h.ask_input("Pesquisar: ")
                                     line_num = 0
                                     match_count = 0
                                     matches = []
@@ -570,7 +570,7 @@ try:
                                 break
                     elif command_path == '/cln':
                         current_path = remove_last_items(current_path)
-                        os.system(input("Commando: "))
+                        os.system(h.ask_input("Commando: "))
                         wait_for_enter()
                     elif command_path == '/bash':
                         current_path = remove_last_items(current_path)
@@ -578,7 +578,7 @@ try:
                         wait_for_enter()
                     elif command_path == '/search':
                         current_path = remove_last_items(current_path)
-                        query = input("Procurar arquivs/diretórios que contenham: ")
+                        query = h.ask_input("Procurar arquivs/diretórios que contenham: ")
                         found_flag = False
                         matches = []
                         points = 0
@@ -595,10 +595,10 @@ try:
                         else:
                             pass
                         if len(matches) > 1:
-                            confirm = input(f"\033[32mDeseja exibir todos os \033[35m{len(matches)} \033[32marquivos/diretórios encontrados? ")
+                            confirm = h.ask_input(f"Deseja exibir todos os \033[35m{len(matches)} \033[32marquivos/diretórios encontrados? ")
                         else:
                             if len(matches) == 1:
-                                confirm = input(f"\033[32mDeseja exibir o arquivo/diretório encontrado? ")
+                                confirm = h.ask_input(f"Deseja exibir o arquivo/diretório encontrado? ")
                             else:
                                 confirm = ''
                         num_item = 0
@@ -628,11 +628,11 @@ try:
                                         symbol = '\033[34m[0]'
                                 num_item = num_item+1
                                 print(f'\033[33m[{num_item}] \033[37m{item_name} {symbol}\033[37m')
-                            copy_confirm = input('Deseja copiar algum nome de arquivo/diretório? ')
+                            copy_confirm = h.ask_input('Deseja copiar algum nome de arquivo/diretório? ')
                             if copy_confirm in 'Ss' and copy_confirm != '':
                                 while True:
                                     try:
-                                        clipboard.copy(matches[int(input("ID: "))-1])
+                                        clipboard.copy(matches[int(h.ask_input("ID: "))-1])
                                         break
                                     except IndexError:
                                         print("\033[31mID inválido.")
@@ -646,7 +646,7 @@ try:
                         current_path = remove_last_items(current_path)
                         units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
                         while True:
-                            file_name = input("Arquivo: ")
+                            file_name = h.ask_input("Arquivo: ")
                             try:
                                 if not os.path.isdir(f"{''.join(current_path)}/{file_name}"):
                                     size = os.stat(f"{''.join(current_path)}/{file_name}").st_size
@@ -681,12 +681,12 @@ try:
                         wait_for_enter()
                     elif command_path == '/shexec':
                         current_path = remove_last_items(current_path)
-                        sudo_confirm = input("Sudo? [S/N]")
+                        sudo_confirm = h.ask_input("Sudo? [S/N]")
                         if sudo_confirm in "Ss":
                             run_sudo = 'sudo'
                         else:
                             run_sudo = ''
-                        file_name = input("Arquivo: ")
+                        file_name = h.ask_input("Arquivo: ")
                         os.system(f"{run_sudo} sh {''.join(current_path)}/{file_name}")
                         wait_for_enter()
                     elif command_path == '/full':
