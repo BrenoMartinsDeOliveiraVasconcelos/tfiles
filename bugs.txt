@@ -1,0 +1,16 @@
+Bugs
+
+- Enter volta diretórios duplicados
+- Glitches visuais a depender do tamanho da pasta
+- Caso a pesquisa não retorne resultados e o usuário queira escolher um arquivo, acontece um loop infinito sem escapatória
+
+
+
+Recursos
+
+- Remover editor de texto e substituir pelo editor na variavel do sistema
+- Melhorar prompt de sim ou não
+
+
+Código
+- Melhorar o código para uma melhor leiturabilidade
