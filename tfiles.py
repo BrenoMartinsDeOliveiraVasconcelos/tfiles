@@ -505,72 +505,7 @@ try:
             clear_screen()
             if continue_flag:
                 h.print_tittle(terminal_width)
-                directory_contents = sorted(directory_contents)
-                new_loop = []
-                for item in directory_contents:
-                    char_count = 0
-                    if len(item) > 15:
-                        for char in item:
-                            char_count = char_count + 1
-                            if char_count <= 15:
-                                new_loop.append(char)
-                            else:
-                                new_loop.append('...')
-                                break
-                        new_loop = ''.join(new_loop)
-                        temp_display.append(new_loop)
-                    else:
-                        temp_display.append(item)
-                    new_loop = []
-                    file_type = mimetypes.guess_type(f"{''.join(current_path)}/{item}")
-                    try:
-                        if 'text' in file_type[0]:
-                            temp_display.append('\033[35m[•]')
-                        elif 'application' in file_type[0]:
-                            temp_display.append("\033[36m[>]")
-                        elif 'audio' in file_type[0]:
-                            temp_display.append('\033[33m[𝄞]')
-                        elif 'video' in file_type[0]:
-                            temp_display.append('\033[30m[▶]')
-                        elif 'image' in file_type[0]:
-                            temp_display.append("\033[33m[☀]")
-                        elif 'font' in file_type[0]:
-                            temp_display.append('\033[35m[𝕥]')
-                    except (TypeError, ValueError):
-                        if os.path.isfile(f"{''.join(current_path)}/{item}") and not os.path.isdir(f"{''.join(current_path)}/{item}"):
-                            temp_display.append('\033[34m[?]')
-                        elif os.path.isdir(f"{''.join(current_path)}/{item}") and not os.path.isfile(f"{''.join(current_path)}/{item}"):
-                            temp_display.append('\033[32m[+]')
-                        else:
-                            temp_display.append('\033[34m[0]')
-                    display_items.append(' '.join(temp_display))
-                    temp_display = []
-                h.output('')
-                for index in range(0, len(display_items)):
-                    left_index = left_index + 2
-                    right_index = right_index + 2
-                    if len(display_items) > 1:
-                        try:
-                            a = display_items[right_index]
-                        except IndexError:
-                            range_counter = 'end'
-                        try:
-                            c = display_items[left_index]
-                        except IndexError:
-                            range_counter = 'end'
-                    elif len(display_items) == 1:
-                        a = ''.join(display_items)
-                        c = ''
-                    else:
-                        a = 'Diretório vazio :/'
-                        c = ''
-                    if range_counter != 'end' or c == display_items[-1]:
-                        h.output(f"{a:<30}{c:>{terminal_width-20}}")
-                        if c == display_items[-1]:
-                            break
-                    else:
-                        h.output(f'{display_items[-1]}')
-                        break
+                h.display_files(directory_contents, current_path, terminal_width, left_index, right_index)
                 display_metadata = display_items[:]
                 display_items = []
                 left_index = -1
