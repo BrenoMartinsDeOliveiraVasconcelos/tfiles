@@ -112,25 +112,21 @@ try:
                 pretty_display = []
                 columns_total = columns_total - 1
                 if columns_total > 1:
-                    os.system('setterm -background white -foreground white')
-                    columns_text = f''
-                    h.output(f"{columns_text}", color_code="\033[1;30m", end='')
-                    h.output(' '* int(terminal_width - len(columns_text)))
-                    os.system('setterm -background black -foreground black')
+                    h.print_separator(terminal_width)
                     for _ in range(1, columns_total):
                         h.output(f'{"Apenas isso por enquanto":^{terminal_width}}', color_code="\033[1;30m")
                 else:
                     pass
                 if run_count > 1:
-                    os.system("setterm -background white -foreground white")
+                    h.switch_emptiness(black=False)
                     h.output(" "*terminal_width)
-                    os.system('setterm -background black -foreground black')
+                    h.switch_emptiness(black=True)
                     h.output(f'\033[1;37mOnde ir agora?')
-                    os.system('setterm -background black -foreground black')
+                    h.switch_emptiness(black=True)
                     next_command = h.ask_input(f"Caminho: {''.join(current_path[1:])}/")
                 else:
                     next_command = '/*'
-                    os.system('setterm -background black foreground white')
+                    h.switch_font_blackness(black=False)
                     for _ in range(0, 10000):
                         h.output("")
                     clear_screen()
@@ -190,7 +186,7 @@ try:
                             h.print_error("Arquivo já existe.")
                     elif command_path == '/e':
                         h.output('', end='', color_code="\033[0m")
-                        os.system("setterm -default")
+                        h.restore_setterm()
                         clear_screen()
                         exit()
                     elif command_path == '/del':
@@ -508,12 +504,7 @@ try:
                 continue_flag = False
             clear_screen()
             if continue_flag:
-                os.system('setterm -background white -foreground white')
-                if getpass.getuser() != 'root':
-                    print(f"\033[1;30m{'Terminal Explorer':^{terminal_width}}")
-                else:
-                    print(f"\033[1;30m{'Terminal Explorer (ROOT)':^{terminal_width}}")
-                os.system('setterm -background black foreground black')
+                h.print_tittle(terminal_width)
                 directory_contents = sorted(directory_contents)
                 new_loop = []
                 for item in directory_contents:
@@ -591,6 +582,6 @@ try:
         
 except KeyboardInterrupt:
     print("\n\033[0m")
-    os.system("setterm -default")
+    h.restore_setterm()
     os.system("clear")
     exit()
