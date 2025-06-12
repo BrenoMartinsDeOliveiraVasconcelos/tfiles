@@ -1,9 +1,15 @@
-def wait_for_enter():
-        return ask_input("Enter para continuar.")
+def wait_for_enter(auto_skip=False):
+        if not auto_skip:
+            ask_input("Enter para continuar.")
 
-def print_error(message):
+def print_error(message, enter_to_continue=False, quit=False):
     print("\033[1;31m" + message + "\033[37m")
-    wait_for_enter()
+    
+    if enter_to_continue:
+        wait_for_enter()
+        
+    if quit:
+        exit(1)
 
     
 def ask_input(message):    

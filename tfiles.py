@@ -69,14 +69,11 @@ try:
                 current_path = sys.argv[1].split('/')
                 os.listdir(f'/{sys.argv[1]}')
             except FileNotFoundError:
-                h.print_error("Isso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.")
-                exit()
+                h.print_error("Isso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.", quit=True)
             except PermissionError:
-                h.print_error("Esse diretório só é acessivel em modo root.")
-                exit()
+                h.print_error("Esse diretório só é acessivel em modo root.", quit=True)
             except NotADirectoryError:
-                h.print_error("Esse diretório só é acessivel em modo root.")
-                exit()
+                h.print_error("Esse diretório só é acessivel em modo root.", quit=True)
         for path_item in current_path:
             complete_path.append(f'/{path_item}')
         current_path = complete_path[:]
@@ -159,9 +156,11 @@ try:
                     current_path.append(f'/{item}')
                 command_path = ''.join(next_command)
                 if current_path[0] == '/':
+                    auto_skip = False
                     if command_path == '/':
                         try:
                             current_path = remove_last_items(current_path, times=3)
+                            auto_skip = True
                         except IndexError:
                             pass
                     elif command_path == '/d':
@@ -198,8 +197,7 @@ try:
                         current_path = remove_last_items(current_path)
                         n = h.ask_input("Nome do diretório: ")
                         if n == "/":
-                            h.print_error("HEY! PERMISSÃO NEGADA!")
-                            exit()
+                            h.print_error("Permissão negada!")
                         else:
                             os.system(f'rm -r "{"""""".join(current_path)}/{n}" >/dev/null 2>&1')
                     elif command_path == '/fdel':
@@ -340,6 +338,7 @@ try:
                         except OSError:
                             h.print_error('Ocorreu um erro.')
                     elif command_path == '/*':
+                        auto_skip = True
                         current_path = remove_last_items(current_path)
                     elif command_path == '/md':
                         current_path = ['/', '/media', f'/{getpass.getuser()}']
@@ -473,7 +472,7 @@ try:
                             file_id = file_id + 1
                             h.output(f"[{file_id+1}] {item}")
                     
-                    h.wait_for_enter()
+                    h.wait_for_enter(auto_skip=auto_skip)
                 else:
                     current_path = ['/']
                 try:
