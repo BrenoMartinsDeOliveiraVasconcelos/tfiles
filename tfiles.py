@@ -12,7 +12,7 @@ try:
     import time
     import keyboard
     import sys
-    import helpers
+    import helpers as h
 
     terminal_size = os.popen('stty size', 'r').read().split()
     terminal_width = int(terminal_size[1])
@@ -32,7 +32,8 @@ try:
                     break
             except ImportError:
                 if count == 1:
-                    print("\033[31mDevido a uma limitação do Linux, 'c' para cancelar só é possivel via root.\033[37m")
+                    #print("\033[31mDevido a uma limitação do Linux, 'c' para cancelar só é possivel via root.\033[37m")
+                    h.print_error("\033[31mDevido a uma limitação do Linux, 'c' para cancelar só é possivel via root.\033[37m")
             for filename in filenames:
                 file_path = os.path.join(dirpath, filename)
                 try:
@@ -53,8 +54,7 @@ try:
 
 
     def wait_for_enter():
-        input_value = input("\033[37mENTER para continuar.")
-        return input_value
+        return h.ask_input("Enter para continuar.")
 
 
     def clear_screen():
@@ -71,13 +71,13 @@ try:
                 current_path = sys.argv[1].split('/')
                 os.listdir(f'/{sys.argv[1]}')
             except FileNotFoundError:
-                print("\033[1;31mIsso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.")
+                h.print_error("Isso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.")
                 exit()
             except PermissionError:
-                print("\033[1;31mEsse diretório só é acessivel em modo root.")
+                h.print_error("Esse diretório só é acessivel em modo root.")
                 exit()
             except NotADirectoryError:
-                print("\033[1;31mEsse diretório só é acessivel em modo root.")
+                h.print_error("Esse diretório só é acessivel em modo root.")
                 exit()
         for path_item in current_path:
             complete_path.append(f'/{path_item}')
