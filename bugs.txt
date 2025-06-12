@@ -1,6 +1,6 @@
 Bugs
 
-- Enter volta diretórios duplicados
+- Enter volta diretórios duplicados (CORRIGIDO)
 - Glitches visuais a depender do tamanho da pasta
 - Caso a pesquisa não retorne resultados e o usuário queira escolher um arquivo, acontece um loop infinito sem escapatória
 

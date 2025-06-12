@@ -45,14 +45,8 @@ try:
 
 
     def remove_last_items(item_list, times=2):
-        if times == 2:
-            for _ in range(0, 2):
-                del item_list[-1]
-        elif times == 1:
+        for _ in range(0, times):
             del item_list[-1]
-        elif times == 3:
-            for _ in range(0, 3):
-                del item_list[-1]
 
         return item_list
 
@@ -146,6 +140,10 @@ try:
                 clear_screen()
             if next_command == 'dev':
                 dev_error_status = 1
+                
+            if next_command.strip("\n") == '':
+                next_command = '/*'
+                
             next_command = next_command.split('/')
             if next_command[0] == '':
                 next_command[0] = '/'
@@ -165,7 +163,7 @@ try:
             if current_path[0] == '/':
                 if command_path == '/':
                     try:
-                        current_path = remove_last_items(current_path, times=3)
+                        current_path = remove_last_items(current_path, times=2)
                     except IndexError:
                         pass
                 elif command_path == '/d':
