@@ -164,7 +164,7 @@ try:
                 if current_path[0] == '/':
                     if command_path == '/':
                         try:
-                            current_path = remove_last_items(current_path, times=2)
+                            current_path = remove_last_items(current_path, times=3)
                         except IndexError:
                             pass
                     elif command_path == '/d':
