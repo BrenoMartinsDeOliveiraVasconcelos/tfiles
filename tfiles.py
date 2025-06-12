@@ -52,8 +52,7 @@ try:
         return item_list
 
 
-    def wait_for_enter():
-        return h.ask_input("Enter para continuar.")
+
 
 
     def clear_screen():
@@ -172,13 +171,10 @@ try:
                             os.mkdir(f"{''.join(current_path)}/{n}")
                         except PermissionError:
                             h.print_error(f"Permissão negada.")
-                            wait_for_enter()
                         except FileExistsError:
                             h.print_error(f"Diretório já existe.")
-                            wait_for_enter()
                         except OSError:
                             h.print_error('Ocorreu um erro.')
-                            wait_for_enter()
                     elif command_path == '/a':
                         current_path = remove_last_items(current_path)
                         n = h.ask_input("Nome do arquivo: ")
@@ -187,13 +183,10 @@ try:
                                 open(f'{"".join(current_path)}/{n}', 'w+')
                             except IsADirectoryError:
                                 h.print_error(f"Isso é um diretório, pare.")
-                                wait_for_enter()
                             except PermissionError:
                                 h.print_error(f"Permissão negada.")
-                                wait_for_enter()
                             except OSError:
                                 h.print_error('Ocorreu um erro.')
-                                wait_for_enter()
                         else:
                             h.print_error("Arquivo já existe.")
                     elif command_path == '/e':
@@ -216,13 +209,10 @@ try:
                             os.remove(f"{''.join(current_path)}/{n}")
                         except PermissionError:
                             h.print_error(f"Permissão negada.")
-                            wait_for_enter()
                         except FileNotFoundError:
                             h.print_error(f"Arquivo inexistente.")
-                            wait_for_enter()
                         except OSError:
                             h.print_error('Ocorreu um erro.')
-                            wait_for_enter()
                     elif command_path == '/r':
                         current_path = remove_last_items(current_path)
                         current_path = ['/']
@@ -240,19 +230,14 @@ try:
                                     shutil.copyfile(f"{''.join(current_path)}/{src}", f"{dst}/{src}-{random.randint(0, 999)}")
                                 except IsADirectoryError:
                                     h.print_error(f"Operação cancelada.")
-                                    wait_for_enter()
                             except IsADirectoryError:
                                 h.print_error("Operação cancelada.")
-                                wait_for_enter()
                         except FileNotFoundError:
                             h.print_error(f"Arquivo/diretório não encontrado.")
-                            wait_for_enter()
                         except PermissionError:
                             h.print_error(f"Permissão negada.")
-                            wait_for_enter()
                         except OSError:
                             h.print_error('Ocorreu um erro.')
-                            wait_for_enter()
                     elif command_path == '/m':
                         current_path = remove_last_items(current_path)
                         src = h.ask_input("Nome do arquivo/diretório a mover: ")
@@ -262,13 +247,10 @@ try:
                                 shutil.move(f'{"".join(current_path)}/{src}', f'{dst}/{src}')
                             except FileNotFoundError:
                                 h.print_error(f"Arquivo/diretório não encontrado.")
-                                wait_for_enter()
                             except PermissionError:
                                 h.print_error(f"Permissão negada.")
-                                wait_for_enter()
                             except OSError:
                                 h.print_error('Ocorreu um erro.')
-                                wait_for_enter()
                         else:
                             pass
                     elif command_path == '/rename':
@@ -279,13 +261,10 @@ try:
                             os.rename(f'{"".join(current_path)}/{src}', f'{"".join(current_path)}/{dst}')
                         except FileNotFoundError:
                             h.print_error(f"Arquivo/diretório não encontrado.")
-                            wait_for_enter()
                         except PermissionError:
                             h.print_error(f"Permissão negada.")
-                            wait_for_enter()
                         except OSError:
                             h.print_error('Ocorreu um erro.')
-                            wait_for_enter()
                     elif command_path == '/h':
                         if getpass.getuser() != 'root':
                             current_path = ['/', '/home', f'/{getpass.getuser()}']
@@ -340,7 +319,6 @@ try:
 
                         """)
                         current_path = remove_last_items(current_path)
-                        wait_for_enter()
                     elif command_path == '/l':
                         current_path = remove_last_items(current_path)
                         file_name = h.ask_input("Arquivo: ")
@@ -351,22 +329,16 @@ try:
                                 line_count = line_count + 1
                                 h.output(f"{line_count}]", end='', color_code="\033[33m[")
                                 h.output(line, end='')
-                            wait_for_enter()
                         except IsADirectoryError:
                             h.print_error('Não é um arquivo.')
-                            wait_for_enter()
                         except PermissionError:
                             h.print_error('Permissão negada.')
-                            wait_for_enter()
                         except UnicodeDecodeError:
                             h.print_error('Apenas arquivos de texto são legiveis!')
-                            wait_for_enter()
                         except FileNotFoundError:
                             h.print_error('Arquivo não encontrado.')
-                            wait_for_enter()
                         except OSError:
                             h.print_error('Ocorreu um erro.')
-                            wait_for_enter()
                     elif command_path == '/*':
                         current_path = remove_last_items(current_path)
                     elif command_path == '/md':
@@ -380,11 +352,9 @@ try:
                     elif command_path == '/cln':
                         current_path = remove_last_items(current_path)
                         os.system(h.ask_input("Commando: "))
-                        wait_for_enter()
                     elif command_path == '/bash':
                         current_path = remove_last_items(current_path)
                         os.system("bash")
-                        wait_for_enter()
                     elif command_path == '/search':
                         current_path = remove_last_items(current_path)
                         query = h.ask_input("Procurar arquivs/diretórios que contenham: ")
@@ -450,7 +420,6 @@ try:
                                     except KeyError:
                                         h.print_error("Atualmente, essa função não funciona em modo root :/")
                                         break
-                        wait_for_enter()
                     elif command_path == '/i':
                         current_path = remove_last_items(current_path)
                         units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
@@ -486,8 +455,7 @@ try:
     Tamanho: {size:.0f} {unit_format} ({original_size} byte(s))
     Criado: {time.ctime(os.path.getctime(f"{''.join(current_path)}/{file_name}"))}
     Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}"))}
-                        """)
-                        wait_for_enter()
+                        """, enter_to_continue=True)
                     elif command_path == '/shexec':
                         current_path = remove_last_items(current_path)
                         sudo_confirm = h.ask_input("Sudo? [S/N]")
@@ -497,7 +465,6 @@ try:
                             run_sudo = ''
                         file_name = h.ask_input("Arquivo: ")
                         os.system(f"{run_sudo} sh {''.join(current_path)}/{file_name}")
-                        wait_for_enter()
                     elif command_path == '/full':
                         current_path = remove_last_items(current_path)
                         directory_contents = sorted(os.listdir(f"{''.join(current_path)}"))
@@ -505,7 +472,8 @@ try:
                         for item in directory_contents:
                             file_id = file_id + 1
                             h.output(f"[{file_id+1}] {item}")
-                        wait_for_enter()
+                    
+                    h.wait_for_enter()
                 else:
                     current_path = ['/']
                 try:
@@ -529,13 +497,10 @@ try:
                 if error_type == 'Nome':
                     temp_path = current_path[:]
                     h.print_error(f'Ocorreu um erro! Verifique a ortografia e tente novamente.')
-                    wait_for_enter()
                 elif error_type == 'Tipo':
                     h.print_error(f'"{"""""".join(current_path[1:])}/{command_path}" não é um diretório!')
-                    wait_for_enter()
                 elif error_type == 'Root':
                     h.print_error(f'Você não tem permissão para acessar "{"""""".join(current_path[1:])}/{command_path}".')
-                    wait_for_enter()
             terminal_size = os.popen('stty size', 'r').read().split()
             terminal_width = int(terminal_size[1])
             continue_flag = True
