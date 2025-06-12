@@ -13,14 +13,14 @@ try:
     import keyboard
     import sys
 
-    hhaa = os.popen('stty size', 'r').read().split()
-    vsf = int(hhaa[1])
-    guest = False
+    terminal_size = os.popen('stty size', 'r').read().split()
+    terminal_width = int(terminal_size[1])
+    is_guest = False
     os.system("clear")
     sys.argv.append('')
 
 
-    def get_size(start_path = '.'):
+    def get_directory_size(start_path = '.'):
         count = 0
         total_size = 0
         for dirpath, dirnames, filenames in os.walk(start_path):
@@ -32,49 +32,48 @@ try:
             except ImportError:
                 if count == 1:
                     print("\033[31mDevido a uma limitação do Linux, 'c' para cancelar só é possivel via root.\033[37m")
-            for f in filenames:
-                fp = os.path.join(dirpath, f)
+            for filename in filenames:
+                file_path = os.path.join(dirpath, filename)
                 try:
-                    if not os.path.islink(fp):
-                        if 'kcore' != f:
-                            total_size += os.path.getsize(fp)
+                    if not os.path.islink(file_path):
+                        if 'kcore' != filename:
+                            total_size += os.path.getsize(file_path)
                 except FileNotFoundError:
                     pass
 
         return total_size
 
 
-    def last(letra, twices=2):
-        if twices == 2:
-            for we in range(0, 2):
-                we = we
-                del letra[-1]
-        elif twices == 1:
-            del letra[-1]
-        elif twices == 3:
-            for we in range(0, 3):
-                del letra[-1]
+    def remove_last_items(item_list, times=2):
+        if times == 2:
+            for _ in range(0, 2):
+                del item_list[-1]
+        elif times == 1:
+            del item_list[-1]
+        elif times == 3:
+            for _ in range(0, 3):
+                del item_list[-1]
 
-        return letra
-
-
-    def enter():
-        valordeinput = input("\033[37mENTER para continuar.")
-        return valordeinput
+        return item_list
 
 
-    def clear():
+    def wait_for_enter():
+        input_value = input("\033[37mENTER para continuar.")
+        return input_value
+
+
+    def clear_screen():
         os.system("clear")
 
 
-    run = 0
+    run_count = 0
 
-    completepath = []
+    complete_path = []
     if sys.argv[1] == '':
-        path = os.getcwd().split('/')
+        current_path = os.getcwd().split('/')
     else:
         try:
-            path = sys.argv[1].split('/')
+            current_path = sys.argv[1].split('/')
             os.listdir(f'/{sys.argv[1]}')
         except FileNotFoundError:
             print("\033[1;31mIsso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.")
@@ -85,221 +84,220 @@ try:
         except NotADirectoryError:
             print("\033[1;31mEsse diretório só é acessivel em modo root.")
             exit()
-    for peti in path:
-        completepath.append(f'/{peti}')
-    path = completepath[:]
+    for path_item in current_path:
+        complete_path.append(f'/{path_item}')
+    current_path = complete_path[:]
 
-    prepath = ''
-    contents = os.listdir(''.join(path))
-    errorstatus = 0
-    nextpath = ''
+    previous_path = ''
+    directory_contents = os.listdir(''.join(current_path))
+    error_status = 0
+    next_command = ''
     n = ''
     a = ''
     c = ''
-    pular = False
-    exilio = False
-    errortipo = 'Nulo'
-    gado = []
-    gado2 = []
-    gado3 = []
-    narnia = ''
-    darosinal = False
-    corno = 0
-    manso = -1
-    corno2 = -2
-    rango = 0
-    dobreak = False
-    errorstatusdev = 0
+    skip_flag = False
+    exile_flag = False
+    error_type = 'Nulo'
+    display_items = []
+    temp_display = []
+    display_metadata = []
+    signal_flag = False
+    display_counter = 0
+    left_index = -1
+    right_index = -2
+    range_counter = 0
+    break_flag = False
+    dev_error_status = 0
 
-    comandos = ['/', '/a', '/d', '/e', '/h', '/k', '/l', '/m', '/r', '/fdel', '/del', '/rename', '/*', '/info', '/md',
+    commands = ['/', '/a', '/d', '/e', '/h', '/k', '/l', '/m', '/r', '/fdel', '/del', '/rename', '/*', '/info', '/md',
                 '/usrbin', '/texto', '/bash', '/cln', '/search', '/i', '/shexec', '/full']
     while True:
-        if run == 0:
+        if run_count == 0:
             pass
         else:
             print('')
-            colluns = int(hhaa[0])
-            ctotal = int(colluns - (3 + 2 + ((len(contents) / 2) - 0.1)))
-            collunswasted = 0
-            elgadobonito = []
-            ctotal = ctotal - 1
-            if ctotal > 1:
+            columns = int(terminal_size[0])
+            columns_total = int(columns - (3 + 2 + ((len(directory_contents) / 2) - 0.1)))
+            columns_wasted = 0
+            pretty_display = []
+            columns_total = columns_total - 1
+            if columns_total > 1:
                 os.system('setterm -background white -foreground white')
-                ctexto = f''
-                print(f"\033[1;30m{ctexto}", end='')
-                print(' '* int(vsf - len(ctexto)))
+                columns_text = f''
+                print(f"\033[1;30m{columns_text}", end='')
+                print(' '* int(terminal_width - len(columns_text)))
                 os.system('setterm -background black -foreground black')
-                for printit in range(1, ctotal):
-                    print(f'{"Apenas isso por enquanto":^{vsf}}')
+                for _ in range(1, columns_total):
+                    print(f'{"Apenas isso por enquanto":^{terminal_width}}')
             else:
                 pass
-            if run > 1:
+            if run_count > 1:
                 os.system("setterm -background white -foreground white")
-                print(" "*vsf)
+                print(" "*terminal_width)
                 os.system('setterm -background black -foreground black')
                 print(f'\033[1;37mOnde ir agora?')
                 os.system('setterm -background black -foreground black')
-                nextpath = input(f"""\033[1;37mCaminho: {''.join(path[1:])}/""")
+                next_command = input(f"""\033[1;37mCaminho: {''.join(current_path[1:])}/""")
             else:
-                nextpath = '/*'
+                next_command = '/*'
                 os.system('setterm -background black foreground white')
-                for hinata in range(0, 10000):
+                for _ in range(0, 10000):
                     print("")
-                clear()
-            if nextpath == 'dev':
-                errorstatusdev = 1
-            nextpath = nextpath.split('/')
-            if nextpath[0] == '':
-                nextpath[0] = '/'
-            if errorstatusdev == 1:
-                errorstatusdev = 0
+                clear_screen()
+            if next_command == 'dev':
+                dev_error_status = 1
+            next_command = next_command.split('/')
+            if next_command[0] == '':
+                next_command[0] = '/'
+            if dev_error_status == 1:
+                dev_error_status = 0
             print('\u001b[37m')
-            for loop in range(0, len(contents)):
-                if ''.join(nextpath) == contents[loop] or ''.join(nextpath) in comandos:
-                    errorstatus = 0
+            for index in range(0, len(directory_contents)):
+                if ''.join(next_command) == directory_contents[index] or ''.join(next_command) in commands:
+                    error_status = 0
                     break
                 else:
-                    errorstatus = 1
-            prepath = path[:]
-            for sla in nextpath:
-                path.append(f'/{sla}')
-            commandpath = ''.join(nextpath)
-            if path[0] == '/':
-                if commandpath == '/':
+                    error_status = 1
+            previous_path = current_path[:]
+            for item in next_command:
+                current_path.append(f'/{item}')
+            command_path = ''.join(next_command)
+            if current_path[0] == '/':
+                if command_path == '/':
                     try:
-                        path = last(path, twices=3)
+                        current_path = remove_last_items(current_path, times=3)
                     except IndexError:
                         pass
-                elif commandpath == '/d':
-                    path = last(path)
+                elif command_path == '/d':
+                    current_path = remove_last_items(current_path)
                     n = str(input("Nome do diretório: "))
                     try:
-                        os.mkdir(f"{''.join(path)}/{n}")
+                        os.mkdir(f"{''.join(current_path)}/{n}")
                     except PermissionError:
                         print(f"\033[31mPermissão negada.")
-                        enter()
+                        wait_for_enter()
                     except FileExistsError:
                         print(f"\033[31mDiretório já existe.")
-                        enter()
+                        wait_for_enter()
                     except OSError:
                         print('\033[31mOcorreu um erro.')
-                        enter()
-                elif commandpath == '/a':
-                    path = last(path)
+                        wait_for_enter()
+                elif command_path == '/a':
+                    current_path = remove_last_items(current_path)
                     n = str(input("Nome do arquivo: "))
-                    if n not in contents:
+                    if n not in directory_contents:
                         try:
-                            open(f'{"".join(path)}/{n}', 'w+')
+                            open(f'{"".join(current_path)}/{n}', 'w+')
                         except IsADirectoryError:
                             print(f"\033[31mIsso é um diretório, pare.")
-                            enter()
+                            wait_for_enter()
                         except PermissionError:
                             print(f"\033[31mPermissão negada.")
-                            enter()
+                            wait_for_enter()
                         except OSError:
                             print('\033[31mOcorreu um erro.')
-                            enter()
+                            wait_for_enter()
                     else:
                         print(f"\033[31mArquivo já existe.")
-                elif commandpath == '/e':
+                elif command_path == '/e':
                     print('\033[0m', end='')
                     os.system("setterm -default")
-                    clear()
+                    clear_screen()
                     exit()
-                elif commandpath == '/del':
-                    path = last(path)
+                elif command_path == '/del':
+                    current_path = remove_last_items(current_path)
                     n = str(input("Nome do diretório: "))
                     if n == "/":
                         print("HEY! PERMISSÃO NEGADA!")
                         exit()
                     else:
-                        os.system(f'rm -r "{"""""".join(path)}/{n}" >/dev/null 2>&1')
-                elif commandpath == '/fdel':
-                    path = last(path)
+                        os.system(f'rm -r "{"""""".join(current_path)}/{n}" >/dev/null 2>&1')
+                elif command_path == '/fdel':
+                    current_path = remove_last_items(current_path)
                     n = str(input("Nome do arquivo: "))
                     try:
-                        os.remove(f"{''.join(path)}/{n}")
+                        os.remove(f"{''.join(current_path)}/{n}")
                     except PermissionError:
                         print(f"\033[31mPermissão negada.")
-                        enter()
+                        wait_for_enter()
                     except FileNotFoundError:
                         print(f"\033[31mArquivo inexistente.")
-                        enter()
+                        wait_for_enter()
                     except OSError:
                         print('\033[31mOcorreu um erro.')
-                        enter()
-                elif commandpath == '/r':
-                    path = last(path)
-                    path = ['/']
-                elif commandpath == '/k':
-                    path = last(path)
+                        wait_for_enter()
+                elif command_path == '/r':
+                    current_path = remove_last_items(current_path)
+                    current_path = ['/']
+                elif command_path == '/k':
+                    current_path = remove_last_items(current_path)
                     src = str(input("Nome do arquivo/diretório a copiar: "))
                     dst = str(input("Local a colar: "))
                     try:
-                        shutil.copyfile(f"{''.join(path)}/{src}", f"{dst}/{src}")
+                        shutil.copyfile(f"{''.join(current_path)}/{src}", f"{dst}/{src}")
                     except IsADirectoryError:
                         try:
-                            shutil.copytree(f"{''.join(path)}/{src}", f'{dst}/{src}')
+                            shutil.copytree(f"{''.join(current_path)}/{src}", f'{dst}/{src}')
                         except FileExistsError:
                             try:
-                                shutil.copyfile(f"{''.join(path)}/{src}", f"{dst}/{src}-{random.randint(0, 999)}")
+                                shutil.copyfile(f"{''.join(current_path)}/{src}", f"{dst}/{src}-{random.randint(0, 999)}")
                             except IsADirectoryError:
                                 print(f"\033[31mOperação cancelada.")
-                                enter()
+                                wait_for_enter()
                         except IsADirectoryError:
                             print(f"\033[31mOperação cancelada.")
-                            enter()
+                            wait_for_enter()
                     except FileNotFoundError:
                         print(f"\033[31mArquivo/diretório não encontrado.")
-                        enter()
+                        wait_for_enter()
                     except PermissionError:
                         print(f"\033[31mPermissão negada.")
-                        enter()
+                        wait_for_enter()
                     except OSError:
                         print('\033[31mOcorreu um erro.')
-                        enter()
-                elif commandpath == '/m':
-                    path = last(path)
+                        wait_for_enter()
+                elif command_path == '/m':
+                    current_path = remove_last_items(current_path)
                     src = str(input("Nome do arquivo/diretório a mover: "))
                     dst = str(input("Local de destino: "))
                     if dst and src != '':
                         try:
-                            shutil.move(f'{"".join(path)}/{src}', f'{dst}/{src}')
+                            shutil.move(f'{"".join(current_path)}/{src}', f'{dst}/{src}')
                         except FileNotFoundError:
                             print(f"\033[31mArquivo/diretório não encontrado.")
-                            enter()
+                            wait_for_enter()
                         except PermissionError:
                             print(f"\033[31mPermissão negada.")
-                            enter()
+                            wait_for_enter()
                         except OSError:
                             print('\033[31mOcorreu um erro.')
-                            enter()
+                            wait_for_enter()
                     else:
                         pass
-                elif commandpath == '/rename':
-                    path = last(path)
+                elif command_path == '/rename':
+                    current_path = remove_last_items(current_path)
                     src = str(input("Nome do arquivo/diretório a renomear: "))
                     dst = str(input("Novo nome: "))
                     try:
-                        os.rename(f'{"".join(path)}/{src}', f'{"".join(path)}/{dst}')
+                        os.rename(f'{"".join(current_path)}/{src}', f'{"".join(current_path)}/{dst}')
                     except FileNotFoundError:
                         print(f"\033[31mArquivo/diretório não encontrado.")
-                        enter()
+                        wait_for_enter()
                     except PermissionError:
                         print(f"\033[31mPermissão negada.")
-                        enter()
+                        wait_for_enter()
                     except OSError:
                         print('\033[31mOcorreu um erro.')
-                        enter()
-                elif commandpath == '/h':
+                        wait_for_enter()
+                elif command_path == '/h':
                     if getpass.getuser() != 'root':
-                        path = ['/', '/home', f'/{getpass.getuser()}']
+                        current_path = ['/', '/home', f'/{getpass.getuser()}']
                     else:
-                        path = ['/', '/root']
+                        current_path = ['/', '/root']
 
-                    if guest:
-                        path = ['/', '/home']
-                elif commandpath == '/help':
+                    if is_guest:
+                        current_path = ['/', '/home']
+                elif command_path == '/help':
                     print("""
 
 Simbolos
@@ -344,132 +342,132 @@ Comandos
 Apenas "ENTER" volta dois diretórios
 
                     """)
-                    path = last(path)
-                    enter()
-                elif commandpath == '/l':
-                    path = last(path)
-                    arquivo = str(input("Arquivo: "))
+                    current_path = remove_last_items(current_path)
+                    wait_for_enter()
+                elif command_path == '/l':
+                    current_path = remove_last_items(current_path)
+                    file_name = str(input("Arquivo: "))
                     try:
-                        y = open(f'{"".join(path)}/{arquivo}', 'r')
-                        yotta = 0
-                        for hans in y.readlines():
-                            yotta = yotta + 1
-                            print(f"\033[33m[{yotta}] \033[37m{hans}", end='')
-                        enter()
+                        file_handle = open(f'{"".join(current_path)}/{file_name}', 'r')
+                        line_count = 0
+                        for line in file_handle.readlines():
+                            line_count = line_count + 1
+                            print(f"\033[33m[{line_count}] \033[37m{line}", end='')
+                        wait_for_enter()
                     except IsADirectoryError:
                         print('\033[31;1mNão é um arquivo.')
-                        enter()
+                        wait_for_enter()
                     except PermissionError:
                         print('\033[31;1mPermissão negada.')
-                        enter()
+                        wait_for_enter()
                     except UnicodeDecodeError:
                         print('\033[31;1mApenas arquivos de texto são legiveis!')
-                        enter()
+                        wait_for_enter()
                     except FileNotFoundError:
                         print('\033[31;1mArquivo não encontrado.')
-                        enter()
+                        wait_for_enter()
                     except OSError:
                         print('\033[31;1mOcorreu um erro.')
-                        enter()
-                elif commandpath == '/*':
-                    path = last(path)
-                elif commandpath == '/info':
-                    path = last(path)
+                        wait_for_enter()
+                elif command_path == '/*':
+                    current_path = remove_last_items(current_path)
+                elif command_path == '/info':
+                    current_path = remove_last_items(current_path)
                     print("TFiles v1.0.0")
                     print("Desenvolvedor: Breno Martins de Oliveira Vasconcelos")
                     print(
                         "GitHub: https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles"
                     )
-                    enter()
-                elif commandpath == '/md':
-                    path = ['/', '/media', f'/{getpass.getuser()}']
-                elif commandpath == '/nada':
-                    path = last(path, twices=1)
-                elif commandpath == '/usrbin':
-                    path = ['/', '/usr', '/bin']
-                elif commandpath == '/texto':
-                    path = last(path)
-                    arquivo = ''
-                    cancelar = False
+                    wait_for_enter()
+                elif command_path == '/md':
+                    current_path = ['/', '/media', f'/{getpass.getuser()}']
+                elif command_path == '/nada':
+                    current_path = remove_last_items(current_path, times=1)
+                elif command_path == '/usrbin':
+                    current_path = ['/', '/usr', '/bin']
+                elif command_path == '/texto':
+                    current_path = remove_last_items(current_path)
+                    file_name = ''
+                    cancel_flag = False
                     while True:
-                        arquivo = input('Arquivo de texto: ')
+                        file_name = input('Arquivo de texto: ')
                         try:
-                            w = open(f'{"".join(path)}/{arquivo}', 'r')
+                            file_handle = open(f'{"".join(current_path)}/{file_name}', 'r')
                             break
                         except FileNotFoundError:
                             try:
-                                w = open(f'{"".join(path)}/{arquivo}', 'w+')
-                                w.close()
-                                w = open(f'{"".join(path)}/{arquivo}', 'r')
+                                file_handle = open(f'{"".join(current_path)}/{file_name}', 'w+')
+                                file_handle.close()
+                                file_handle = open(f'{"".join(current_path)}/{file_name}', 'r')
                                 break
                             except PermissionError:
                                 print('\033[31mPermissão negada ao tentar criar arquivo inexistente.')
-                                cancelar = True
+                                cancel_flag = True
                                 break
                         except PermissionError:
                             print('\033[31mPermissão negada.')
-                            cancelar = True
+                            cancel_flag = True
                             break
                         except IsADirectoryError:
                             print('\033[31mÉ um diretório.')
-                            cancelar = True
+                            cancel_flag = True
                             break
                         except UnicodeDecodeError:
                             print('\033[31mNão é um arquivo de texto.')
-                            cancelar = True
+                            cancel_flag = True
                             break
-                    clear()
-                    quebrar = False
-                    nsv = False
-                    while not cancelar:
-                        pathdotreco = f"{''.join(path[1:])}/{arquivo}/"
+                    clear_screen()
+                    exit_flag = False
+                    no_save_flag = False
+                    while not cancel_flag:
+                        full_path = f"{''.join(current_path[1:])}/{file_name}/"
                         os.system('setterm -background white -foreground white')
-                        print(f"\033[1;30m{'Terminal Explorer':^{vsf}}")
+                        print(f"\033[1;30m{'Terminal Explorer':^{terminal_width}}")
                         os.system('setterm -background black foreground black')
                         print("")
                         try:
-                            texto = w.readlines()
+                            text_content = file_handle.readlines()
                         except UnicodeDecodeError:
                             print('\033[31mO-oh! Parece que isso não é um arquivo de texto...')
-                            enter()
-                            w.close()
+                            wait_for_enter()
+                            file_handle.close()
                             break
-                        w.close()
-                        line = 0
-                        firstrun = -1
-                        for cont in texto:
-                            line = line + 1
-                            print(f'\033[33m[{line}]\033[37m {cont}', end='')
+                        file_handle.close()
+                        line_num = 0
+                        first_run = -1
+                        for line_content in text_content:
+                            line_num = line_num + 1
+                            print(f'\033[33m[{line_num}]\033[37m {line_content}', end='')
                         while True:
-                            if firstrun == -1:
-                                line = line + 1
-                                ca = input(f"\033[33m[{line}]\033[37m ")
+                            if first_run == -1:
+                                line_num = line_num + 1
+                                command_input = input(f"\033[33m[{line_num}]\033[37m ")
                             else:
-                                clear()
+                                clear_screen()
                                 os.system('setterm -background white -foreground white')
-                                print(f"\033[1;30m{'Terminal Explorer':^{vsf}}")
+                                print(f"\033[1;30m{'Terminal Explorer':^{terminal_width}}")
                                 os.system('setterm -background black -foreground black')
                                 print('')
-                                line = 0
-                                for cont in texto:
-                                    line = line + 1
-                                    print(f'\033[33m[{line}]\033[37m {cont}', end='')
-                                ca = input(f"\033[33m[{line + 1}]\033[37m ")
-                            texto.append(f'{ca}\n')
-                            firstrun = firstrun + 1
-                            if texto[-1] == '.exit\n':
-                                del texto[-1]
-                                quebrar = True
+                                line_num = 0
+                                for line_content in text_content:
+                                    line_num = line_num + 1
+                                    print(f'\033[33m[{line_num}]\033[37m {line_content}', end='')
+                                command_input = input(f"\033[33m[{line_num + 1}]\033[37m ")
+                            text_content.append(f'{command_input}\n')
+                            first_run = first_run + 1
+                            if text_content[-1] == '.exit\n':
+                                del text_content[-1]
+                                exit_flag = True
                                 break
-                            elif texto[-1] == '.dl\n':
-                                del texto[-1]
+                            elif text_content[-1] == '.dl\n':
+                                del text_content[-1]
                                 try:
-                                    linedel = int(input('Número da linha: ')) - 1
-                                    del texto[linedel]
+                                    line_to_delete = int(input('Número da linha: ')) - 1
+                                    del text_content[line_to_delete]
                                 except (TypeError, ValueError, IndexError):
                                     pass
-                            elif texto[-1] == '.help\n':
-                                del texto[-1]
+                            elif text_content[-1] == '.help\n':
+                                del text_content[-1]
                                 print("""
                             
 .al Adiciona um número especifico de linhas com um texto especificado
@@ -487,155 +485,155 @@ Apenas "ENTER" volta dois diretórios
     OBS: Para adicionar comandos como texto normal, adicione espaço antes ou depois do tal comando
 
                                 """)
-                                enter()
-                            elif texto[-1] == '.el\n':
-                                del texto[-1]
+                                wait_for_enter()
+                            elif text_content[-1] == '.el\n':
+                                del text_content[-1]
                                 try:
-                                    editar = int(input("Linha: ")) - 1
+                                    edit_line = int(input("Linha: ")) - 1
                                 except (ValueError, TypeError):
-                                    editar = -1
+                                    edit_line = -1
                                 try:
-                                    texto[editar] = f'{input(f"[{editar + 1}] ")}\n'
+                                    text_content[edit_line] = f'{input(f"[{edit_line + 1}] ")}\n'
                                 except IndexError:
                                     print('\033[31mLinha inexistente!')
-                                    enter()
-                            elif texto[-1] == '.al\n':
-                                del texto[-1]
-                                textolinhas = f"{input('Texto: ')}\n"
+                                    wait_for_enter()
+                            elif text_content[-1] == '.al\n':
+                                del text_content[-1]
+                                line_text = f"{input('Texto: ')}\n"
                                 try:
-                                    nlinhas = int(input("Número de linhas: "))
+                                    num_lines = int(input("Número de linhas: "))
                                 except (TypeError, ValueError):
-                                    nlinhas = 1
+                                    num_lines = 1
 
-                                for kabanga in range(0, nlinhas):
-                                    texto.append(textolinhas)
-                            elif texto[-1] == '.dlnum\n':
-                                del texto[-1]
+                                for _ in range(0, num_lines):
+                                    text_content.append(line_text)
+                            elif text_content[-1] == '.dlnum\n':
+                                del text_content[-1]
                                 while True:
                                     try:
-                                        numl = int(input("Número de linhas a deletar: "))
+                                        num_lines = int(input("Número de linhas a deletar: "))
                                         break
                                     except (ValueError, TypeError):
                                         print('\033[31mIsso não é um número!\033[37m')
-                                for deletador in range(0, numl + 1):
+                                for _ in range(0, num_lines + 1):
                                     try:
-                                        del texto[-1]
+                                        del text_content[-1]
                                     except IndexError:
                                         break
-                            elif texto[-1] == '.clear\n':
-                                texto = []
-                            elif texto[-1] == '.whereami\n':
-                                del texto[-1]
-                                print(pathdotreco)
-                                enter()
-                            elif texto[-1] == '.cancel\n':
-                                del texto[-1]
-                                quebrar = True
-                                nsv = True
+                            elif text_content[-1] == '.clear\n':
+                                text_content = []
+                            elif text_content[-1] == '.whereami\n':
+                                del text_content[-1]
+                                print(full_path)
+                                wait_for_enter()
+                            elif text_content[-1] == '.cancel\n':
+                                del text_content[-1]
+                                exit_flag = True
+                                no_save_flag = True
                                 break
-                            elif texto[-1] == '.save\n':
-                                del texto[-1]
+                            elif text_content[-1] == '.save\n':
+                                del text_content[-1]
                                 try:
-                                    w = open(f'{"".join(path)}/{arquivo}', 'w')
-                                    w.write(''.join(texto))
-                                    w.close()
+                                    file_handle = open(f'{"".join(current_path)}/{file_name}', 'w')
+                                    file_handle.write(''.join(text_content))
+                                    file_handle.close()
                                 except PermissionError:
                                     print('\033[31mAcesso de escrita negado.')
-                                    enter()
-                                    w.close()
-                            elif texto[-1] == '.search\n':
-                                del texto[-1]
+                                    wait_for_enter()
+                                    file_handle.close()
+                            elif text_content[-1] == '.search\n':
+                                del text_content[-1]
                                 search_query = input("Pesquisar: ")
-                                núm = 0
-                                numdencontros = 0
-                                possuiem = []
-                                for linhas in texto:
-                                    núm = núm + 1
-                                    if search_query in linhas:
-                                        numdencontros = numdencontros + 1
-                                        print(f'\033[32mEncontrado \033[35m"{search_query}"\033[32m na linha {núm}.')
+                                line_num = 0
+                                match_count = 0
+                                matches = []
+                                for line in text_content:
+                                    line_num = line_num + 1
+                                    if search_query in line:
+                                        match_count = match_count + 1
+                                        print(f'\033[32mEncontrado \033[35m"{search_query}"\033[32m na linha {line_num}.')
                                     else:
                                         pass
-                                print(f"\033[37mAo todo, foram encontrados resultados em \033[32m{numdencontros} \033[37mlinhas.")
-                                enter()
-                        if quebrar:
-                            if not nsv:
+                                print(f"\033[37mAo todo, foram encontrados resultados em \033[32m{match_count} \033[37mlinhas.")
+                                wait_for_enter()
+                        if exit_flag:
+                            if not no_save_flag:
                                 try:
-                                    w = open(f'{"".join(path)}/{arquivo}', 'w')
-                                    w.write(''.join(texto))
-                                    w.close()
+                                    file_handle = open(f'{"".join(current_path)}/{file_name}', 'w')
+                                    file_handle.write(''.join(text_content))
+                                    file_handle.close()
                                 except PermissionError:
                                     print('\033[31mAcesso de escrita negado.')
-                                    enter()
-                                    w.close()
+                                    wait_for_enter()
+                                    file_handle.close()
                             else:
-                                w.close()
+                                file_handle.close()
                             break
-                elif commandpath == '/cln':
-                    path = last(path)
+                elif command_path == '/cln':
+                    current_path = remove_last_items(current_path)
                     os.system(input("Commando: "))
-                    enter()
-                elif commandpath == '/bash':
-                    path = last(path)
+                    wait_for_enter()
+                elif command_path == '/bash':
+                    current_path = remove_last_items(current_path)
                     os.system("bash")
-                    enter()
-                elif commandpath == '/search':
-                    path = last(path)
+                    wait_for_enter()
+                elif command_path == '/search':
+                    current_path = remove_last_items(current_path)
                     query = input("Procurar arquivs/diretórios que contenham: ")
-                    tem = False
-                    parece = []
-                    pontos = 0
-                    for procurar in contents:
-                        pontos = 0
-                        if procurar == query:
-                            tem = True
-                            parece.append(query)
+                    found_flag = False
+                    matches = []
+                    points = 0
+                    for item in directory_contents:
+                        points = 0
+                        if item == query:
+                            found_flag = True
+                            matches.append(query)
                         else:
-                            if query.upper() in procurar.upper():
-                                parece.append(procurar)
-                    if tem:
+                            if query.upper() in item.upper():
+                                matches.append(item)
+                    if found_flag:
                         print('\033[32mExiste um arquivo/diretório com o exato nome digitado.')
                     else:
                         pass
-                    if len(parece) > 1:
-                        crtz = input(f"\033[32mDeseja exibir todos os \033[35m{len(parece)} \033[32marquivos/diretórios encontrados? ")
+                    if len(matches) > 1:
+                        confirm = input(f"\033[32mDeseja exibir todos os \033[35m{len(matches)} \033[32marquivos/diretórios encontrados? ")
                     else:
-                        if len(parece) == 1:
-                            crtz = input(f"\033[32mDeseja exibir o arquivo/diretório encontrado? ")
+                        if len(matches) == 1:
+                            confirm = input(f"\033[32mDeseja exibir o arquivo/diretório encontrado? ")
                         else:
-                            crtz = ''
-                    numb = 0
-                    if crtz in 'Ss':
-                        clear()
-                        for xablau in parece:
-                            tipo = mimetypes.guess_type(f"{''.join(path)}/{xablau}")
+                            confirm = ''
+                    num_item = 0
+                    if confirm in 'Ss':
+                        clear_screen()
+                        for item_name in matches:
+                            file_type = mimetypes.guess_type(f"{''.join(current_path)}/{item_name}")
                             try:
-                                if 'text' in tipo[0]:
-                                    symb = '\033[35m[•]'
-                                elif 'application' in tipo[0]:
-                                    symb = "\033[36m[>]"
-                                elif 'audio' in tipo[0]:
-                                    symb = '\033[33m[𝄞]'
-                                elif 'video' in tipo[0]:
-                                    symb = '\033[30m[▶]'
-                                elif 'image' in tipo[0]:
-                                    symb = "\033[33m[☀]"
-                                elif 'font' in tipo[0]:
-                                    symb = '\033[35m[𝕥]'
+                                if 'text' in file_type[0]:
+                                    symbol = '\033[35m[•]'
+                                elif 'application' in file_type[0]:
+                                    symbol = "\033[36m[>]"
+                                elif 'audio' in file_type[0]:
+                                    symbol = '\033[33m[𝄞]'
+                                elif 'video' in file_type[0]:
+                                    symbol = '\033[30m[▶]'
+                                elif 'image' in file_type[0]:
+                                    symbol = "\033[33m[☀]"
+                                elif 'font' in file_type[0]:
+                                    symbol = '\033[35m[𝕥]'
                             except (TypeError, ValueError):
-                                if os.path.isfile(f"{''.join(path)}/{xablau}") and not os.path.isdir(f"{''.join(path)}/{xablau}"):
-                                    symb = '\033[34m[?]'
-                                elif os.path.isdir(f"{''.join(path)}/{xablau}") and not os.path.isfile(f"{''.join(path)}/{xablau}"):
-                                    symb = '\033[32m[+]'
+                                if os.path.isfile(f"{''.join(current_path)}/{item_name}") and not os.path.isdir(f"{''.join(current_path)}/{item_name}"):
+                                    symbol = '\033[34m[?]'
+                                elif os.path.isdir(f"{''.join(current_path)}/{item_name}") and not os.path.isfile(f"{''.join(current_path)}/{item_name}"):
+                                    symbol = '\033[32m[+]'
                                 else:
-                                    symb = '\033[34m[0]'
-                            numb = numb+1
-                            print(f'\033[33m[{numb}] \033[37m{xablau} {symb}\033[37m')
-                        aiai = input('Deseja copiar algum nome de arquivo/diretório? ')
-                        if aiai in 'Ss' and aiai != '':
+                                    symbol = '\033[34m[0]'
+                            num_item = num_item+1
+                            print(f'\033[33m[{num_item}] \033[37m{item_name} {symbol}\033[37m')
+                        copy_confirm = input('Deseja copiar algum nome de arquivo/diretório? ')
+                        if copy_confirm in 'Ss' and copy_confirm != '':
                             while True:
                                 try:
-                                    clipboard.copy(parece[int(input("ID: "))-1])
+                                    clipboard.copy(matches[int(input("ID: "))-1])
                                     break
                                 except IndexError:
                                     print("\033[31mID inválido.")
@@ -644,177 +642,177 @@ Apenas "ENTER" volta dois diretórios
                                 except KeyError:
                                     print("\033[31mAtualmente, essa função não funciona em modo root :/")
                                     break
-                    enter()
-                elif commandpath == '/i':
-                    path = last(path)
-                    forms = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
+                    wait_for_enter()
+                elif command_path == '/i':
+                    current_path = remove_last_items(current_path)
+                    units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
                     while True:
-                        arqv = input("Arquivo: ")
+                        file_name = input("Arquivo: ")
                         try:
-                            if not os.path.isdir(f"{''.join(path)}/{arqv}"):
-                                sz = os.stat(f"{''.join(path)}/{arqv}").st_size
+                            if not os.path.isdir(f"{''.join(current_path)}/{file_name}"):
+                                size = os.stat(f"{''.join(current_path)}/{file_name}").st_size
                             else:
-                                sz = get_size(f"{''.join(path)}/{arqv}")
-                            original = sz
+                                size = get_directory_size(f"{''.join(current_path)}/{file_name}")
+                            original_size = size
                             break
                         except FileNotFoundError:
                             print("\033[31mArquivo não encontrado :/")
-                    backsz = 0
-                    form = 0
-                    frmt = ''
+                    backup_size = 0
+                    unit_index = 0
+                    unit_format = ''
                     while True:
-                        if sz > 1024:
+                        if size > 1024:
                             try:
-                                sz = sz / 1024
-                                form = form + 1
-                                frmt = forms[form]
+                                size = size / 1024
+                                unit_index = unit_index + 1
+                                unit_format = units[unit_index]
                             except IndexError:
-                                frmt = forms[form]
+                                unit_format = units[unit_index]
                                 break
                         else:
-                            frmt = forms[form]
+                            unit_format = units[unit_index]
                             break
                     print(f"""              
-Caminho: {''.join(path[1:])}/{arqv}
-Tipo: {mimetypes.guess_type(f'{"".join(path)}/{arqv}')[0]}
-Tamanho: {sz:.0f} {frmt} ({original} byte(s))
-Criado: {time.ctime(os.path.getctime(f"{''.join(path)}/{arqv}"))}
-Modificado: {time.ctime(os.path.getmtime(f"{''.join(path)}/{arqv}"))}
+Caminho: {''.join(current_path[1:])}/{file_name}
+Tipo: {mimetypes.guess_type(f'{"".join(current_path)}/{file_name}')[0]}
+Tamanho: {size:.0f} {unit_format} ({original_size} byte(s))
+Criado: {time.ctime(os.path.getctime(f"{''.join(current_path)}/{file_name}"))}
+Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}"))}
                     """)
-                    enter()
-                elif commandpath == '/shexec':
-                    path = last(path)
-                    sudo = input("Sudo? [S/N]")
-                    if sudo in "Ss":
-                        runsudo = 'sudo'
+                    wait_for_enter()
+                elif command_path == '/shexec':
+                    current_path = remove_last_items(current_path)
+                    sudo_confirm = input("Sudo? [S/N]")
+                    if sudo_confirm in "Ss":
+                        run_sudo = 'sudo'
                     else:
-                        runsudo = ''
-                    arquivo = input("Arquivo: ")
-                    os.system(f"{runsudo} sh {''.join(path)}/{arquivo}")
-                    enter()
-                elif commandpath == '/full':
-                    path = last(path)
-                    contents = sorted(os.listdir(f"{''.join(path)}"))
-                    fid = -1
-                    for prin in contents:
-                        fid = fid + 1
-                        print(f"[{fid+1}] {prin}")
-                    enter()
+                        run_sudo = ''
+                    file_name = input("Arquivo: ")
+                    os.system(f"{run_sudo} sh {''.join(current_path)}/{file_name}")
+                    wait_for_enter()
+                elif command_path == '/full':
+                    current_path = remove_last_items(current_path)
+                    directory_contents = sorted(os.listdir(f"{''.join(current_path)}"))
+                    file_id = -1
+                    for item in directory_contents:
+                        file_id = file_id + 1
+                        print(f"[{file_id+1}] {item}")
+                    wait_for_enter()
             else:
-                path = ['/']
+                current_path = ['/']
             try:
-                contents = os.listdir(''.join(path))
-                errorstatus = 0
+                directory_contents = os.listdir(''.join(current_path))
+                error_status = 0
             except NotADirectoryError:
-                path = prepath[:]
-                errorstatus = 1
-                errortipo = 'Tipo'
+                current_path = previous_path[:]
+                error_status = 1
+                error_type = 'Tipo'
             except FileNotFoundError:
-                path = prepath[:]
-                errorstatus = 1
-                errortipo = 'Nome'
+                current_path = previous_path[:]
+                error_status = 1
+                error_type = 'Nome'
             except PermissionError:
-                path = prepath[:]
-                errorstatus = 1
-                errortipo = 'Root'
-        run = run + 1
-        texto = []
-        if errorstatus == 1:
-            if errortipo == 'Nome':
-                wuhan = path[:]
+                current_path = previous_path[:]
+                error_status = 1
+                error_type = 'Root'
+        run_count = run_count + 1
+        text_content = []
+        if error_status == 1:
+            if error_type == 'Nome':
+                temp_path = current_path[:]
                 print(f'\033[31m\nOcorreu um erro! Verifique a ortografia e tente novamente.')
-                enter()
-            elif errortipo == 'Tipo':
-                print(f'\033[31m\n"{"""""".join(path[1:])}/{commandpath}" não é um diretório!')
-                enter()
-            elif errortipo == 'Root':
-                print(f'\033[31m\nVocê não tem permissão para acessar "{"""""".join(path[1:])}/{commandpath}".')
-                enter()
-        hhaa = os.popen('stty size', 'r').read().split()
-        vsf = int(hhaa[1])
-        kontinue = True
+                wait_for_enter()
+            elif error_type == 'Tipo':
+                print(f'\033[31m\n"{"""""".join(current_path[1:])}/{command_path}" não é um diretório!')
+                wait_for_enter()
+            elif error_type == 'Root':
+                print(f'\033[31m\nVocê não tem permissão para acessar "{"""""".join(current_path[1:])}/{command_path}".')
+                wait_for_enter()
+        terminal_size = os.popen('stty size', 'r').read().split()
+        terminal_width = int(terminal_size[1])
+        continue_flag = True
         # Exibir conteudo do diretório
-        if run == 1:
-            kontinue = False
-        clear()
-        if kontinue:
+        if run_count == 1:
+            continue_flag = False
+        clear_screen()
+        if continue_flag:
             os.system('setterm -background white -foreground white')
             if getpass.getuser() != 'root':
-                print(f"\033[1;30m{'Terminal Explorer':^{vsf}}")
+                print(f"\033[1;30m{'Terminal Explorer':^{terminal_width}}")
             else:
-                print(f"\033[1;30m{'Terminal Explorer (ROOT)':^{vsf}}")
+                print(f"\033[1;30m{'Terminal Explorer (ROOT)':^{terminal_width}}")
             os.system('setterm -background black foreground black')
-            contents = sorted(contents)
-            nwloop = []
-            for loop in range(0, len(contents)):
-                char = 0
-                if len(contents[loop]) > 15:
-                    for huo in contents[loop]:
-                        char = char + 1
-                        if char <= 15:
-                            nwloop.append(huo)
+            directory_contents = sorted(directory_contents)
+            new_loop = []
+            for item in directory_contents:
+                char_count = 0
+                if len(item) > 15:
+                    for char in item:
+                        char_count = char_count + 1
+                        if char_count <= 15:
+                            new_loop.append(char)
                         else:
-                            nwloop.append('...')
+                            new_loop.append('...')
                             break
-                    nwloop = ''.join(nwloop)
-                    gado2.append(nwloop)
+                    new_loop = ''.join(new_loop)
+                    temp_display.append(new_loop)
                 else:
-                    gado2.append(contents[loop])
-                nwloop = []
-                tipo = mimetypes.guess_type(f"{''.join(path)}/{contents[loop]}")
+                    temp_display.append(item)
+                new_loop = []
+                file_type = mimetypes.guess_type(f"{''.join(current_path)}/{item}")
                 try:
-                    if 'text' in tipo[0]:
-                        gado2.append('\033[35m[•]')
-                    elif 'application' in tipo[0]:
-                        gado2.append("\033[36m[>]")
-                    elif 'audio' in tipo[0]:
-                        gado2.append('\033[33m[𝄞]')
-                    elif 'video' in tipo[0]:
-                        gado2.append('\033[30m[▶]')
-                    elif 'image' in tipo[0]:
-                        gado2.append("\033[33m[☀]")
-                    elif 'font' in tipo[0]:
-                        gado2.append('\033[35m[𝕥]')
+                    if 'text' in file_type[0]:
+                        temp_display.append('\033[35m[•]')
+                    elif 'application' in file_type[0]:
+                        temp_display.append("\033[36m[>]")
+                    elif 'audio' in file_type[0]:
+                        temp_display.append('\033[33m[𝄞]')
+                    elif 'video' in file_type[0]:
+                        temp_display.append('\033[30m[▶]')
+                    elif 'image' in file_type[0]:
+                        temp_display.append("\033[33m[☀]")
+                    elif 'font' in file_type[0]:
+                        temp_display.append('\033[35m[𝕥]')
                 except (TypeError, ValueError):
-                    if os.path.isfile(f"{''.join(path)}/{contents[loop]}") and not os.path.isdir(f"{''.join(path)}/{contents[loop]}"):
-                        gado2.append('\033[34m[?]')
-                    elif os.path.isdir(f"{''.join(path)}/{contents[loop]}") and not os.path.isfile(f"{''.join(path)}/{contents[loop]}"):
-                        gado2.append('\033[32m[+]')
+                    if os.path.isfile(f"{''.join(current_path)}/{item}") and not os.path.isdir(f"{''.join(current_path)}/{item}"):
+                        temp_display.append('\033[34m[?]')
+                    elif os.path.isdir(f"{''.join(current_path)}/{item}") and not os.path.isfile(f"{''.join(current_path)}/{item}"):
+                        temp_display.append('\033[32m[+]')
                     else:
-                        gado2.append('\033[34m[0]')
-                gado.append(' '.join(gado2))
-                gado2 = []
+                        temp_display.append('\033[34m[0]')
+                display_items.append(' '.join(temp_display))
+                temp_display = []
             print('\033[37;1m')
-            for corno in range(0, len(gado)):
-                manso = manso + 2
-                corno2 = corno2 + 2
-                if len(gado) > 1:
+            for index in range(0, len(display_items)):
+                left_index = left_index + 2
+                right_index = right_index + 2
+                if len(display_items) > 1:
                     try:
-                        a = gado[corno2]
+                        a = display_items[right_index]
                     except IndexError:
-                        rango = 'end'
+                        range_counter = 'end'
                     try:
-                        c = gado[manso]
+                        c = display_items[left_index]
                     except IndexError:
-                        rango = 'end'
-                elif len(gado) == 1:
-                    a = ''.join(gado)
+                        range_counter = 'end'
+                elif len(display_items) == 1:
+                    a = ''.join(display_items)
                     c = ''
                 else:
                     a = 'Diretório vazio :/'
                     c = ''
-                if rango != 'end' or c == gado[-1]:
-                    print(f"\033[37;1m{a:<30}\033[37;1m{c:>{vsf-20}}")
-                    if c == gado[-1]:
+                if range_counter != 'end' or c == display_items[-1]:
+                    print(f"\033[37;1m{a:<30}\033[37;1m{c:>{terminal_width-20}}")
+                    if c == display_items[-1]:
                         break
                 else:
-                    print(f'\033[37;1m{gado[-1]}')
+                    print(f'\033[37;1m{display_items[-1]}')
                     break
-            gado3 = gado[:]
-            gado = []
-            manso = -1
-            corno2 = -2
-            rango = 0
+            display_metadata = display_items[:]
+            display_items = []
+            left_index = -1
+            right_index = -2
+            range_counter = 0
 except KeyboardInterrupt:
     print("\n\033[0m")
     os.system("setterm -default")
