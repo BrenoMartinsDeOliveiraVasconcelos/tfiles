@@ -60,6 +60,7 @@ def main():
     directory_contents = os.listdir(''.join(current_path))
     next_command = ''
     n = ''
+
     left_index = -1
     right_index = -2
 
@@ -301,6 +302,7 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
                         file_id = file_id + 1
                         h.output(f"[{file_id+1}] {item}")
                 else:
+                    remove_times=0
                     auto_skip = True
                 current_path = h.remove_last_items(current_path, times=remove_times)
                 h.wait_for_enter(auto_skip=auto_skip)
