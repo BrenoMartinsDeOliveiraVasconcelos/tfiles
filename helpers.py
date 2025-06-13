@@ -147,7 +147,8 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
             a = 'Diretório vazio :/'
             c = ''
         if range_counter != 'end' or c == display_items[-1]:
-            output(f"{a:<30}{c:>{terminal_width-20}}")
+            output(f"{a:<30}", end='')
+            output(f"{c:>{terminal_width-20}}")
             if c == display_items[-1]:
                 break
         else:
