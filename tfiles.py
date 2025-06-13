@@ -3,10 +3,8 @@
 import os
 import getpass
 import shutil
-import random
 import linecache
 import readline
-import clipboard
 import mimetypes
 import time
 import keyboard
@@ -16,7 +14,7 @@ import helpers as h
 terminal_size = os.popen('stty size', 'r').read().split()
 terminal_width = int(terminal_size[1])
 is_guest = False
-os.system("clear")
+os.system("c            range_counter = 0lear")
 sys.argv.append('')
 
 
@@ -59,30 +57,12 @@ def main():
         complete_path.append(f'/{path_item}')
     current_path = complete_path[:]
 
-    previous_path = ''
     directory_contents = os.listdir(''.join(current_path))
-    error_status = 0
     next_command = ''
     n = ''
-    a = ''
-    c = ''
-    skip_flag = False
-    exile_flag = False
-    error_type = 'Nulo'
-    display_items = []
-    temp_display = []
-    display_metadata = []
-    signal_flag = False
-    display_counter = 0
     left_index = -1
     right_index = -2
-    range_counter = 0
-    break_flag = False
-    dev_error_status = 0
 
-    commands = ['/', '/a', '/d', '/e', '/h', '/k', '/l', '/m', '/r', '/fdel', '/del', '/rename', '/*', '/info', '/md',
-                '/usrbin', '/texto', '/bash', '/cln', '/search', '/i', '/shexec', '/full']
-    forbidden_chars = ["*"]
     while True:
         if run_count == 0:
             pass
@@ -90,8 +70,6 @@ def main():
             h.output('')
             columns = int(terminal_size[0])
             columns_total = int(columns - (3 + 2 + ((len(directory_contents) / 2) - 0.1)))
-            columns_wasted = 0
-            pretty_display = []
             columns_total = columns_total - 1
             auto_skip = False
             remove_times = 2
@@ -120,7 +98,6 @@ def main():
                 next_command = '/*'
                 
             next_command = next_command.split('/')
-            previous_path = current_path[:]
             for item in next_command:
                 current_path.append(f'/{item}')
             command_path = '/'.join(next_command)
@@ -287,7 +264,6 @@ Apenas "ENTER" volta dois diretórios
                             break
                         except Exception as e:
                             h.print_error(e)
-                    backup_size = 0
                     unit_index = 0
                     unit_format = ''
                     while True:
@@ -337,7 +313,6 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
                 remove_times = 1
                 current_path = h.remove_last_items(current_path, times=remove_times)
         run_count = run_count + 1
-        text_content = []
         terminal_size = os.popen('stty size', 'r').read().split()
         terminal_width = int(terminal_size[1])
         continue_flag = True
@@ -348,11 +323,8 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
         if continue_flag:
             h.print_tittle(terminal_width)
             h.display_files(directory_contents, current_path, terminal_width, left_index, right_index)
-            display_metadata = display_items[:]
-            display_items = []
             left_index = -1
             right_index = -2
-            range_counter = 0
             
 if __name__ == "__main__":
     main()
