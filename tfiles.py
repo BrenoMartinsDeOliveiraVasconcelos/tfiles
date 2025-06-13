@@ -351,70 +351,7 @@ try:
                         current_path = remove_last_items(current_path)
                         os.system("bash")
                     elif command_path == '/search':
-                        current_path = remove_last_items(current_path)
-                        query = h.ask_input("Procurar arquivs/diretórios que contenham: ")
-                        found_flag = False
-                        matches = []
-                        points = 0
-                        for item in directory_contents:
-                            points = 0
-                            if item == query:
-                                found_flag = True
-                                matches.append(query)
-                            else:
-                                if query.upper() in item.upper():
-                                    matches.append(item)
-                        if found_flag:
-                            h.print_error('Existe um arquivo/diretório com o exato nome digitado.')
-                        else:
-                            pass
-                        if len(matches) > 1:
-                            confirm = h.ask_input(f"Deseja exibir todos os \033[35m{len(matches)} \033[32marquivos/diretórios encontrados? ")
-                        else:
-                            if len(matches) == 1:
-                                confirm = h.ask_input(f"Deseja exibir o arquivo/diretório encontrado? ")
-                            else:
-                                confirm = ''
-                        num_item = 0
-                        if confirm in 'Ss':
-                            clear_screen()
-                            for item_name in matches:
-                                file_type = mimetypes.guess_type(f"{''.join(current_path)}/{item_name}")
-                                try:
-                                    if 'text' in file_type[0]:
-                                        symbol = '\033[35m[•]'
-                                    elif 'application' in file_type[0]:
-                                        symbol = "\033[36m[>]"
-                                    elif 'audio' in file_type[0]:
-                                        symbol = '\033[33m[𝄞]'
-                                    elif 'video' in file_type[0]:
-                                        symbol = '\033[30m[▶]'
-                                    elif 'image' in file_type[0]:
-                                        symbol = "\033[33m[☀]"
-                                    elif 'font' in file_type[0]:
-                                        symbol = '\033[35m[𝕥]'
-                                except (TypeError, ValueError):
-                                    if os.path.isfile(f"{''.join(current_path)}/{item_name}") and not os.path.isdir(f"{''.join(current_path)}/{item_name}"):
-                                        symbol = '\033[34m[?]'
-                                    elif os.path.isdir(f"{''.join(current_path)}/{item_name}") and not os.path.isfile(f"{''.join(current_path)}/{item_name}"):
-                                        symbol = '\033[32m[+]'
-                                    else:
-                                        symbol = '\033[34m[0]'
-                                num_item = num_item+1
-                                h.output(f'[{num_item}]', end='', color_code="\033[33m")
-                            copy_confirm = h.ask_input('Deseja copiar algum nome de arquivo/diretório? ')
-                            if copy_confirm in 'Ss' and copy_confirm != '':
-                                while True:
-                                    try:
-                                        clipboard.copy(matches[int(h.ask_input("ID: "))-1])
-                                        break
-                                    except IndexError:
-                                        h.print_error("ID inválido.")
-                                    except (TypeError, ValueError):
-                                        h.print_error("ID é um número, não outra coisa.")
-                                    except KeyError:
-                                        h.print_error("Atualmente, essa função não funciona em modo root :/")
-                                        break
+                        pass # Reescrever depois
                     elif command_path == '/i':
                         current_path = remove_last_items(current_path)
                         units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']

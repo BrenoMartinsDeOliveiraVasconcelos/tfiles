@@ -60,8 +60,8 @@ def switch_font_blackness(black: bool):
 
 def restore_setterm():
     os.system('setterm -default')
-    
-    
+
+
 def display_files(directory_contents: list, current_path: list, terminal_width: int, left_index: int, right_index: int):
     display_items = []
     new_loop = []
