@@ -337,13 +337,15 @@ try:
                         for item in directory_contents:
                             file_id = file_id + 1
                             h.output(f"[{file_id+1}] {item}")
+                    else:
+                        auto_skip = True
                     h.wait_for_enter(auto_skip=auto_skip)
                 else:
                     current_path = ['/']
                 try:
                     directory_contents = os.listdir(''.join(current_path))
                 except Exception as e:
-                    h.print_error(e)
+                    h.print_error(e, enter_to_continue=True)
                     current_path = h.remove_last_items(current_path, times=1)
             run_count = run_count + 1
             text_content = []
