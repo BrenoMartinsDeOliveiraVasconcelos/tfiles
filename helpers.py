@@ -2,6 +2,16 @@ import os
 import getpass
 import mimetypes
 
+
+def get_mime_type(file_path):
+    mime = mimetypes.guess_type(file_path)[0]
+    
+    if mime is None:
+        return 'directory'
+    else:
+        return mime
+
+
 def wait_for_enter(auto_skip=False):
         if not auto_skip:
             ask_input("Enter para continuar.")
@@ -190,3 +200,25 @@ def clear_extra_separatores(item_list: list) -> list:
         index += 1
     
     return fixed_list
+
+
+def get_size(start_path = '.') -> int:
+    
+    if os.path.isfile(start_path):
+        return os.path.getsize(start_path)
+    
+    count = 0
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        dirnames = dirnames
+        count = count + 1
+        for filename in filenames:
+            file_path = os.path.join(dirpath, filename)
+            try:
+                if not os.path.islink(file_path):
+                    if 'kcore' != filename:
+                        total_size += os.path.getsize(file_path)
+            except FileNotFoundError:
+                pass
+
+    return total_size

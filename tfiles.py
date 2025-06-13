@@ -5,9 +5,7 @@ import getpass
 import shutil
 import linecache
 import readline
-import mimetypes
 import time
-import keyboard
 import sys
 import helpers as h
 
@@ -16,29 +14,6 @@ terminal_width = int(terminal_size[1])
 os.system("c            range_counter = 0lear")
 sys.argv.append('')
 
-
-def get_directory_size(start_path = '.'):
-    count = 0
-    total_size = 0
-    for dirpath, dirnames, filenames in os.walk(start_path):
-        dirnames = dirnames
-        count = count + 1
-        try:
-            if keyboard.is_pressed("c"):
-                break
-        except ImportError:
-            if count == 1:
-                h.output("No momento, copiar como não root não está disponivel.", end='')
-        for filename in filenames:
-            file_path = os.path.join(dirpath, filename)
-            try:
-                if not os.path.islink(file_path):
-                    if 'kcore' != filename:
-                        total_size += os.path.getsize(file_path)
-            except FileNotFoundError:
-                pass
-
-    return total_size
 
 def main():
     run_count = 0
@@ -248,39 +223,29 @@ Apenas "ENTER" volta dois diretórios
                     pass # Reescrever depois
                 elif command_path == '/i':
                     
-                    units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
+                    units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
                         file_name = h.ask_input("Arquivo: ")
+                        file = ''.join(h.clear_extra_separatores(current_path_filesystem)[1:]) + '/' + file_name
                         try:
-                            if not os.path.isdir(f"{''.join(current_path_filesystem)}/{file_name}"):
-                                size = os.stat(f"{''.join(current_path_filesystem)}/{file_name}").st_size
-                            else:
-                                size = get_directory_size(f"{''.join(current_path_filesystem)}/{file_name}")
+                            size = h.get_size(file)
                             original_size = size
                             break
                         except Exception as e:
                             h.print_error(e)
                     unit_index = 0
                     unit_format = ''
-                    while True:
-                        if size > 1024:
-                            try:
-                                size = size / 1024
-                                unit_index = unit_index + 1
-                                unit_format = units[unit_index]
-                            except IndexError:
-                                unit_format = units[unit_index]
-                                break
-                        else:
-                            unit_format = units[unit_index]
-                            break
+                    while size > 1000:
+                        size /= 1000
+                        unit_index += 1
+                    unit_format = units[unit_index]
                     h.output(f"""              
-Caminho: {''.join(current_path_filesystem[1:])}/{file_name}
-Tipo: {mimetypes.guess_type(f'{"".join(current_path_filesystem)}/{file_name}')[0]}
-Tamanho: {size:.0f} {unit_format} ({original_size} byte(s))
-Criado: {time.ctime(os.path.getctime(f"{''.join(current_path_filesystem)}/{file_name}"))}
-Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path_filesystem)}/{file_name}"))}
-                    """, enter_to_continue=True)
+Caminho: {file}
+Tipo: {h.get_mime_type(file)}
+Tamanho: {size:.0f} {unit_format} ({original_size} {units[0]})
+Criado: {time.ctime(os.path.getctime(file))}
+Modificado: {time.ctime(os.path.getmtime(file))}
+                    """)
                 elif command_path == '/shexec':
                     
                     sudo_confirm = h.ask_input("Sudo? [S/N]")
