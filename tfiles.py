@@ -104,6 +104,7 @@ def main():
             command_path = '/'.join(next_command)
             
             if current_path[0] == '/':
+                current_path_filesystem = current_path[:-1]
                 if command_path == '/':
                     remove_times = 3
                     auto_skip = True
@@ -111,15 +112,14 @@ def main():
                     
                     n = h.ask_input("Nome do diretório: ")
                     try:
-                        os.mkdir(f"{''.join(current_path)}/{n}")
+                        os.mkdir(f"{''.join(current_path_filesystem)}/{n}")
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/a':
-                    
                     n = h.ask_input("Nome do arquivo: ")
                     if n not in directory_contents:
                         try:
-                            open(f'{"".join(current_path)}', 'w+')
+                            open(f'{"".join(current_path_filesystem)}/{n}', 'w+')
                             h.output(f'Arquivo "{n}" criado com sucesso.')
                         except Exception as e:
                             h.print_error(e)
@@ -131,12 +131,12 @@ def main():
                     if n == "/":
                         h.print_error(PermissionError("Nao pode remover o diretório raiz."))
                     else:
-                        os.system(f'rm -r "{"""""".join(current_path)}/{n}" >/dev/null 2>&1')
+                        os.system(f'rm -r "{"""""".join(current_path_filesystem)}/{n}" >/dev/null 2>&1')
                 elif command_path == '/fdel':
                     
                     n = h.ask_input("Nome do arquivo: ")
                     try:
-                        os.remove(f"{''.join(current_path)}/{n}")
+                        os.remove(f"{''.join(current_path_filesystem)}/{n}")
                     except Exception as e:
                         h.print_error(e)
                     
@@ -153,7 +153,7 @@ def main():
                     dst = h.ask_input("Local de destino: ")
                     if dst and src != '':
                         try:
-                            shutil.move(f'{"".join(current_path)}/{src}', f'{dst}/{src}')
+                            shutil.move(f'{"".join(current_path_filesystem)}/{src}', f'{dst}/{src}')
                         except Exception as e:
                             h.print_error(e)
                     else:
@@ -163,7 +163,7 @@ def main():
                     src = h.ask_input("Nome do arquivo/diretório a renomear: ")
                     dst = h.ask_input("Novo nome: ")
                     try:
-                        os.rename(f'{"".join(current_path)}/{src}', f'{"".join(current_path)}/{dst}')
+                        os.rename(f'{"".join(current_path_filesystem)}/{src}', f'{"".join(current_path_filesystem)}/{dst}')
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/h':
@@ -224,7 +224,7 @@ Apenas "ENTER" volta dois diretórios
                     
                     file_name = h.ask_input("Arquivo: ")
                     try:
-                        file_handle = open(f'{"".join(current_path)}/{file_name}', 'rb')
+                        file_handle = open(f'{"".join(current_path_filesystem)}/{file_name}', 'rb')
                         line_count = 0
                         for line in file_handle.readlines():
                             line = line.decode('utf-8')
@@ -235,8 +235,6 @@ Apenas "ENTER" volta dois diretórios
                         h.print_error(e)
                 elif command_path == '/*':
                     auto_skip = True
-                elif command_path == '/nada':
-                    current_path = h.remove_last_items(current_path, times=1)
                 elif command_path == '/usrbin':
                     remove_times = 0
                     current_path = ['/', '/usr', '/bin']
@@ -257,10 +255,10 @@ Apenas "ENTER" volta dois diretórios
                     while True:
                         file_name = h.ask_input("Arquivo: ")
                         try:
-                            if not os.path.isdir(f"{''.join(current_path)}/{file_name}"):
-                                size = os.stat(f"{''.join(current_path)}/{file_name}").st_size
+                            if not os.path.isdir(f"{''.join(current_path_filesystem)}/{file_name}"):
+                                size = os.stat(f"{''.join(current_path_filesystem)}/{file_name}").st_size
                             else:
-                                size = get_directory_size(f"{''.join(current_path)}/{file_name}")
+                                size = get_directory_size(f"{''.join(current_path_filesystem)}/{file_name}")
                             original_size = size
                             break
                         except Exception as e:
@@ -280,11 +278,11 @@ Apenas "ENTER" volta dois diretórios
                             unit_format = units[unit_index]
                             break
                     h.output(f"""              
-Caminho: {''.join(current_path[1:])}/{file_name}
-Tipo: {mimetypes.guess_type(f'{"".join(current_path)}/{file_name}')[0]}
+Caminho: {''.join(current_path_filesystem[1:])}/{file_name}
+Tipo: {mimetypes.guess_type(f'{"".join(current_path_filesystem)}/{file_name}')[0]}
 Tamanho: {size:.0f} {unit_format} ({original_size} byte(s))
-Criado: {time.ctime(os.path.getctime(f"{''.join(current_path)}/{file_name}"))}
-Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}"))}
+Criado: {time.ctime(os.path.getctime(f"{''.join(current_path_filesystem)}/{file_name}"))}
+Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path_filesystem)}/{file_name}"))}
                     """, enter_to_continue=True)
                 elif command_path == '/shexec':
                     
@@ -294,9 +292,9 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
                     else:
                         run_sudo = ''
                     file_name = h.ask_input("Arquivo: ")
-                    os.system(f"{run_sudo} sh {''.join(current_path)}/{file_name}")
+                    os.system(f"{run_sudo} sh {''.join(current_path_filesystem)}/{file_name}")
                 elif command_path == '/full':
-                    directory_contents = sorted(os.listdir(f"{''.join(current_path)}"))
+                    directory_contents = sorted(os.listdir(f"{''.join(current_path_filesystem)}"))
                     file_id = -1
                     for item in directory_contents:
                         file_id = file_id + 1
@@ -309,7 +307,7 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
             else:
                 current_path = ['/']
             try:
-                directory_contents = os.listdir(''.join(current_path))
+                directory_contents = os.listdir(''.join(current_path_filesystem))
             except Exception as e:
                 h.print_error(e, enter_to_continue=True)
              
