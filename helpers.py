@@ -162,6 +162,9 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
 def remove_last_items(item_list: list, times: int=2) -> list:
     for _ in range(0, times):
         item_list.pop()
+        
+        if len(item_list) == 1:
+            break
 
     return item_list
 
