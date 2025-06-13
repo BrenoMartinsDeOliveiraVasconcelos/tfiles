@@ -13,7 +13,6 @@ import helpers as h
 
 terminal_size = os.popen('stty size', 'r').read().split()
 terminal_width = int(terminal_size[1])
-is_guest = False
 os.system("c            range_counter = 0lear")
 sys.argv.append('')
 
@@ -169,9 +168,9 @@ def main():
                         current_path = ['/', '/home', f'/{getpass.getuser()}']
                     else:
                         current_path = ['/', '/root']
-
-                    if is_guest:
-                        current_path = ['/', '/home']
+                        
+                        
+                    remove_times = 0
                 elif command_path == '/help':
                     h.output("""
 
