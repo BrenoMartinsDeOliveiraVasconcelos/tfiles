@@ -307,7 +307,7 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path_filesystem)}/{f
             else:
                 current_path = ['/']
             try:
-                directory_contents = os.listdir(''.join(current_path_filesystem))
+                directory_contents = os.listdir(''.join(current_path))
             except Exception as e:
                 h.print_error(e, enter_to_continue=True)
              
