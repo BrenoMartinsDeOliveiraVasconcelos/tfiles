@@ -84,17 +84,17 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
         new_loop = []
         file_type = mimetypes.guess_type(f"{''.join(current_path)}/{item}")
         try:
-            if 'text' in file_type[0]:
+            if 'text' in file_type[0]: # type: ignore
                 temp_display.append('\033[35m[•]')
-            elif 'application' in file_type[0]:
+            elif 'application' in file_type[0]: # type: ignore
                 temp_display.append("\033[36m[>]")
-            elif 'audio' in file_type[0]:
+            elif 'audio' in file_type[0]: # type: ignore
                 temp_display.append('\033[33m[𝄞]')
-            elif 'video' in file_type[0]:
+            elif 'video' in file_type[0]: # type: ignore
                 temp_display.append('\033[30m[▶]')
-            elif 'image' in file_type[0]:
+            elif 'image' in file_type[0]: # type: ignore
                 temp_display.append("\033[33m[☀]")
-            elif 'font' in file_type[0]:
+            elif 'font' in file_type[0]: # type: ignore
                 temp_display.append('\033[35m[𝕥]')
         except (TypeError, ValueError):
             if os.path.isfile(f"{''.join(current_path)}/{item}") and not os.path.isdir(f"{''.join(current_path)}/{item}"):
