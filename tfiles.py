@@ -98,6 +98,8 @@ try:
                 columns_wasted = 0
                 pretty_display = []
                 columns_total = columns_total - 1
+                auto_skip = False
+                remove_times = 2
                 if columns_total > 1:
                     h.print_separator(terminal_width)
                     for _ in range(1, columns_total):
@@ -129,23 +131,18 @@ try:
                 command_path = '/'.join(next_command)
                 
                 if current_path[0] == '/':
-                    auto_skip = False
                     if command_path == '/':
-                        try:
-                            h.output(', '.join(current_path), enter_to_continue=True)
-                            h.remove_last_items(current_path, times=3)
-                            auto_skip = True
-                        except IndexError:
-                            pass
+                        remove_times = 3
+                        auto_skip = True
                     elif command_path == '/d':
-                        current_path = h.remove_last_items(current_path)
+                        
                         n = h.ask_input("Nome do diretório: ")
                         try:
                             os.mkdir(f"{''.join(current_path)}/{n}")
                         except Exception as e:
                             h.print_error(e)
                     elif command_path == '/a':
-                        current_path = h.remove_last_items(current_path)
+                        
                         n = h.ask_input("Nome do arquivo: ")
                         if n not in directory_contents:
                             try:
@@ -159,29 +156,29 @@ try:
                         clear_screen()
                         exit()
                     elif command_path == '/del':
-                        current_path = h.remove_last_items(current_path)
+                        
                         n = h.ask_input("Nome do diretório: ")
                         if n == "/":
                             h.print_error(PermissionError("Nao pode remover o diretório raiz."))
                         else:
                             os.system(f'rm -r "{"""""".join(current_path)}/{n}" >/dev/null 2>&1')
                     elif command_path == '/fdel':
-                        current_path = h.remove_last_items(current_path)
+                        
                         n = h.ask_input("Nome do arquivo: ")
                         try:
                             os.remove(f"{''.join(current_path)}/{n}")
                         except Exception as e:
                             h.print_error(e)
-                        current_path = h.remove_last_items(current_path)
+                        
                         current_path = ['/']
                     elif command_path == '/k':
-                        current_path = h.remove_last_items(current_path)
+                        
                         src = h.ask_input("Nome do arquivo/diretório a copiar: ")
                         dst = h.ask_input("Local a colar: ")
 
                         # Reescrever essa parte'
                     elif command_path == '/m':
-                        current_path = h.remove_last_items(current_path)
+                        
                         src = h.ask_input("Nome do arquivo/diretório a mover: ")
                         dst = h.ask_input("Local de destino: ")
                         if dst and src != '':
@@ -192,7 +189,7 @@ try:
                         else:
                             pass
                     elif command_path == '/rename':
-                        current_path = h.remove_last_items(current_path)
+                        
                         src = h.ask_input("Nome do arquivo/diretório a renomear: ")
                         dst = h.ask_input("Novo nome: ")
                         try:
@@ -252,9 +249,9 @@ try:
     Apenas "ENTER" volta dois diretórios
 
                         """)
-                        current_path = h.remove_last_items(current_path)
+                        
                     elif command_path == '/l':
-                        current_path = h.remove_last_items(current_path)
+                        
                         file_name = h.ask_input("Arquivo: ")
                         try:
                             file_handle = open(f'{"".join(current_path)}/{file_name}', 'rb')
@@ -268,25 +265,24 @@ try:
                             h.print_error(e)
                     elif command_path == '/*':
                         auto_skip = True
-                        current_path = h.remove_last_items(current_path)
-                    elif command_path == '/md':
-                        current_path = ['/', '/media', f'/{getpass.getuser()}']
                     elif command_path == '/nada':
                         current_path = h.remove_last_items(current_path, times=1)
                     elif command_path == '/usrbin':
+                        remove_times = 0
                         current_path = ['/', '/usr', '/bin']
                     elif command_path == '/texto':
-                        current_path = h.remove_last_items(current_path)
+                        # Reescrever
+                        pass
                     elif command_path == '/cln':
-                        current_path = h.remove_last_items(current_path)
+                        
                         os.system(h.ask_input("Commando: "))
                     elif command_path == '/bash':
-                        current_path = h.remove_last_items(current_path)
+                        
                         os.system("bash")
                     elif command_path == '/search':
                         pass # Reescrever depois
                     elif command_path == '/i':
-                        current_path = h.remove_last_items(current_path)
+                        
                         units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
                         while True:
                             file_name = h.ask_input("Arquivo: ")
@@ -322,7 +318,7 @@ try:
     Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}"))}
                         """, enter_to_continue=True)
                     elif command_path == '/shexec':
-                        current_path = h.remove_last_items(current_path)
+                        
                         sudo_confirm = h.ask_input("Sudo? [S/N]")
                         if sudo_confirm in "Ss":
                             run_sudo = 'sudo'
@@ -331,7 +327,6 @@ try:
                         file_name = h.ask_input("Arquivo: ")
                         os.system(f"{run_sudo} sh {''.join(current_path)}/{file_name}")
                     elif command_path == '/full':
-                        current_path = h.remove_last_items(current_path)
                         directory_contents = sorted(os.listdir(f"{''.join(current_path)}"))
                         file_id = -1
                         for item in directory_contents:
@@ -339,6 +334,7 @@ try:
                             h.output(f"[{file_id+1}] {item}")
                     else:
                         auto_skip = True
+                    current_path = h.remove_last_items(current_path, times=remove_times)
                     h.wait_for_enter(auto_skip=auto_skip)
                 else:
                     current_path = ['/']
@@ -346,7 +342,8 @@ try:
                     directory_contents = os.listdir(''.join(current_path))
                 except Exception as e:
                     h.print_error(e, enter_to_continue=True)
-                    current_path = h.remove_last_items(current_path, times=1)
+                    remove_times = 1
+                    current_path = h.remove_last_items(current_path, times=remove_times)
             run_count = run_count + 1
             text_content = []
             terminal_size = os.popen('stty size', 'r').read().split()
