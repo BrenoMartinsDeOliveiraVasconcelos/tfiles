@@ -73,7 +73,7 @@ def main():
             columns_total = int(columns - (3 + 2 + ((len(directory_contents) / 2) - 0.1)))
             columns_total = columns_total - 1
             auto_skip = False
-            remove_times = 2
+            remove_times = 1
             if columns_total > 1:
                 h.print_separator(terminal_width)
                 for _ in range(1, columns_total):
@@ -302,7 +302,7 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
                         file_id = file_id + 1
                         h.output(f"[{file_id+1}] {item}")
                 else:
-                    remove_times=0
+                    remove_times = 0
                     auto_skip = True
                 current_path = h.remove_last_items(current_path, times=remove_times)
                 h.wait_for_enter(auto_skip=auto_skip)
@@ -312,8 +312,8 @@ Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}")
                 directory_contents = os.listdir(''.join(current_path))
             except Exception as e:
                 h.print_error(e, enter_to_continue=True)
-                remove_times = 1
-                current_path = h.remove_last_items(current_path, times=remove_times)
+             
+            current_path = h.clear_extra_separatores(current_path)   
         run_count = run_count + 1
         terminal_size = os.popen('stty size', 'r').read().split()
         terminal_width = int(terminal_size[1])

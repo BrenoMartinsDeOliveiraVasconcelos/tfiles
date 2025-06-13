@@ -171,3 +171,22 @@ def remove_last_items(item_list: list, times: int=2) -> list:
 
 def clear_screen():
     os.system("clear")
+
+
+def clear_extra_separatores(item_list: list) -> list:
+    fixed_list = []
+    
+    if len(item_list) <= 1:
+        return item_list
+    
+    index = 0
+    for item in item_list:
+        if item != '/':
+            fixed_list.append(item)
+        else:
+            if index == 0:
+                fixed_list.append(item)
+            
+        index += 1
+    
+    return fixed_list
