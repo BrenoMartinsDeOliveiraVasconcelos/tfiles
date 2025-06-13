@@ -25,6 +25,8 @@ def print_error(error: Exception, enter_to_continue: bool=False, quit: bool=Fals
         message = "Erro ao decodificar o arquivo."
     elif isinstance(error, UnicodeEncodeError):
         message = "Erro ao codificar o arquivo."
+    elif isinstance(error, KeyboardInterrupt):
+        message = "Operação cancelada pelo usuário."
     else:
         message = "Erro desconhecido: " + str(error)
     
@@ -81,6 +83,7 @@ def switch_font_blackness(black: bool):
 
 
 def restore_setterm():
+    print("\n\033[0m")
     os.system('setterm -default')
 
 
@@ -161,4 +164,7 @@ def remove_last_items(item_list: list, times: int=2) -> list:
         item_list.pop()
 
     return item_list
-    
+
+
+def clear_screen():
+    os.system("clear")
