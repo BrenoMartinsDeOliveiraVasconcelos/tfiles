@@ -119,7 +119,7 @@ def main():
                     n = h.ask_input("Nome do arquivo: ")
                     if n not in directory_contents:
                         try:
-                            open(f'{"".join(current_path)}/{n}', 'w+')
+                            open(f'{"".join(current_path)}', 'w+')
                             h.output(f'Arquivo "{n}" criado com sucesso.')
                         except Exception as e:
                             h.print_error(e)
