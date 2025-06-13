@@ -32,7 +32,7 @@ try:
                     break
             except ImportError:
                 if count == 1:
-                    h.print_error("\033[31mDevido a uma limitação do Linux, 'c' para cancelar só é possivel via root.\033[37m")
+                    h.output("No momento, copiar como não root não está disponivel.", end='')
             for filename in filenames:
                 file_path = os.path.join(dirpath, filename)
                 try:
@@ -43,16 +43,6 @@ try:
                     pass
 
         return total_size
-
-
-    def remove_last_items(item_list, times=2):
-        for _ in range(0, times):
-            del item_list[-1]
-
-        return item_list
-
-
-
 
 
     def clear_screen():
@@ -68,12 +58,8 @@ try:
             try:
                 current_path = sys.argv[1].split('/')
                 os.listdir(f'/{sys.argv[1]}')
-            except FileNotFoundError:
-                h.print_error("Isso não é um caminho válido! Peço que escreva o caminho completo caso esteja correto.", quit=True)
-            except PermissionError:
-                h.print_error("Esse diretório só é acessivel em modo root.", quit=True)
-            except NotADirectoryError:
-                h.print_error("Esse diretório só é acessivel em modo root.", quit=True)
+            except Exception as e:
+                h.print_error(e, quit=True)
         for path_item in current_path:
             complete_path.append(f'/{path_item}')
         current_path = complete_path[:]
@@ -101,6 +87,7 @@ try:
 
         commands = ['/', '/a', '/d', '/e', '/h', '/k', '/l', '/m', '/r', '/fdel', '/del', '/rename', '/*', '/info', '/md',
                     '/usrbin', '/texto', '/bash', '/cln', '/search', '/i', '/shexec', '/full']
+        forbidden_chars = ["*"]
         while True:
             if run_count == 0:
                 pass
@@ -129,136 +116,89 @@ try:
                     h.switch_font_blackness(black=False)
                     for _ in range(0, 10000):
                         h.output("")
-                    clear_screen()
-                if next_command == 'dev':
-                    dev_error_status = 1
                     
-                if next_command.strip("\n") == '':
+                    clear_screen()
+                    
+                if next_command == '':
                     next_command = '/*'
                     
                 next_command = next_command.split('/')
-                if next_command[0] == '':
-                    next_command[0] = '/'
-                if dev_error_status == 1:
-                    dev_error_status = 0
-                for index in range(0, len(directory_contents)):
-                    if ''.join(next_command) == directory_contents[index] or ''.join(next_command) in commands:
-                        error_status = 0
-                        break
-                    else:
-                        error_status = 1
                 previous_path = current_path[:]
                 for item in next_command:
                     current_path.append(f'/{item}')
-                command_path = ''.join(next_command)
+                command_path = '/'.join(next_command)
+                
                 if current_path[0] == '/':
                     auto_skip = False
                     if command_path == '/':
                         try:
-                            current_path = remove_last_items(current_path, times=3)
+                            h.output(', '.join(current_path), enter_to_continue=True)
+                            h.remove_last_items(current_path, times=3)
                             auto_skip = True
                         except IndexError:
                             pass
                     elif command_path == '/d':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         n = h.ask_input("Nome do diretório: ")
                         try:
                             os.mkdir(f"{''.join(current_path)}/{n}")
-                        except PermissionError:
-                            h.print_error(f"Permissão negada.")
-                        except FileExistsError:
-                            h.print_error(f"Diretório já existe.")
-                        except OSError:
-                            h.print_error('Ocorreu um erro.')
+                        except Exception as e:
+                            h.print_error(e)
                     elif command_path == '/a':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         n = h.ask_input("Nome do arquivo: ")
                         if n not in directory_contents:
                             try:
                                 open(f'{"".join(current_path)}/{n}', 'w+')
-                            except IsADirectoryError:
-                                h.print_error(f"Isso é um diretório, pare.")
-                            except PermissionError:
-                                h.print_error(f"Permissão negada.")
-                            except OSError:
-                                h.print_error('Ocorreu um erro.')
-                        else:
-                            h.print_error("Arquivo já existe.")
+                                h.output(f'Arquivo "{n}" criado com sucesso.')
+                            except Exception as e:
+                                h.print_error(e)
                     elif command_path == '/e':
                         h.output('', end='', color_code="\033[0m")
                         h.restore_setterm()
                         clear_screen()
                         exit()
                     elif command_path == '/del':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         n = h.ask_input("Nome do diretório: ")
                         if n == "/":
-                            h.print_error("Permissão negada!")
+                            h.print_error(PermissionError("Nao pode remover o diretório raiz."))
                         else:
                             os.system(f'rm -r "{"""""".join(current_path)}/{n}" >/dev/null 2>&1')
                     elif command_path == '/fdel':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         n = h.ask_input("Nome do arquivo: ")
                         try:
                             os.remove(f"{''.join(current_path)}/{n}")
-                        except PermissionError:
-                            h.print_error(f"Permissão negada.")
-                        except FileNotFoundError:
-                            h.print_error(f"Arquivo inexistente.")
-                        except OSError:
-                            h.print_error('Ocorreu um erro.')
-                    elif command_path == '/r':
-                        current_path = remove_last_items(current_path)
+                        except Exception as e:
+                            h.print_error(e)
+                        current_path = h.remove_last_items(current_path)
                         current_path = ['/']
                     elif command_path == '/k':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         src = h.ask_input("Nome do arquivo/diretório a copiar: ")
                         dst = h.ask_input("Local a colar: ")
-                        try:
-                            shutil.copyfile(f"{''.join(current_path)}/{src}", f"{dst}/{src}")
-                        except IsADirectoryError:
-                            try:
-                                shutil.copytree(f"{''.join(current_path)}/{src}", f'{dst}/{src}')
-                            except FileExistsError:
-                                try:
-                                    shutil.copyfile(f"{''.join(current_path)}/{src}", f"{dst}/{src}-{random.randint(0, 999)}")
-                                except IsADirectoryError:
-                                    h.print_error(f"Operação cancelada.")
-                            except IsADirectoryError:
-                                h.print_error("Operação cancelada.")
-                        except FileNotFoundError:
-                            h.print_error(f"Arquivo/diretório não encontrado.")
-                        except PermissionError:
-                            h.print_error(f"Permissão negada.")
-                        except OSError:
-                            h.print_error('Ocorreu um erro.')
+
+                        # Reescrever essa parte'
                     elif command_path == '/m':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         src = h.ask_input("Nome do arquivo/diretório a mover: ")
                         dst = h.ask_input("Local de destino: ")
                         if dst and src != '':
                             try:
                                 shutil.move(f'{"".join(current_path)}/{src}', f'{dst}/{src}')
-                            except FileNotFoundError:
-                                h.print_error(f"Arquivo/diretório não encontrado.")
-                            except PermissionError:
-                                h.print_error(f"Permissão negada.")
-                            except OSError:
-                                h.print_error('Ocorreu um erro.')
+                            except Exception as e:
+                                h.print_error(e)
                         else:
                             pass
                     elif command_path == '/rename':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         src = h.ask_input("Nome do arquivo/diretório a renomear: ")
                         dst = h.ask_input("Novo nome: ")
                         try:
                             os.rename(f'{"".join(current_path)}/{src}', f'{"".join(current_path)}/{dst}')
-                        except FileNotFoundError:
-                            h.print_error(f"Arquivo/diretório não encontrado.")
-                        except PermissionError:
-                            h.print_error(f"Permissão negada.")
-                        except OSError:
-                            h.print_error('Ocorreu um erro.')
+                        except Exception as e:
+                            h.print_error(e)
                     elif command_path == '/h':
                         if getpass.getuser() != 'root':
                             current_path = ['/', '/home', f'/{getpass.getuser()}']
@@ -312,48 +252,41 @@ try:
     Apenas "ENTER" volta dois diretórios
 
                         """)
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                     elif command_path == '/l':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         file_name = h.ask_input("Arquivo: ")
                         try:
-                            file_handle = open(f'{"".join(current_path)}/{file_name}', 'r')
+                            file_handle = open(f'{"".join(current_path)}/{file_name}', 'rb')
                             line_count = 0
                             for line in file_handle.readlines():
+                                line = line.decode('utf-8')
                                 line_count = line_count + 1
                                 h.output(f"{line_count}]", end='', color_code="\033[33m[")
                                 h.output(line, end='')
-                        except IsADirectoryError:
-                            h.print_error('Não é um arquivo.')
-                        except PermissionError:
-                            h.print_error('Permissão negada.')
-                        except UnicodeDecodeError:
-                            h.print_error('Apenas arquivos de texto são legiveis!')
-                        except FileNotFoundError:
-                            h.print_error('Arquivo não encontrado.')
-                        except OSError:
-                            h.print_error('Ocorreu um erro.')
+                        except Exception as e:
+                            h.print_error(e)
                     elif command_path == '/*':
                         auto_skip = True
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                     elif command_path == '/md':
                         current_path = ['/', '/media', f'/{getpass.getuser()}']
                     elif command_path == '/nada':
-                        current_path = remove_last_items(current_path, times=1)
+                        current_path = h.remove_last_items(current_path, times=1)
                     elif command_path == '/usrbin':
                         current_path = ['/', '/usr', '/bin']
                     elif command_path == '/texto':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                     elif command_path == '/cln':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         os.system(h.ask_input("Commando: "))
                     elif command_path == '/bash':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         os.system("bash")
                     elif command_path == '/search':
                         pass # Reescrever depois
                     elif command_path == '/i':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         units = ['byte(s)', 'kilobyte(s)', 'megabyte(s)', 'gigabyte(s)', 'terrabyte(s)', 'petabyte(s)', '']
                         while True:
                             file_name = h.ask_input("Arquivo: ")
@@ -364,8 +297,8 @@ try:
                                     size = get_directory_size(f"{''.join(current_path)}/{file_name}")
                                 original_size = size
                                 break
-                            except FileNotFoundError:
-                                h.print_error("Arquivo não encontrado :/")
+                            except Exception as e:
+                                h.print_error(e)
                         backup_size = 0
                         unit_index = 0
                         unit_format = ''
@@ -389,7 +322,7 @@ try:
     Modificado: {time.ctime(os.path.getmtime(f"{''.join(current_path)}/{file_name}"))}
                         """, enter_to_continue=True)
                     elif command_path == '/shexec':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         sudo_confirm = h.ask_input("Sudo? [S/N]")
                         if sudo_confirm in "Ss":
                             run_sudo = 'sudo'
@@ -398,41 +331,22 @@ try:
                         file_name = h.ask_input("Arquivo: ")
                         os.system(f"{run_sudo} sh {''.join(current_path)}/{file_name}")
                     elif command_path == '/full':
-                        current_path = remove_last_items(current_path)
+                        current_path = h.remove_last_items(current_path)
                         directory_contents = sorted(os.listdir(f"{''.join(current_path)}"))
                         file_id = -1
                         for item in directory_contents:
                             file_id = file_id + 1
                             h.output(f"[{file_id+1}] {item}")
-                    
                     h.wait_for_enter(auto_skip=auto_skip)
                 else:
                     current_path = ['/']
                 try:
                     directory_contents = os.listdir(''.join(current_path))
-                    error_status = 0
-                except NotADirectoryError:
-                    current_path = previous_path[:]
-                    error_status = 1
-                    error_type = 'Tipo'
-                except FileNotFoundError:
-                    current_path = previous_path[:]
-                    error_status = 1
-                    error_type = 'Nome'
-                except PermissionError:
-                    current_path = previous_path[:]
-                    error_status = 1
-                    error_type = 'Root'
+                except Exception as e:
+                    h.print_error(e)
+                    current_path = h.remove_last_items(current_path, times=1)
             run_count = run_count + 1
             text_content = []
-            if error_status == 1:
-                if error_type == 'Nome':
-                    temp_path = current_path[:]
-                    h.print_error(f'Ocorreu um erro! Verifique a ortografia e tente novamente.')
-                elif error_type == 'Tipo':
-                    h.print_error(f'"{"""""".join(current_path[1:])}/{command_path}" não é um diretório!')
-                elif error_type == 'Root':
-                    h.print_error(f'Você não tem permissão para acessar "{"""""".join(current_path[1:])}/{command_path}".')
             terminal_size = os.popen('stty size', 'r').read().split()
             terminal_width = int(terminal_size[1])
             continue_flag = True

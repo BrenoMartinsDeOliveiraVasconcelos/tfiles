@@ -6,7 +6,29 @@ def wait_for_enter(auto_skip=False):
         if not auto_skip:
             ask_input("Enter para continuar.")
 
-def print_error(message, enter_to_continue=False, quit=False):
+def print_error(error: Exception, enter_to_continue: bool=False, quit: bool=False) -> None:
+    message = ""
+    
+    if isinstance(error, FileNotFoundError):
+        message = "O arquivo especificado não foi encontrado."
+    elif isinstance(error, PermissionError):
+        message = "Permissão negada. Tente novamente como root."
+    elif isinstance(error, NotADirectoryError):
+        message = "O diretório especificado não é um diretório."
+    elif isinstance(error, FileExistsError):
+        message = "O arquivo ou diretório especificado ja existe."
+    elif isinstance(error, OSError):
+        message = "Erro de sistema: " + str(error)
+    elif isinstance(error, IsADirectoryError):
+        message = "O arquivo especificado é um diretório."
+    elif isinstance(error, UnicodeDecodeError):
+        message = "Erro ao decodificar o arquivo."
+    elif isinstance(error, UnicodeEncodeError):
+        message = "Erro ao codificar o arquivo."
+    else:
+        message = "Erro desconhecido: " + str(error)
+    
+    
     print("\033[1;31m" + message + "\033[37m")
     
     if enter_to_continue:
@@ -131,3 +153,11 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
         else:
             output(f'{display_items[-1]}')
             break
+        
+
+def remove_last_items(item_list: list, times: int=1) -> list:
+    for _ in range(0, times):
+        item_list.pop()
+
+    return item_list
+    
