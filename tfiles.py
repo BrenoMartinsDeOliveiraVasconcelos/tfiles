@@ -139,8 +139,6 @@ def main():
                         os.remove(f"{''.join(current_path_filesystem)}/{n}")
                     except Exception as e:
                         h.print_error(e)
-                    
-                    current_path = ['/']
                 elif command_path == '/k':
                     
                     src = h.ask_input("Nome do arquivo/diretório a copiar: ")
