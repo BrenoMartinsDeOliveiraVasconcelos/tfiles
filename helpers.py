@@ -54,10 +54,13 @@ def print_error(error: Exception, enter_to_continue: bool=False, quit: bool=Fals
 
     
 def ask_input(message):    
-    return input("\033[37m" + message + "\033[37m")
+    user_input = input("\033[37m" + message + "\033[37m")
+        
+    return user_input
 
 
 def output(message, color_code="\033[37m", end='\n', enter_to_continue=False, flush=True):
+    
     print(color_code + message + "\033[37m", end=end, flush=flush)
     
     if enter_to_continue:
@@ -259,3 +262,17 @@ def is_number(s: str) -> bool:
     except ValueError:
         return False
 
+
+def print_calmly(array: list, negation_chars: list):
+    index = 0
+    for item in array:
+        index += 1
+        output(f"[{index}] {item}")
+        
+        answer_continue = "\0"
+        while answer_continue == "\0":
+            answer_continue = ask_input('')
+            
+        break_it = answer_continue in negation_chars
+        if break_it:
+            break

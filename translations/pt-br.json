@@ -26,8 +26,9 @@
     "search_prompt": "Procurar no sistema de arquivos todo? [S/N] ",
     "search_name": "Nome a procurar: ",
     "search_not_found": "Nenhum resultado encontrado.",
-    "search_found": "Foram encontrados %s arquivos. Escolha um para ir na localização: ",
+    "search_found": "Foram encontrados %s arquivos. Escolha um para ir na localização. (Digite N e aperte ENTER para parar de mostrar)",
     "searching": "Ainda procurando... %s segundos",
-    "search_end": "Ir para (0 para cancelar): ",
-    "search_error": "Esse indice não está na lista."
+    "search_end": "Ir para (0 para cancelar, enter para continuar): ",
+    "search_error": "Esse indice não está na lista.",
+    "search_output_continue": ""
 }

@@ -220,15 +220,14 @@ def main():
                             if name in file:
                                 founds.append(os.path.join(root, file))
                     
-                    found = len(founds)     
-                    if found == 0:
+                    number_found = len(founds)  
+                    if number_found == 0:
                         h.output(strings['search_not_found'])
                     else:
                         index = 0
-                        h.output(strings['search_found'] % found)
-                        for found in founds:
-                            index += 1
-                            h.output(f"[{index}] {found}")
+                        h.output(strings['search_found'] % number_found)
+                        h.print_calmly(founds, negation_chars)
+                            
                         go_to = ""
                         
                         continue_iteration = True
