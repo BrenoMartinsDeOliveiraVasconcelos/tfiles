@@ -140,7 +140,7 @@ def main():
                     dst = h.ask_input(strings['destination'])
                     if dst and src != '':
                         try:
-                            shutil.move(f'{"".join(current_path_filesystem)}/{src}', f'{dst}/{src}')
+                            shutil.move(h.join_path(current_path_filesystem, src), f'{dst}/{src}')
                         except Exception as e:
                             h.print_error(e)
                     else:
@@ -149,7 +149,7 @@ def main():
                     src = h.ask_input(strings['rename_source'])
                     dst = h.ask_input(strings['rename_new_name'])
                     try:
-                        os.rename(f'{"".join(current_path_filesystem)}/{src}', f'{"".join(current_path_filesystem)}/{dst}')
+                        os.rename(h.join_path(current_path_filesystem, src), h.join_path(current_path_filesystem, dst))
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/h':
@@ -165,7 +165,7 @@ def main():
                 elif command_path == '/l':
                     file_name = h.ask_input(strings['file'])
                     try:
-                        file_handle = open(f'{"".join(current_path_filesystem)}/{file_name}', 'rb')
+                        file_handle = open(h.join_path(current_path_filesystem, file_name), 'rb')
                         line_count = 0
                         for line in file_handle.readlines():
                             line = line.decode('utf-8')

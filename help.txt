@@ -28,7 +28,6 @@ Comandos
 /k Copiar e colar um arquivo ou diretório
 /l Lê um arquivo e exibe seu conteúdo
 /m Mover um arquivo/diretório
-/md Ir para /media/{usuário atual}
 /r Ir para a pasta root
 /rename Renomear um arquivo/diretório
 /search Pesquisa por arquivos/diretórios que contenham uma string especifica
