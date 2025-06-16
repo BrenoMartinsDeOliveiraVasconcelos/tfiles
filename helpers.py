@@ -57,8 +57,8 @@ def ask_input(message):
     return input("\033[37m" + message + "\033[37m")
 
 
-def output(message, color_code="\033[37m", end='\n', enter_to_continue=False):
-    print(color_code + message + "\033[37m", end=end)
+def output(message, color_code="\033[37m", end='\n', enter_to_continue=False, flush=True):
+    print(color_code + message + "\033[37m", end=end, flush=flush)
     
     if enter_to_continue:
         wait_for_enter()

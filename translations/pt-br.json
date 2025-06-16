@@ -1,0 +1,23 @@
+{
+    "no_more": "Apenas isso por enquanto",
+    "where_to_go": "Onde ir agora?",
+    "path_prompt": "Caminho: ",
+    "directory_name": "Nome do diretório: ",
+    "file_exists_error": "O diretório '%s' ja existe.",
+    "file_created_success": "Arquivo \"%s\" criado com sucesso.",
+    "cannot_remove_root": "Nao pode remover o diretório raiz.",
+    "file_name": "Nome do arquivo: ",
+    "paste_location": "Local a colar: ",
+    "copy_prompt": "Nome do arquivo/diretório a copiar: ",
+    "move_prompt": "Nome do arquivo/diretório a mover: ",
+    "destination": "Local de destino: ",
+    "new_name": "Novo nome: ",
+    "command": "Commando: ",
+    "sudo_prompt": "Sudo? [S/N]",
+    "file": "Arquivo: ",
+    "info_path": "Caminho: ",
+    "info_type": "Tipo: ",
+    "info_size": "Tamanho: ",
+    "info_created": "Criado: ",
+    "info_modified": "Modificado: "
+}

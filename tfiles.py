@@ -8,12 +8,17 @@ import readline
 import time
 import sys
 import helpers as h
-
+import json
 
 def main():
     sys.argv.append('')
     
     h.kidnap_current_dir()
+    
+    config_file = json.load(open('config.json'))
+    language = config_file['language']
+    strings = json.load(open(os.path.join('translations', f'{language}.json')))
+    
     run_count = 0
 
     complete_path = []
@@ -52,16 +57,16 @@ def main():
             if columns_total > 1:
                 h.print_separator(terminal_width)
                 for _ in range(1, columns_total):
-                    h.output(f'{"Apenas isso por enquanto":^{terminal_width}}', color_code="\033[1;30m")
+                    h.output(f"{strings['no_more']:^{terminal_width}}", color_code="\033[1;30m")
             else:
                 pass
             if run_count > 1:
                 h.switch_emptiness(black=False)
                 h.output(" "*terminal_width)
                 h.switch_emptiness(black=True)
-                h.output(f'\033[1;37mOnde ir agora?')
+                h.output(f"\033[1;37m{strings['where_to_go']}")
                 h.switch_emptiness(black=True)
-                next_command = h.ask_input(f"Caminho: {''.join(current_path[1:])}/")
+                next_command = h.ask_input(f"{strings['path_prompt']}{''.join(current_path[1:])}/")
             else:
                 next_command = '/*'
                 h.switch_font_blackness(black=False)
@@ -85,47 +90,43 @@ def main():
                     remove_times = 3
                     auto_skip = True
                 elif command_path == '/d':
-                    
-                    n = h.ask_input("Nome do diretório: ")
+                    n = h.ask_input(strings['directory_name'])
                     
                     if os.path.exists(file_path):
-                        h.print_error(FileExistsError(f"O diretório '{n}' ja existe."))
+                        error_msg = strings['directory_exists_error'] % n
+                        h.print_error(FileExistsError(error_msg))
                     
                     os.mkdir(file_path)
                 elif command_path == '/a':
-                    n = h.ask_input("Nome do arquivo: ")
+                    n = h.ask_input(strings['file_name'])
                     if n not in directory_contents:
                         try:
                             open(f'{"".join(current_path_filesystem)}/{n}', 'w+')
-                            h.output(f'Arquivo "{n}" criado com sucesso.')
+                            h.output(strings['file_created_success'] % n)
                         except Exception as e:
                             h.print_error(e)
                 elif command_path == '/e':
                     return
                 elif command_path == '/del':
-                    
-                    n = h.ask_input("Nome do diretório: ")
+                    n = h.ask_input(strings['directory_name'])
                     if n == "/":
-                        h.print_error(PermissionError("Nao pode remover o diretório raiz."))
+                        h.print_error(PermissionError(strings['cannot_remove_root']))
                     else:
                         os.system(f'rm -r "{"""""".join(current_path_filesystem)}/{n}" >/dev/null 2>&1')
                 elif command_path == '/fdel':
-                    
-                    n = h.ask_input("Nome do arquivo: ")
+                    n = h.ask_input(strings['file_name'])
                     try:
                         os.remove(file_path)
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/k':
-                    
-                    src = h.ask_input("Nome do arquivo/diretório a copiar: ")
-                    dst = h.ask_input("Local a colar: ")
+                    src = h.ask_input(strings['copy_prompt'])
+                    dst = h.ask_input(strings['paste_location'])
 
-                    # Reescrever essa parte'
+                    # Reescrever essa parte
                 elif command_path == '/m':
-                    
-                    src = h.ask_input("Nome do arquivo/diretório a mover: ")
-                    dst = h.ask_input("Local de destino: ")
+                    src = h.ask_input(strings['move_prompt'])
+                    dst = h.ask_input(strings['destination'])
                     if dst and src != '':
                         try:
                             shutil.move(f'{"".join(current_path_filesystem)}/{src}', f'{dst}/{src}')
@@ -134,9 +135,8 @@ def main():
                     else:
                         pass
                 elif command_path == '/rename':
-                    
-                    src = h.ask_input("Nome do arquivo/diretório a renomear: ")
-                    dst = h.ask_input("Novo nome: ")
+                    src = h.ask_input(strings['rename_source'])
+                    dst = h.ask_input(strings['rename_new_name'])
                     try:
                         os.rename(f'{"".join(current_path_filesystem)}/{src}', f'{"".join(current_path_filesystem)}/{dst}')
                     except Exception as e:
@@ -147,14 +147,12 @@ def main():
                     else:
                         current_path = ['/', '/root']
                         
-                        
                     remove_times = 0
                 elif command_path == '/help':
                     help_text = open('help.txt', 'r').read()
                     h.output(help_text)
                 elif command_path == '/l':
-                    
-                    file_name = h.ask_input("Arquivo: ")
+                    file_name = h.ask_input(strings['file'])
                     try:
                         file_handle = open(f'{"".join(current_path_filesystem)}/{file_name}', 'rb')
                         line_count = 0
@@ -174,18 +172,15 @@ def main():
                     # Reescrever
                     pass
                 elif command_path == '/cln':
-                    
-                    os.system(h.ask_input("Commando: "))
+                    os.system(h.ask_input(strings['command_prompt']))
                 elif command_path == '/bash':
-                    
                     os.system("bash")
                 elif command_path == '/search':
                     pass # Reescrever depois
                 elif command_path == '/i':
-                    
                     units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
-                        file_name = h.ask_input("Arquivo: ")
+                        file_name = h.ask_input(strings['file'])
                         file = ''.join(h.clear_extra_separatores(current_path_filesystem)[1:]) + '/' + file_name
                         try:
                             size = h.get_size(file)
@@ -199,21 +194,20 @@ def main():
                         size /= 1000
                         unit_index += 1
                     unit_format = units[unit_index]
-                    h.output(f"""              
-Caminho: {file}
-Tipo: {h.get_mime_type(file)}
-Tamanho: {size:.0f} {unit_format} ({original_size} {units[0]})
-Criado: {time.ctime(os.path.getctime(file))}
-Modificado: {time.ctime(os.path.getmtime(file))}
+                    h.output(f"""
+{strings['info_path']}{file}
+{strings['info_type']}{h.get_mime_type(file)}
+{strings['info_size']}{size:.0f} {unit_format} ({original_size} {units[0]})
+{strings['info_created']}{time.ctime(os.path.getctime(file))}
+{strings['info_modified']}{time.ctime(os.path.getmtime(file))}
                     """)
                 elif command_path == '/shexec':
-                    
-                    sudo_confirm = h.ask_input("Sudo? [S/N]")
+                    sudo_confirm = h.ask_input(strings['sudo_prompt'])
                     if sudo_confirm in "Ss":
                         run_sudo = 'sudo'
                     else:
                         run_sudo = ''
-                    file_name = h.ask_input("Arquivo: ")
+                    file_name = h.ask_input(strings['file'])
                     os.system(f"{run_sudo} sh {''.join(current_path_filesystem)}/{file_name}")
                 elif command_path == '/full':
                     directory_contents = sorted(os.listdir(f"{''.join(current_path_filesystem)}"))
@@ -252,4 +246,3 @@ if __name__ == "__main__":
     main()
     h.restore_setterm()
     h.clear_screen()
-    
