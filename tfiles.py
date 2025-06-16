@@ -12,6 +12,9 @@ import json
 
 def main():
     sys.argv.append('')
+    confirmation_chars = ['S', 'Y', 'y', 's']
+    negation_chars = ['N', 'n']
+    correct_binaries = confirmation_chars + negation_chars
     
     h.kidnap_current_dir()
     
@@ -187,7 +190,64 @@ def main():
                 elif command_path == '/bash':
                     os.system("bash")
                 elif command_path == '/search':
-                    pass # Reescrever depois
+                    answ = ''
+                    search_location = ''.join(current_path_filesystem)
+                    
+                    while answ not in correct_binaries:
+                        answ = h.ask_input(strings['search_prompt'])
+                        
+                    name = h.ask_input(strings['search_name'])     
+                        
+                    if answ in confirmation_chars:
+                        search_location = "/"
+                    
+                    founds = []
+                    start_time = time.time()
+                    already_print = False
+                    for root, _, files in os.walk(search_location):
+                        for file in files:
+                            current_time = time.time()
+                            time_diff = round(current_time - start_time)             
+                        
+                            if time_diff % 1 == 0 and time_diff > 0:
+                                if not already_print:
+                                    h.output(strings['searching'] % time_diff)
+                                    
+                                already_print = True
+                            else:
+                                already_print = False
+                            
+                            if name in file:
+                                founds.append(os.path.join(root, file))
+                    
+                    found = len(founds)     
+                    if found == 0:
+                        h.output(strings['search_not_found'])
+                    else:
+                        index = 0
+                        h.output(strings['search_found'] % found)
+                        for found in founds:
+                            index += 1
+                            h.output(f"[{index}] {found}")
+                        go_to = ""
+                        
+                        continue_iteration = True
+                        number_found = len(founds)
+                        while continue_iteration:
+                            continue_iteration = False
+                            while not h.is_number(go_to):
+                                go_to = h.ask_input(strings['search_end'])
+
+                            index_num = int(go_to)
+                            if index_num > number_found or index_num < 0:
+                                h.output(strings['search_error'])
+                                go_to = ""
+                                continue_iteration = True
+                            elif index_num == 0:
+                                pass
+                            else:
+                                current_path = ["/"+x for x in founds[index_num - 1].split('/')]
+                        
                 elif command_path == '/i':
                     units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
@@ -214,7 +274,7 @@ def main():
                     """)
                 elif command_path == '/shexec':
                     sudo_confirm = h.ask_input(strings['sudo_prompt'])
-                    if sudo_confirm in "Ss":
+                    if sudo_confirm in confirmation_chars:
                         run_sudo = 'sudo'
                     else:
                         run_sudo = ''
@@ -237,6 +297,7 @@ def main():
                 directory_contents = os.listdir(''.join(current_path))
             except Exception as e:
                 h.print_error(e, enter_to_continue=True)
+                current_path = h.remove_last_items(current_path, times=1)
              
             current_path = h.clear_extra_separatores(current_path)   
         run_count = run_count + 1

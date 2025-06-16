@@ -251,3 +251,11 @@ def kidnap_current_dir():
 def join_path(path: list, include: str) -> str:
     return '/'.join(path + [include])
 
+
+def is_number(s: str) -> bool:
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+

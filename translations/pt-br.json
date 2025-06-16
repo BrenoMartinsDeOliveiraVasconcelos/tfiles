@@ -22,5 +22,12 @@
     "info_modified": "Modificado: ",
     "copied_success": "Copiado com sucesso.",
     "file_or_directory": "Arquivo ou diretório: ",
-    "file_not_found_error": "O arquivo '%s' nao foi encontrado."
+    "file_not_found_error": "O arquivo '%s' nao foi encontrado.",
+    "search_prompt": "Procurar no sistema de arquivos todo? [S/N] ",
+    "search_name": "Nome a procurar: ",
+    "search_not_found": "Nenhum resultado encontrado.",
+    "search_found": "Foram encontrados %s arquivos. Escolha um para ir na localização: ",
+    "searching": "Ainda procurando... %s segundos",
+    "search_end": "Ir para (0 para cancelar): ",
+    "search_error": "Esse indice não está na lista."
 }
