@@ -143,11 +143,12 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
                 temp_display.append('\033[34m[0]')
         display_items.append(' '.join(temp_display))
         temp_display = []
-    output('')
-    for index in range(0, len(display_items)):
+    display_items_size = len(display_items)
+    for index in range(0, display_items_size):
         left_index = left_index + 2
         right_index = right_index + 2
-        if len(display_items) > 1:
+        break_loop = False
+        if display_items_size > 1:
             try:
                 a = display_items[right_index]
             except IndexError:
@@ -156,19 +157,27 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
                 c = display_items[left_index]
             except IndexError:
                 range_counter = 'end'
-        elif len(display_items) == 1:
+        elif display_items_size== 1:
             a = ''.join(display_items)
             c = ''
         else:
             a = 'Diretório vazio :/'
             c = ''
+        
         if range_counter != 'end' or c == display_items[-1]:
-            output(f"{a:<30}", end='')
-            output(f"{c:>{terminal_width-20}}")
+            end_c = '\n'
+            
             if c == display_items[-1]:
-                break
+                end_c = ''
+                break_loop = True
+            
+            output(f"{a:<30}", end='')
+            output(f"{c:>{terminal_width-20}}", end=end_c)
         else:
-            output(f'{display_items[-1]}')
+            output(f'{display_items[-1]}', end="")
+            break_loop = True
+            
+        if break_loop:
             break
         
 

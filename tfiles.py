@@ -241,6 +241,8 @@ Modificado: {time.ctime(os.path.getmtime(file))}
             continue_flag = False
         h.clear_screen()
         if continue_flag:
+            terminal_height, terminal_width = h.get_terminal_size()
+            
             h.print_tittle(terminal_width)
             h.display_files(directory_contents, current_path, terminal_width, left_index, right_index)
             left_index = -1
