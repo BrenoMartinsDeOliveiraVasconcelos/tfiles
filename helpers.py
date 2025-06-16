@@ -1,6 +1,11 @@
 import os
 import getpass
 import mimetypes
+import json
+
+CONFIG_FILE = json.load(open('config.json'))
+LANG = CONFIG_FILE['language']
+STRINGS = json.load(open(os.path.join('translations', f'{LANG}.json')))
 
 ORIGINAL_DIR = os.getcwd()
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,31 +22,32 @@ def get_mime_type(file_path):
 
 def wait_for_enter(auto_skip=False):
         if not auto_skip:
-            ask_input("Enter para continuar.")
+            ask_input(STRINGS['enter_to_continue'])
+
 
 def print_error(error: Exception, enter_to_continue: bool=False, quit: bool=False) -> None:
     message = ""
     
     if isinstance(error, FileNotFoundError):
-        message = "O arquivo especificado não foi encontrado."
+        message = STRINGS['file_not_found']
     elif isinstance(error, PermissionError):
-        message = "Permissão negada. Tente novamente como root."
+        message = STRINGS['permission_denied']
     elif isinstance(error, NotADirectoryError):
-        message = "O diretório especificado não é um diretório."
+        message = STRINGS['not_a_directory']
     elif isinstance(error, FileExistsError):
-        message = "O arquivo ou diretório especificado ja existe."
+        message = STRINGS['file_exists']
     elif isinstance(error, OSError):
-        message = "Erro de sistema: " + str(error)
+        message = STRINGS['os_error'] + str(error)
     elif isinstance(error, IsADirectoryError):
-        message = "O arquivo especificado é um diretório."
+        message = STRINGS['is_a_directory']
     elif isinstance(error, UnicodeDecodeError):
-        message = "Erro ao decodificar o arquivo."
+        message = STRINGS['unicode_decode_error']
     elif isinstance(error, UnicodeEncodeError):
-        message = "Erro ao codificar o arquivo."
+        message = STRINGS['unicode_encode_error']
     elif isinstance(error, KeyboardInterrupt):
-        message = "Operação cancelada pelo usuário."
+        message = STRINGS['keyboard_interrupt']
     else:
-        message = "Erro desconhecido: " + str(error)
+        message = STRINGS['unknown_error'] + str(error)
     
     
     print("\033[1;31m" + message + "\033[37m")
@@ -69,9 +75,9 @@ def output(message, color_code="\033[37m", end='\n', enter_to_continue=False, fl
 
 def print_tittle(terminal_width):
         os.system('setterm -background white -foreground white')
-        text = "Terminal Explorer"
+        text = STRINGS['terminal_explorer']
         if getpass.getuser() == 'root':
-            text += " (ROOT)"
+            text += STRINGS['root_indicator']
         
         output(f"{f'{text}':^{terminal_width}}", color_code="\033[1;30m")
         os.system('setterm -background black foreground black')
@@ -160,11 +166,11 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
                 c = display_items[left_index]
             except IndexError:
                 range_counter = 'end'
-        elif display_items_size== 1:
+        elif display_items_size == 1:
             a = ''.join(display_items)
             c = ''
         else:
-            a = 'Diretório vazio :/'
+            a = STRINGS['empty_directory']
             c = ''
         
         if range_counter != 'end' or c == display_items[-1]:

@@ -30,5 +30,19 @@
     "searching": "Ainda procurando... %s segundos",
     "search_end": "Ir para (0 para cancelar, enter para continuar): ",
     "search_error": "Esse indice não está na lista.",
-    "search_output_continue": ""
+    "search_output_continue": "",
+    "enter_to_continue": "Enter para continuar.",
+    "file_not_found": "O arquivo especificado não foi encontrado.",
+    "permission_denied": "Permissão negada. Tente novamente como root.",
+    "not_a_directory": "O diretório especificado não é um diretório.",
+    "file_exists": "O arquivo ou diretório especificado ja existe.",
+    "os_error": "Erro de sistema: ",
+    "is_a_directory": "O arquivo especificado é um diretório.",
+    "unicode_decode_error": "Erro ao decodificar o arquivo.",
+    "unicode_encode_error": "Erro ao codificar o arquivo.",
+    "keyboard_interrupt": "Operação cancelada pelo usuário.",
+    "unknown_error": "Erro desconhecido: ",
+    "terminal_explorer": "Terminal Explorer",
+    "root_indicator": " (ROOT)",
+    "empty_directory": "Diretório vazio :/"
 }

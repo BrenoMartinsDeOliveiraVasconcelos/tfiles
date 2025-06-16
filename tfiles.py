@@ -18,9 +18,9 @@ def main():
     
     h.kidnap_current_dir()
     
-    config_file = json.load(open('config.json'))
-    language = config_file['language']
-    strings = json.load(open(os.path.join('translations', f'{language}.json')))
+    config_file = h.CONFIG_FILE
+    language = h.LANG
+    strings = h.STRINGS
     
     run_count = 0
 
