@@ -3,21 +3,35 @@ import getpass
 import mimetypes
 import json
 
+TRANSLATION_FOLDER = "translations"
+
 CONFIG_FILE = json.load(open('config.json'))
 LANG = CONFIG_FILE['language']
-STRINGS = json.load(open(os.path.join('translations', f'{LANG}.json')))
+STRINGS = json.load(open(os.path.join(TRANSLATION_FOLDER, f'{LANG}.json')))
+HELP = json.load(open(os.path.join(TRANSLATION_FOLDER, f'help.{LANG}.json')))
+SYMBOLS = CONFIG_FILE['symbols']
+COMMANDS = CONFIG_FILE['commands']
 
 ORIGINAL_DIR = os.getcwd()
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_mime_type(file_path):
-    mime = mimetypes.guess_type(file_path)[0]
+    
+    mime_raw = mimetypes.guess_type(file_path)
+    
+    mime = mime_raw[0]
     
     if mime is None:
-        return 'directory'
-    else:
-        return mime
+        if os.path.isdir(file_path):
+            mime = 'directory'
+        elif os.path.isfile(file_path):
+            mime = 'binary'
+        else:
+            mime = 'unknown'
+            
+            
+    return mime.split('/')[0]
 
 
 def wait_for_enter(auto_skip=False):
@@ -129,27 +143,9 @@ def display_files(directory_contents: list, current_path: list, terminal_width: 
         else:
             temp_display.append(item)
         new_loop = []
-        file_type = mimetypes.guess_type(f"{''.join(current_path)}/{item}")
-        try:
-            if 'text' in file_type[0]: # type: ignore
-                temp_display.append('\033[35m[•]')
-            elif 'application' in file_type[0]: # type: ignore
-                temp_display.append("\033[36m[>]")
-            elif 'audio' in file_type[0]: # type: ignore
-                temp_display.append('\033[33m[𝄞]')
-            elif 'video' in file_type[0]: # type: ignore
-                temp_display.append('\033[30m[▶]')
-            elif 'image' in file_type[0]: # type: ignore
-                temp_display.append("\033[33m[☀]")
-            elif 'font' in file_type[0]: # type: ignore
-                temp_display.append('\033[35m[𝕥]')
-        except (TypeError, ValueError):
-            if os.path.isfile(f"{''.join(current_path)}/{item}") and not os.path.isdir(f"{''.join(current_path)}/{item}"):
-                temp_display.append('\033[34m[?]')
-            elif os.path.isdir(f"{''.join(current_path)}/{item}") and not os.path.isfile(f"{''.join(current_path)}/{item}"):
-                temp_display.append('\033[32m[+]')
-            else:
-                temp_display.append('\033[34m[0]')
+        file_type = get_mime_type(join_path(current_path, item))
+        mime_symbol = SYMBOLS['mimes'][file_type]
+        temp_display.append(f"\033[{mime_symbol[1]}m[{mime_symbol[0]}]")
         display_items.append(' '.join(temp_display))
         temp_display = []
     display_items_size = len(display_items)

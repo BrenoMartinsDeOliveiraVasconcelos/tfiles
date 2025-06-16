@@ -1,0 +1,33 @@
+{
+    "symbols": {
+        "name": "Simbolos",
+        "lines": ["Texto", "Executável", "Áudio", "Vídeo", "Imagem", "Fonte", "Geral", "Binário", "Diretório"]
+    },
+    "commands": {
+        "name": "Comandos",
+        "lines": [
+            "Voltar ao diretório passado",
+            "Atualizar configurações e o diretório atual",
+            "Criar um arquivo",
+            "Tela de comandos bash para ações mais complexas",
+            "Tela de comando rápido",
+            "Criar um diretório",
+            "Apagar um diretório",
+            "Sair",
+            "/Exibe o nome de um arquivo sem corte",
+            "Vai para a pasta home do user atual",
+            "Exibe essa tela",
+            "Informações sobre algum arquivo ou diretório",
+            "Informações do TFiles",
+            "Copiar e colar um arquivo ou diretório",
+            "Lê um arquivo e exibe seu conteúdo",
+            "Mover um arquivo/diretório",
+            "Ir para a pasta root",
+            "Renomear um arquivo/diretório",
+            "Pesquisa por arquivos/diretórios que contenham uma string especifica",
+            "Executa um arquivo em shell",
+            "Ir para /usr/bin",
+            "Editor de texto (Básico, recomendado apenas para edi es simples)"
+        ]
+    }
+}

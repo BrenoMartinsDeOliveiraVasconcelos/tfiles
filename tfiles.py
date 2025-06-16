@@ -17,9 +17,6 @@ def main():
     correct_binaries = confirmation_chars + negation_chars
     
     h.kidnap_current_dir()
-    
-    config_file = h.CONFIG_FILE
-    language = h.LANG
     strings = h.STRINGS
     
     run_count = 0

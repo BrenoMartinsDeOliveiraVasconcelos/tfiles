@@ -1,3 +1,41 @@
 {
-    "language": "pt-br"
+    "language": "pt-br",
+    "symbols": {
+        "mimes": {
+            "text": ["•", 35],
+            "application": [">", 36],
+            "audio": ["𝄞", 33],
+            "video": ["▶", 30],
+            "image": ["☀", 33],
+            "font": ["𝕥", 35],
+            "binary": ["?", 34],
+            "directory": ["+", 32],
+            "unknown": ["!", 34]
+
+        }
+    },
+    "commands": [
+        "/",
+        "/*",
+        "/a",
+        "/bash",
+        "/cln",
+        "/d",
+        "/del",
+        "/e",
+        "/full",
+        "/h",
+        "/help",
+        "/i",
+        "/info",
+        "/k",
+        "/l",
+        "/m",
+        "/r",
+        "/rename",
+        "/search",
+        "/shexec",
+        "/usrbin",
+        "/texto"
+    ]
 }
