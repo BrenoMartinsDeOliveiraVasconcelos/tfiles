@@ -246,4 +246,8 @@ def get_terminal_size() -> tuple[int, int]:
     
 def kidnap_current_dir():
     os.chdir(SCRIPT_DIR)
-    
+
+
+def join_path(path: list, include: str) -> str:
+    return '/'.join(path + [include])
+

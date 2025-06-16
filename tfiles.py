@@ -85,23 +85,22 @@ def main():
             
             if current_path[0] == '/':
                 current_path_filesystem = current_path[:-1]
-                file_path = f"{''.join(current_path_filesystem)}/{n}"
                 if command_path == '/':
                     remove_times = 3
                     auto_skip = True
                 elif command_path == '/d':
                     n = h.ask_input(strings['directory_name'])
                     
-                    if os.path.exists(file_path):
+                    if os.path.exists(h.join_path(current_path_filesystem, n)):
                         error_msg = strings['directory_exists_error'] % n
                         h.print_error(FileExistsError(error_msg))
                     
-                    os.mkdir(file_path)
+                    os.mkdir(h.join_path(current_path_filesystem, n))
                 elif command_path == '/a':
                     n = h.ask_input(strings['file_name'])
                     if n not in directory_contents:
                         try:
-                            open(f'{"".join(current_path_filesystem)}/{n}', 'w+')
+                            open(h.join_path(current_path_filesystem, n), 'w+')
                             h.output(strings['file_created_success'] % n)
                         except Exception as e:
                             h.print_error(e)
@@ -112,18 +111,28 @@ def main():
                     if n == "/":
                         h.print_error(PermissionError(strings['cannot_remove_root']))
                     else:
-                        os.system(f'rm -r "{"""""".join(current_path_filesystem)}/{n}" >/dev/null 2>&1')
+                        os.system(f'rm -r "{h.join_path(current_path_filesystem, n)}" >/dev/null 2>&1')
                 elif command_path == '/fdel':
                     n = h.ask_input(strings['file_name'])
                     try:
-                        os.remove(file_path)
+                        os.remove(h.join_path(current_path_filesystem, n))
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/k':
                     src = h.ask_input(strings['copy_prompt'])
                     dst = h.ask_input(strings['paste_location'])
 
-                    # Reescrever essa parte
+                    formated_src, formated_dst = h.join_path(current_path_filesystem, src), h.join_path(current_path_filesystem, dst)
+
+                    try:
+                        if os.path.isfile(formated_src):
+                            shutil.copy2(formated_src, formated_dst)
+                        else:
+                            shutil.copytree(formated_src, formated_dst)
+                            
+                        h.output(strings['copied_success'])
+                    except Exception as e:
+                        h.print_error(e)
                 elif command_path == '/m':
                     src = h.ask_input(strings['move_prompt'])
                     dst = h.ask_input(strings['destination'])

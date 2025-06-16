@@ -19,5 +19,6 @@
     "info_type": "Tipo: ",
     "info_size": "Tamanho: ",
     "info_created": "Criado: ",
-    "info_modified": "Modificado: "
+    "info_modified": "Modificado: ",
+    "copied_success": "Copiado com sucesso."
 }
