@@ -2,6 +2,9 @@ import os
 import getpass
 import mimetypes
 
+ORIGINAL_DIR = os.getcwd()
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def get_mime_type(file_path):
     mime = mimetypes.guess_type(file_path)[0]
@@ -222,3 +225,16 @@ def get_size(start_path = '.') -> int:
                 pass
 
     return total_size
+
+
+def get_terminal_size() -> tuple[int, int]:
+        terminal_size = os.popen('stty size', 'r').read().split()
+        terminal_width = int(terminal_size[1])
+        terminal_height = int(terminal_size[0])
+        
+        return terminal_height, terminal_width
+    
+    
+def kidnap_current_dir():
+    os.chdir(SCRIPT_DIR)
+    

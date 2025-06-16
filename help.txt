@@ -1,0 +1,40 @@
+Simbolos
+
+[•] Arquivo de texto
+[>] Arquivo de aplicação
+[𝄞] Arquivo de áudio
+[▶] Arquivo de vídeo
+[☀] Arquivo de imagem
+[𝕥] Arquivo de fonte
+[?] Arquivo genérico ou binário
+[0] Arquivo binário
+[+] Diretório
+
+Comandos
+
+/ Voltar ao diretório passado
+/* Atualizar configurações e o diretório atual
+/a Criar um arquivo
+/bash Tela de comandos bash para ações mais complexas
+/cln Tela de comando rápido
+/d Criar um diretório
+/del Apagar um diretório
+/e Sair
+/fdel Apagar um arquivo
+/full Exibe o nome de um arquivo sem corte
+/h Vai para a pasta home do user atual
+/help Exibe essa tela
+/i Informações sobre algum arquivo ou diretório
+/info Informações do TFiles
+/k Copiar e colar um arquivo ou diretório
+/l Lê um arquivo e exibe seu conteúdo
+/m Mover um arquivo/diretório
+/md Ir para /media/{usuário atual}
+/r Ir para a pasta root
+/rename Renomear um arquivo/diretório
+/search Pesquisa por arquivos/diretórios que contenham uma string especifica
+/shexec Executa um arquivo em shell
+/usrbin Ir para /usr/bin
+/texto Editor de texto (Básico, recomendado apenas para edições simples)
+    OBS: .help para ajuda em comandos.
+Apenas "ENTER" volta dois diretórios

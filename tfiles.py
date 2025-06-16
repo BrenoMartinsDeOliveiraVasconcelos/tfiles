@@ -9,18 +9,16 @@ import time
 import sys
 import helpers as h
 
-terminal_size = os.popen('stty size', 'r').read().split()
-terminal_width = int(terminal_size[1])
-os.system("c            range_counter = 0lear")
-sys.argv.append('')
-
 
 def main():
+    sys.argv.append('')
+    
+    h.kidnap_current_dir()
     run_count = 0
 
     complete_path = []
     if sys.argv[1] == '':
-        current_path = os.getcwd().split('/')
+        current_path = h.ORIGINAL_DIR.split('/')
     else:
         try:
             current_path = sys.argv[1].split('/')
@@ -42,8 +40,11 @@ def main():
         if run_count == 0:
             pass
         else:
+            terminal_size = h.get_terminal_size()
+            terminal_width = terminal_size[1]
+            terminal_height = terminal_size[0]
             h.output('')
-            columns = int(terminal_size[0])
+            columns = terminal_height
             columns_total = int(columns - (3 + 2 + ((len(directory_contents) / 2) - 0.1)))
             columns_total = columns_total - 1
             auto_skip = False
@@ -79,16 +80,18 @@ def main():
             
             if current_path[0] == '/':
                 current_path_filesystem = current_path[:-1]
+                file_path = f"{''.join(current_path_filesystem)}/{n}"
                 if command_path == '/':
                     remove_times = 3
                     auto_skip = True
                 elif command_path == '/d':
                     
                     n = h.ask_input("Nome do diretório: ")
-                    try:
-                        os.mkdir(f"{''.join(current_path_filesystem)}/{n}")
-                    except Exception as e:
-                        h.print_error(e)
+                    
+                    if os.path.exists(file_path):
+                        h.print_error(FileExistsError(f"O diretório '{n}' ja existe."))
+                    
+                    os.mkdir(file_path)
                 elif command_path == '/a':
                     n = h.ask_input("Nome do arquivo: ")
                     if n not in directory_contents:
@@ -110,7 +113,7 @@ def main():
                     
                     n = h.ask_input("Nome do arquivo: ")
                     try:
-                        os.remove(f"{''.join(current_path_filesystem)}/{n}")
+                        os.remove(file_path)
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/k':
@@ -147,51 +150,8 @@ def main():
                         
                     remove_times = 0
                 elif command_path == '/help':
-                    h.output("""
-
-Simbolos
-
-[•] Arquivo de texto
-[>] Arquivo de aplicação
-[𝄞] Arquivo de áudio
-[▶] Arquivo de vídeo
-[☀] Arquivo de imagem
-[𝕥] Arquivo de fonte
-[?] Arquivo genérico ou binário
-[0] Arquivo binário
-[+] Diretório
-
-Comandos
-
-/ Voltar ao diretório passado
-/* Atualizar configurações e o diretório atual
-/a Criar um arquivo
-/bash Tela de comandos bash para ações mais complexas
-/cln Tela de comando rápido
-/d Criar um diretório
-/del Apagar um diretório
-/e Sair
-/fdel Apagar um arquivo
-/full Exibe o nome de um arquivo sem corte
-/h Vai para a pasta home do user atual
-/help Exibe essa tela
-/i Informações sobre algum arquivo ou diretório
-/info Informações do TFiles
-/k Copiar e colar um arquivo ou diretório
-/l Lê um arquivo e exibe seu conteúdo
-/m Mover um arquivo/diretório
-/md Ir para /media/{usuário atual}
-/r Ir para a pasta root
-/rename Renomear um arquivo/diretório
-/search Pesquisa por arquivos/diretórios que contenham uma string especifica
-/shexec Executa um arquivo em shell
-/usrbin Ir para /usr/bin
-/texto Editor de texto (Básico, recomendado apenas para edições simples)
-    OBS: .help para ajuda em comandos.
-Apenas "ENTER" volta dois diretórios
-
-                    """)
-                    
+                    help_text = open('help.txt', 'r').read()
+                    h.output(help_text)
                 elif command_path == '/l':
                     
                     file_name = h.ask_input("Arquivo: ")
@@ -275,8 +235,6 @@ Modificado: {time.ctime(os.path.getmtime(file))}
              
             current_path = h.clear_extra_separatores(current_path)   
         run_count = run_count + 1
-        terminal_size = os.popen('stty size', 'r').read().split()
-        terminal_width = int(terminal_size[1])
         continue_flag = True
         # Exibir conteudo do diretório
         if run_count == 1:
