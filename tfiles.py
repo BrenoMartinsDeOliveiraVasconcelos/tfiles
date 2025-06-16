@@ -107,17 +107,19 @@ def main():
                 elif command_path == '/e':
                     return
                 elif command_path == '/del':
-                    n = h.ask_input(strings['directory_name'])
+                    n = h.ask_input(strings['file_or_directory'])
+                    victim = h.join_path(current_path_filesystem, n)
                     if n == "/":
                         h.print_error(PermissionError(strings['cannot_remove_root']))
                     else:
-                        os.system(f'rm -r "{h.join_path(current_path_filesystem, n)}" >/dev/null 2>&1')
-                elif command_path == '/fdel':
-                    n = h.ask_input(strings['file_name'])
-                    try:
-                        os.remove(h.join_path(current_path_filesystem, n))
-                    except Exception as e:
-                        h.print_error(e)
+                        
+                        if not os.path.exists(victim):
+                            h.print_error(FileNotFoundError(strings['file_not_found_error'] % n))
+                        
+                        if os.path.isfile(victim):
+                            os.remove(victim)
+                        else:
+                            os.system(f'rm -r "{victim}" >/dev/null 2>&1')
                 elif command_path == '/k':
                     src = h.ask_input(strings['copy_prompt'])
                     dst = h.ask_input(strings['paste_location'])

@@ -20,7 +20,6 @@ Comandos
 /d Criar um diretório
 /del Apagar um diretório
 /e Sair
-/fdel Apagar um arquivo
 /full Exibe o nome de um arquivo sem corte
 /h Vai para a pasta home do user atual
 /help Exibe essa tela

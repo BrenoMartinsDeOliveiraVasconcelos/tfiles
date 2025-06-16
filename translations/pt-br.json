@@ -20,5 +20,7 @@
     "info_size": "Tamanho: ",
     "info_created": "Criado: ",
     "info_modified": "Modificado: ",
-    "copied_success": "Copiado com sucesso."
+    "copied_success": "Copiado com sucesso.",
+    "file_or_directory": "Arquivo ou diretório: ",
+    "file_not_found_error": "O arquivo '%s' nao foi encontrado."
 }
