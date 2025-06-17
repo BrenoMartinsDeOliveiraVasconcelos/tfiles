@@ -177,8 +177,27 @@ def main():
                     remove_times = 0
                     current_path = ['/', '/usr', '/bin']
                 elif command_path == '/text':
-                    # Reescrever
-                    pass
+                    enviroment = os.environ
+                    default_editor = ""
+                    
+                    n = h.ask_input(strings['file'])
+                    
+                    file_path =  h.join_path(current_path_filesystem, n)
+                    
+                    for key in enviroment.keys():
+                        if key == 'EDITOR':
+                            default_editor = enviroment[key]
+                            break
+                    if default_editor == "":
+                        h.output(strings['editor_not_found'])
+                    elif os.path.exists(file_path):
+                        if os.path.isfile(file_path):
+                            os.system(f"{default_editor} {file_path}")
+                        else:
+                            h.output(strings['is_not_file'])
+                    else:
+                        h.output(strings['file_not_found'])
+                    
                 elif command_path == '/cln':
                     os.system(h.ask_input(strings['command_prompt']))
                 elif command_path == '/bash':

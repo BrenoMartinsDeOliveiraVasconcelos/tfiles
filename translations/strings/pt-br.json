@@ -47,5 +47,7 @@
     "empty_directory": "Diretório vazio :/",
     "work_in_progress": "Trabalhando... (%s s)",
     "finished": "Operação finalizada.",
-    "negate_to_cancel": "Pressione N e depois enter para cancelar."
+    "negate_to_cancel": "Pressione N e depois enter para cancelar.",
+    "editor_not_found": "Nenhum editor definido no path. Abra o arquivo manualmente.",
+    "is_not_file": "O diretório especificado não é um arquivo."
 }
