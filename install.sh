@@ -1,13 +1,11 @@
 #!/bin/bash
-
-# set current dir to shell script location
 cd "$(dirname "$0")"
 
+echo "Copying files to instalaition directory..."
 mkdir -p /opt/tfiles
 cp ./* -R /opt/tfiles
 
-chmod +x /opt/tfiles/tfiles.py
-
+echo "Installing python3-venv..."
 if command -v apt-get >/dev/null 2>&1; then
     apt-get install python3-venv
 elif command -v yum >/dev/null 2>&1; then
@@ -18,11 +16,15 @@ else
     echo "Install python3-venv manually if not installed."
 fi
 
+echo "Installing requirements..."
 python3 -m venv /opt/tfiles/venv
 /opt/tfiles/venv/bin/python3 -m pip install -r requirements.txt
 
-touch /usr/bin/tfiles
-echo "#!/bin/bash" >> /usr/bin/tfiles
-echo "/opt/tfiles/venv/bin/python3 /opt/tfiles/tfiles.py" >> /usr/bin/tfiles
+echo "Creating tfiles command..."
+cp run.sh /usr/bin/tfiles
 
+echo "Setting permissions..."
+chmod +x /opt/tfiles/tfiles.py
 chmod +x /usr/bin/tfiles
+
+echo "Done."
