@@ -167,13 +167,7 @@ def main():
                 elif command_path == '/l':
                     file_name = h.ask_input(strings['file'])
                     try:
-                        file_handle = open(h.join_path(current_path_filesystem, file_name), 'rb')
-                        line_count = 0
-                        for line in file_handle.readlines():
-                            line = line.decode('utf-8')
-                            line_count = line_count + 1
-                            h.output(f"{line_count}]", end='', color_code="\033[33m[")
-                            h.output(line, end='')
+                        h.print_text(h.join_path(current_path_filesystem, file_name), negation_chars)
                     except Exception as e:
                         h.print_error(e)
                 elif command_path == '/*':

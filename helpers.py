@@ -275,6 +275,7 @@ def is_number(s: str) -> bool:
 
 def print_calmly(array: list, negation_chars: list):
     index = 0
+    output(STRINGS["negate_to_cancel"])
     for item in array:
         index += 1
         output(f"[{index}] {item}")
@@ -318,3 +319,12 @@ def print_wait_time(start_time: float, interval: float = 0.05):
     
     if time_diff % interval == 0:
         output(STRINGS['work_in_progress'] % (time_diff / unit))
+
+
+
+def print_text(path: str, negation_chars: list):
+    print(path)
+    file = open(path, 'rb')
+    text = file.read().decode('utf-8').split('\n')
+    
+    print_calmly(text, negation_chars)

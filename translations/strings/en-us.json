@@ -26,7 +26,7 @@
     "search_prompt": "Look for it in the whole filesystem? [Y/N] ",
     "search_name": "Query: ",
     "search_not_found": "No results found.",
-    "search_found": "%s files were found. Choose one to go. (Type N then press enter to cancel)",
+    "search_found": "%s files were found. Choose one to go.",
     "searching": "Still searching... %s seconds",
     "search_end": "Go to (0 to cancel): ",
     "search_error": "Index not on list.",
@@ -46,5 +46,6 @@
     "root_indicator": " (ROOT)",
     "empty_directory": "Empty directory :/",
     "work_in_progress": "Working... (%s s)",
-    "finished": "Operation finished successfully."
+    "finished": "Operation finished.",
+    "negate_to_cancel": "Press N then enter to cancel."
 }
