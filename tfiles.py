@@ -18,6 +18,7 @@ def main():
     
     h.kidnap_current_dir()
     strings = h.STRINGS
+    config = h.CONFIG_FILE
     
     run_count = 0
 
@@ -268,6 +269,12 @@ def main():
                     for item in directory_contents:
                         file_id = file_id + 1
                         h.output(f"[{file_id+1}] {item}")
+                elif command_path == "/about":
+                    about = config["about"]
+                    strings_output = [f"{about["program"]}", f"v{about['version']}",
+                                      "-", f"{about['developer']}", f"({about['year'][0]}-{about['year'][1]})"]
+                    
+                    h.output(" ".join(strings_output))
                 else:
                     remove_times = 0
                     auto_skip = True

@@ -1,4 +1,10 @@
 {
+    "about": {
+        "program": "tfiles",
+        "version": "1.0.0",
+        "developer": "Breno Martins",
+        "year": [2021, 2025]
+    },
     "language": "pt-br",
     "symbols": {
         "mimes": {
@@ -27,7 +33,7 @@
         "/h",
         "/help",
         "/i",
-        "/info",
+        "/about",
         "/k",
         "/read",
         "/m",
