@@ -278,7 +278,7 @@ def print_calmly(array: list, negation_chars: list):
     output(STRINGS["negate_to_cancel"])
     for item in array:
         index += 1
-        output(f"[{index}] {item}")
+        output(f"[{index}] {item}", end="")
         
         answer_continue = "\0"
         while answer_continue == "\0":
