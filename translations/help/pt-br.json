@@ -1,7 +1,7 @@
 {
     "symbols": {
         "name": "Simbolos",
-        "lines": ["Texto", "Executável", "Áudio", "Vídeo", "Imagem", "Fonte", "Geral", "Binário", "Diretório"]
+        "lines": ["Texto", "Executável", "Áudio", "Vídeo", "Imagem", "Fonte", "Genérico", "Binário", "Diretório"]
     },
     "commands": {
         "name": "Comandos",

@@ -1,0 +1,33 @@
+{
+    "symbols": {
+        "name": "Symbols",
+        "lines": ["Text", "Executable", "Audio", "Video", "Image", "Font", "Generic", "Binary", "Directory"]
+    },
+    "commands": {
+        "name": "Commands",
+        "lines": [
+            "Return to the previous directory",
+            "Update current directory",
+            "Create a file",
+            "Bash command line",
+            "Fast command line",
+            "Create a folder",
+            "Delete a folder",
+            "Exit",
+            "Show filename without formating",
+            "Goes to current user's home directory",
+            "Show this",
+            "Information about file or directory",
+            "About me",
+            "Copy and paste a path",
+            "Reads and prints a file content",
+            "Move a path",
+            "Go to root",
+            "Rename a path",
+            "Search for a file with a specific text on its name",
+            "Execute shell script",
+            "Go to /usr/bin",
+            "File edit"
+        ]
+    }
+}
