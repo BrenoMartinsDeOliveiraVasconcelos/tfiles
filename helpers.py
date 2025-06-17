@@ -5,6 +5,10 @@ import json
 import time
 import datetime
 
+ORIGINAL_DIR = os.getcwd()
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+os.chdir(SCRIPT_DIR)
+
 TRANSLATION_FOLDER = "translations"
 HELP_FOLDER = "help"
 STRINGS_FOLDER = "strings"
@@ -15,9 +19,6 @@ STRINGS = json.load(open(os.path.join(TRANSLATION_FOLDER, STRINGS_FOLDER, f'{LAN
 HELP = json.load(open(os.path.join(TRANSLATION_FOLDER, HELP_FOLDER, f'{LANG}.json'))) # type: dict
 SYMBOLS = CONFIG_FILE['symbols']
 COMMANDS = CONFIG_FILE['commands']
-
-ORIGINAL_DIR = os.getcwd()
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_mime_type(file_path):
