@@ -164,7 +164,7 @@ def main():
                     remove_times = 0
                 elif command_path == '/help':
                     h.print_help()
-                elif command_path == '/l':
+                elif command_path == '/read':
                     file_name = h.ask_input(strings['file'])
                     try:
                         h.print_text(h.join_path(current_path_filesystem, file_name), negation_chars)
@@ -175,7 +175,7 @@ def main():
                 elif command_path == '/usrbin':
                     remove_times = 0
                     current_path = ['/', '/usr', '/bin']
-                elif command_path == '/texto':
+                elif command_path == '/text':
                     # Reescrever
                     pass
                 elif command_path == '/cln':

@@ -29,13 +29,13 @@
         "/i",
         "/info",
         "/k",
-        "/l",
+        "/read",
         "/m",
         "/r",
         "/rename",
         "/search",
         "/shexec",
         "/usrbin",
-        "/texto"
+        "/text"
     ]
 }
