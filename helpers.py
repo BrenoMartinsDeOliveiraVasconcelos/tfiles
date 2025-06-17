@@ -4,11 +4,13 @@ import mimetypes
 import json
 
 TRANSLATION_FOLDER = "translations"
+HELP_FOLDER = "help"
+STRINGS_FOLDER = "strings"
 
 CONFIG_FILE = json.load(open('config.json'))
 LANG = CONFIG_FILE['language']
-STRINGS = json.load(open(os.path.join(TRANSLATION_FOLDER, f'{LANG}.json')))
-HELP = json.load(open(os.path.join(TRANSLATION_FOLDER, f'help.{LANG}.json')))
+STRINGS = json.load(open(os.path.join(TRANSLATION_FOLDER, STRINGS_FOLDER, f'{LANG}.json')))
+HELP = json.load(open(os.path.join(TRANSLATION_FOLDER, HELP_FOLDER, f'{LANG}.json'))) # type: dict
 SYMBOLS = CONFIG_FILE['symbols']
 COMMANDS = CONFIG_FILE['commands']
 
@@ -278,3 +280,23 @@ def print_calmly(array: list, negation_chars: list):
         break_it = answer_continue in negation_chars
         if break_it:
             break
+
+
+def print_help():
+    for key, value in HELP.items():
+        if key == "symbols":
+            output(f"\n{value['name']}\n")
+            values_mimes = [value for _, value in SYMBOLS["mimes"].items()] #list
+            icons = [x[0] for x in values_mimes] # type: list 
+            colors = [x[1] for x in values_mimes] # type: list
+            index = 0
+            for x in value['lines']:
+                output(f"[{icons[index]}]", end="", color_code=f"\033[{colors[index]}m")
+                output(f" {x}")
+                index += 1
+        elif key == "commands":
+            output(f"\n{value['name']}\n")
+            index = 0
+            for x in value["lines"]:
+                output(f"{COMMANDS[index]} - {x}")
+                index += 1

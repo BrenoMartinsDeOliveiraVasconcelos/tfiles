@@ -160,8 +160,7 @@ def main():
                         
                     remove_times = 0
                 elif command_path == '/help':
-                    help_text = open('help.txt', 'r').read()
-                    h.output(help_text)
+                    h.print_help()
                 elif command_path == '/l':
                     file_name = h.ask_input(strings['file'])
                     try:
