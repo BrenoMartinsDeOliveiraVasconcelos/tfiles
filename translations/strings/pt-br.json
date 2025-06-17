@@ -44,5 +44,7 @@
     "unknown_error": "Erro desconhecido: ",
     "terminal_explorer": "Terminal Explorer",
     "root_indicator": " (ROOT)",
-    "empty_directory": "Diretório vazio :/"
+    "empty_directory": "Diretório vazio :/",
+    "work_in_progress": "Trabalhando... (%s s)",
+    "finished": "Operação finalizada."
 }

@@ -54,6 +54,8 @@ def main():
             columns_total = columns_total - 1
             auto_skip = False
             remove_times = 1
+            print_finished = True
+            
             if columns_total > 1:
                 h.print_separator(terminal_width)
                 for _ in range(1, columns_total):
@@ -88,6 +90,7 @@ def main():
                 if command_path == '/':
                     remove_times = 3
                     auto_skip = True
+                    print_finished = False
                 elif command_path == '/d':
                     n = h.ask_input(strings['directory_name'])
                     
@@ -199,20 +202,9 @@ def main():
                     
                     founds = []
                     start_time = time.time()
-                    already_print = False
                     for root, _, files in os.walk(search_location):
                         for file in files:
-                            current_time = time.time()
-                            time_diff = round(current_time - start_time)             
-                        
-                            if time_diff % 1 == 0 and time_diff > 0:
-                                if not already_print:
-                                    h.output(strings['searching'] % time_diff)
-                                    
-                                already_print = True
-                            else:
-                                already_print = False
-                            
+                            h.print_wait_time(start_time)        
                             if name in file:
                                 founds.append(os.path.join(root, file))
                     
@@ -220,7 +212,6 @@ def main():
                     if number_found == 0:
                         h.output(strings['search_not_found'])
                     else:
-                        index = 0
                         h.output(strings['search_found'] % number_found)
                         h.print_calmly(founds, negation_chars)
                             
@@ -260,13 +251,15 @@ def main():
                         size /= 1000
                         unit_index += 1
                     unit_format = units[unit_index]
-                    h.output(f"""
-{strings['info_path']}{file}
-{strings['info_type']}{h.get_mime_type(file)}
-{strings['info_size']}{size:.0f} {unit_format} ({original_size} {units[0]})
-{strings['info_created']}{time.ctime(os.path.getctime(file))}
-{strings['info_modified']}{time.ctime(os.path.getmtime(file))}
-                    """)
+                    output_list = [
+                        f"{strings['info_path']}{file}",
+                        f"{strings['info_type']}{h.get_mime_type(file)}",
+                        f"{strings['info_size']}{size:.0f} {unit_format} ({original_size} {units[0]})",
+                        f"{strings['info_created']}{time.ctime(os.path.getctime(file))}",
+                        f"{strings['info_modified']}{time.ctime(os.path.getmtime(file))}"
+                    ]
+                    for stdout in output_list:
+                        h.output(stdout)
                 elif command_path == '/shexec':
                     sudo_confirm = h.ask_input(strings['sudo_prompt'])
                     if sudo_confirm in confirmation_chars:
@@ -284,7 +277,12 @@ def main():
                 else:
                     remove_times = 0
                     auto_skip = True
+                    print_finished = False
                 current_path = h.remove_last_items(current_path, times=remove_times)
+                
+                if print_finished:
+                    h.output(strings['finished'])
+                
                 h.wait_for_enter(auto_skip=auto_skip)
             else:
                 current_path = ['/']

@@ -2,6 +2,8 @@ import os
 import getpass
 import mimetypes
 import json
+import time
+import datetime
 
 TRANSLATION_FOLDER = "translations"
 HELP_FOLDER = "help"
@@ -228,18 +230,22 @@ def get_size(start_path = '.') -> int:
     
     count = 0
     total_size = 0
+    start_time = time.time()
+    output("")
     for dirpath, dirnames, filenames in os.walk(start_path):
         dirnames = dirnames
         count = count + 1
         for filename in filenames:
+            print_wait_time(start_time)
             file_path = os.path.join(dirpath, filename)
-            try:
-                if not os.path.islink(file_path):
-                    if 'kcore' != filename:
-                        total_size += os.path.getsize(file_path)
-            except FileNotFoundError:
-                pass
-
+            
+            if not os.path.exists(file_path):
+                continue
+            
+            if not os.path.islink(file_path):
+                if 'kcore' != filename:
+                    total_size += os.path.getsize(file_path)
+    output("")
     return total_size
 
 
@@ -300,3 +306,15 @@ def print_help():
             for x in value["lines"]:
                 output(f"{COMMANDS[index]} - {x}")
                 index += 1
+                
+
+def print_wait_time(start_time: float, interval: float = 0.05):
+    unit = 10**6
+    interval *= unit
+    start_time *= unit
+    current_time = time.time() * unit
+
+    time_diff = current_time - start_time  
+    
+    if time_diff % interval == 0:
+        output(STRINGS['work_in_progress'] % (time_diff / unit))
