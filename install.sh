@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set current dir to shell script location
+cd "$(dirname "$0")"
+
 mkdir -p /opt/tfiles
 cp ./* -R /opt/tfiles
 
