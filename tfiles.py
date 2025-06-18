@@ -68,7 +68,7 @@ def main():
                 h.switch_emptiness(black=True)
                 h.output(f"\033[1;37m{strings['where_to_go']}")
                 h.switch_emptiness(black=True)
-                next_command = h.ask_input(f"{strings['path_prompt']}{''.join(current_path[1:])}/")
+                next_command = h.ask_input(f"{strings['path_prompt']}{''.join(current_path[1:])} => ")
             else:
                 next_command = '/*'
                 h.switch_font_blackness(black=False)

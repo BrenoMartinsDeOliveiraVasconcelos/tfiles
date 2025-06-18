@@ -27,7 +27,7 @@
             "Pesquisa por arquivos/diretórios que contenham uma string especifica",
             "Executa um arquivo em shell",
             "Ir para /usr/bin",
-            "Editor de texto (Básico, recomendado apenas para edi es simples)"
+            "Abrir um arquivo em um editor de texto"
         ]
     }
 }
