@@ -30,6 +30,14 @@ else
     echo "Install python3-venv manually if not installed."
 fi
 
+
+echo "Checking installation..."
+python3 -c "import venv"
+if [ $? -ne 0 ]; then
+    echo "Python 'venv' module is not installed. Please install it and re-run the script."
+    exit 1
+fi
+
 echo "Installing requirements..."
 python3 -m venv /opt/tfiles/venv
 /opt/tfiles/venv/bin/python3 -m pip install -r requirements.txt
