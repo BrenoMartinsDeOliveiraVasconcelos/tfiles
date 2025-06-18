@@ -91,7 +91,10 @@ def main():
                     remove_times = 3
                     auto_skip = True
                     print_finished = False
-                elif command_path == '/d':
+                else:
+                    command_path = command_path.split('/')[1]
+                
+                if command_path == 'd':
                     n = h.ask_input(strings['directory_name'])
                     
                     if os.path.exists(h.join_path(current_path_filesystem, n)):
@@ -99,7 +102,7 @@ def main():
                         h.print_error(FileExistsError(error_msg))
                     
                     os.mkdir(h.join_path(current_path_filesystem, n))
-                elif command_path == '/a':
+                elif command_path == 'a':
                     n = h.ask_input(strings['file_name'])
                     if n not in directory_contents:
                         try:
@@ -107,9 +110,9 @@ def main():
                             h.output(strings['file_created_success'] % n)
                         except Exception as e:
                             h.print_error(e)
-                elif command_path == '/e':
+                elif command_path == 'e':
                     return
-                elif command_path == '/del':
+                elif command_path == 'del':
                     n = h.ask_input(strings['file_or_directory'])
                     victim = h.join_path(current_path_filesystem, n)
                     if n == "/":
@@ -123,7 +126,7 @@ def main():
                             os.remove(victim)
                         else:
                             os.system(f'rm -r "{victim}" >/dev/null 2>&1')
-                elif command_path == '/k':
+                elif command_path == 'k':
                     src = h.ask_input(strings['copy_prompt'])
                     dst = h.ask_input(strings['paste_location'])
 
@@ -138,7 +141,7 @@ def main():
                         h.output(strings['copied_success'])
                     except Exception as e:
                         h.print_error(e)
-                elif command_path == '/m':
+                elif command_path == 'm':
                     src = h.ask_input(strings['move_prompt'])
                     dst = h.ask_input(strings['destination'])
                     if dst and src != '':
@@ -148,34 +151,34 @@ def main():
                             h.print_error(e)
                     else:
                         pass
-                elif command_path == '/rename':
+                elif command_path == 'rename':
                     src = h.ask_input(strings['rename_source'])
                     dst = h.ask_input(strings['rename_new_name'])
                     try:
                         os.rename(h.join_path(current_path_filesystem, src), h.join_path(current_path_filesystem, dst))
                     except Exception as e:
                         h.print_error(e)
-                elif command_path == '/h':
+                elif command_path == 'h':
                     if getpass.getuser() != 'root':
                         current_path = ['/', '/home', f'/{getpass.getuser()}']
                     else:
                         current_path = ['/', '/root']
                         
                     remove_times = 0
-                elif command_path == '/help':
+                elif command_path == 'help':
                     h.print_help()
-                elif command_path == '/read':
+                elif command_path == 'read':
                     file_name = h.ask_input(strings['file'])
                     try:
                         h.print_text(h.join_path(current_path_filesystem, file_name), negation_chars)
                     except Exception as e:
                         h.print_error(e)
-                elif command_path == '/*':
+                elif command_path == '*':
                     auto_skip = True
-                elif command_path == '/usrbin':
+                elif command_path == 'usrbin':
                     remove_times = 0
                     current_path = ['/', '/usr', '/bin']
-                elif command_path == '/text':
+                elif command_path == 'text':
                     enviroment = os.environ
                     default_editor = ""
                     
@@ -197,11 +200,11 @@ def main():
                     else:
                         h.output(strings['file_not_found'])
                     
-                elif command_path == '/cln':
+                elif command_path == 'cln':
                     os.system(h.ask_input(strings['command_prompt']))
-                elif command_path == '/bash':
+                elif command_path == 'bash':
                     os.system("bash")
-                elif command_path == '/search':
+                elif command_path == 'search':
                     answ = ''
                     search_location = ''.join(current_path_filesystem)
                     
@@ -247,7 +250,7 @@ def main():
                             else:
                                 current_path = ["/"+x for x in founds[index_num - 1].split('/')]
                         
-                elif command_path == '/i':
+                elif command_path == 'i':
                     units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
                         file_name = h.ask_input(strings['file'])
@@ -273,7 +276,7 @@ def main():
                     ]
                     for stdout in output_list:
                         h.output(stdout)
-                elif command_path == '/shexec':
+                elif command_path == 'shexec':
                     sudo_confirm = h.ask_input(strings['sudo_prompt'])
                     if sudo_confirm in confirmation_chars:
                         run_sudo = 'sudo'
@@ -281,13 +284,13 @@ def main():
                         run_sudo = ''
                     file_name = h.ask_input(strings['file'])
                     os.system(f"{run_sudo} sh {''.join(current_path_filesystem)}/{file_name}")
-                elif command_path == '/full':
+                elif command_path == 'full':
                     directory_contents = sorted(os.listdir(f"{''.join(current_path_filesystem)}"))
                     file_id = -1
                     for item in directory_contents:
                         file_id = file_id + 1
                         h.output(f"[{file_id+1}] {item}")
-                elif command_path == "/about":
+                elif command_path == 'about':
                     about = config["about"]
                     strings_output = [f"{about["program"]}", f"v{about['version']}",
                                       "-", f"{about['developer']}", f"({about['year'][0]}-{about['year'][1]})"]
