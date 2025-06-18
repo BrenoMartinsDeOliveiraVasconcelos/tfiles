@@ -35,5 +35,20 @@ def set_language() -> bool:
     
     json.dump(CONFIG, open('config.json', 'w'), indent=4)   
     
-    return restart            
+    return restart
+
+
+def restore_config() -> bool:
+    restart = False
+    bak = 'config.json.bak'
+    if os.path.exists(bak):
+        saved_data = json.load(open(bak))
+        
+        CONFIG.update(saved_data)
+        restart = True
+
+        json.dump(CONFIG, open('config.json', 'w'), indent=4)
+        os.remove(bak)
+        
+    return restart
         

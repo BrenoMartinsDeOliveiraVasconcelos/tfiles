@@ -3,8 +3,18 @@
 
 cd "$(dirname "$0")"
 
+
+echo "Checking if config file exists already..."
+if [ -f "/opt/tfiles/config.json" ]; then
+    echo "Saving config file..."
+    mv /opt/tfiles/config.json /opt/tfiles/config.json.bak
+fi
+
+
 echo "Copying files to instalaition directory..."
 mkdir -p /opt/tfiles
+
+
 cp ./* -R /opt/tfiles
 
 echo "Installing python3-venv..."

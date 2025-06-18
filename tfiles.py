@@ -328,7 +328,7 @@ def main():
             
 if __name__ == "__main__":
     h.kidnap_current_dir()
-    init_functions = [init.set_language]
+    init_functions = [init.set_language, init.restore_config]
     
     restart = False
     
