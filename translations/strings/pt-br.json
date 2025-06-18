@@ -49,5 +49,6 @@
     "finished": "Operação finalizada.",
     "negate_to_cancel": "Pressione N e depois enter para cancelar.",
     "editor_not_found": "Nenhum editor definido no path. Abra o arquivo manualmente.",
-    "is_not_file": "O diretório especificado não é um arquivo."
+    "is_not_file": "O diretório especificado não é um arquivo.",
+    "path_not_found": "O diretório especificado não existe ou não está acessível."
 }

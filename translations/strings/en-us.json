@@ -49,5 +49,6 @@
     "finished": "Operation finished.",
     "negate_to_cancel": "Press N then enter to cancel.",
     "editor_not_found": "No editor defined on path. Open it on your own.",
-    "is_not_file": "The specified path is not a file."
+    "is_not_file": "The specified path is not a file.",
+    "path_not_found": "The specified path was not found or is not accessible."
 }

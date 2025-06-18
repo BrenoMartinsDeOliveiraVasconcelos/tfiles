@@ -44,11 +44,17 @@ def restore_config() -> bool:
     if os.path.exists(bak):
         saved_data = json.load(open(bak))
         
-        CONFIG.update(saved_data)
+        relevant_keys = ["language", "initialized"]
+        for key in relevant_keys:
+            if key in saved_data.keys():
+                CONFIG[key] = saved_data[key]
+        
         restart = True
 
         json.dump(CONFIG, open('config.json', 'w'), indent=4)
         os.remove(bak)
         
     return restart
+
+
         

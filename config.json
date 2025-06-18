@@ -80,6 +80,7 @@
         "/search",
         "/shexec",
         "/usrbin",
-        "/text"
+        "/text",
+        "/cd"
     ]
 }

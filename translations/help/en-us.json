@@ -27,7 +27,8 @@
             "Search for a file with a specific text on its name",
             "Execute shell script",
             "Go to /usr/bin",
-            "File edit"
+            "File edit",
+            "Changes current directory"
         ]
     }
 }

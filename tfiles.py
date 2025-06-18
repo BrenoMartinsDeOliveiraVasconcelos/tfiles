@@ -297,6 +297,19 @@ def main():
                                       "-", f"{about['developer']}", f"({about['year'][0]}-{about['year'][1]})"]
                     
                     h.output(" ".join(strings_output))
+                elif command_path == 'cd':
+                    n = h.ask_input(strings['path_prompt'])
+                    fixed_path = h.join_path(current_path, n)
+                    
+                    if n.startswith('/'):
+                        fixed_path = n
+                        
+                    if os.path.exists(fixed_path):
+                        current_path = [f"/{x}" for x in fixed_path.split('/')]
+                        current_path.append("/JUNK")
+                    else:
+                        h.output(strings['path_not_found'])
+                    
                 else:
                     remove_times = 0
                     auto_skip = True
