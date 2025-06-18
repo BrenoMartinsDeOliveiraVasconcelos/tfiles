@@ -231,26 +231,11 @@ def main():
                     else:
                         h.output(strings['search_found'] % number_found)
                         h.print_calmly(founds, negation_chars)
-                            
-                        go_to = ""
                         
-                        continue_iteration = True
-                        number_found = len(founds)
-                        while continue_iteration:
-                            continue_iteration = False
-                            while not h.is_number(go_to):
-                                go_to = h.ask_input(strings['search_end'])
-
-                            index_num = int(go_to)
-                            if index_num > number_found or index_num < 0:
-                                h.output(strings['search_error'])
-                                go_to = ""
-                                continue_iteration = True
-                            elif index_num == 0:
-                                pass
-                            else:
-                                current_path = ["/"+x for x in founds[index_num - 1].split('/')]
+                        output_select = h.input_index(founds)
                         
+                        if output_select is not None:
+                            current_path = output_select
                 elif command_path == 'i':
                     units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
@@ -310,6 +295,50 @@ def main():
                     else:
                         h.output(strings['path_not_found'])
                     
+                elif command_path == "deep_search":
+                    search_on_fs = ""
+                    
+                    while search_on_fs not in correct_binaries:
+                        search_on_fs = h.ask_input(strings['search_prompt'])
+                        
+                    text_look = h.ask_input(strings['deep_search_name'])
+                    
+                    search_path = "/" if search_on_fs in confirmation_chars else ''.join(current_path_filesystem)
+
+                    founds = []
+                    start_time = time.time()
+                    blacklist = ["/dev", "/sys", "/proc", "/boot", "/run"]
+                    for root, _, files in os.walk(search_path):
+                        skip = False
+                        
+                        for path in blacklist:
+                            if root.startswith(path):
+                                skip = True
+                                break
+                        if skip:
+                            continue
+                        
+                        for file in files:
+                            try:
+                                h.print_wait_time(start_time, interval=0.01)
+                                file_content = open(os.path.join(root, file), 'rb').read().decode('utf-8')
+                                
+                                if text_look in file_content:
+                                    founds.append(os.path.join(root, file))
+                            except Exception as e:
+                                pass
+                            
+                    number_found = len(founds)
+                    if number_found == 0:
+                        h.output(strings['search_not_found'])
+                    else:
+                        h.output(strings['search_found'] % number_found)
+                        h.print_calmly(founds, negation_chars)
+                        
+                        output_select = h.input_index(founds)
+                        
+                        if output_select is not None:
+                            current_path = output_select
                 else:
                     remove_times = 0
                     auto_skip = True

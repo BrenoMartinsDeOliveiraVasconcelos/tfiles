@@ -81,6 +81,7 @@
         "/shexec",
         "/usrbin",
         "/text",
-        "/cd"
+        "/cd",
+        "/deep_search"
     ]
 }

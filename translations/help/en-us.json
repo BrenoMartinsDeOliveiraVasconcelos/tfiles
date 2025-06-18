@@ -28,7 +28,8 @@
             "Execute shell script",
             "Go to /usr/bin",
             "File edit",
-            "Changes current directory"
+            "Changes current directory",
+            "Look for file that contains a specific text inside."
         ]
     }
 }

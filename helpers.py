@@ -337,3 +337,23 @@ def print_text(path: str, negation_chars: list):
 
 def free_current_dir():
     os.chdir(ORIGINAL_DIR)
+    
+    
+def input_index(content: list) -> list | None:
+    go_to = ""
+    continue_iteration = True
+    number_found = len(content)
+    while continue_iteration:
+        continue_iteration = False
+        while not is_number(go_to):
+            go_to = ask_input(STRINGS['search_end'])
+
+        index_num = int(go_to)
+        if index_num > number_found or index_num < 0:
+            output(STRINGS['search_error'])
+            go_to = ""
+            continue_iteration = True
+        elif index_num == 0:
+            pass
+        else:
+            return ["/"+x for x in content[index_num - 1].split('/')]
