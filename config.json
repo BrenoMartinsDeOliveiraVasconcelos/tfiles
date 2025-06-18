@@ -3,21 +3,59 @@
         "program": "tfiles",
         "version": "1.0.0",
         "developer": "Breno Martins",
-        "year": [2021, 2025]
+        "year": [
+            2021,
+            2025
+        ]
     },
+    "initialized": false,
     "language": "pt-br",
     "symbols": {
         "mimes": {
-            "text": ["•", 35],
-            "application": [">", 36],
-            "audio": ["𝄞", 33],
-            "video": ["▶", 30],
-            "image": ["☀", 33],
-            "font": ["𝕥", 35],
-            "binary": ["?", 34],
-            "directory": ["+", 32],
-            "unknown": ["!", 34]
-
+            "text": [
+                "\u2022",
+                35
+            ],
+            "application": [
+                ">",
+                36
+            ],
+            "audio": [
+                "\ud834\udd1e",
+                33
+            ],
+            "video": [
+                "\u25b6",
+                30
+            ],
+            "image": [
+                "\u2600",
+                33
+            ],
+            "font": [
+                "\ud835\udd65",
+                35
+            ],
+            "binary": [
+                "?",
+                34
+            ],
+            "directory": [
+                "+",
+                32
+            ],
+            "model": [
+                "\u25a0",
+                33
+            ],
+            "other": [
+                "-",
+                34
+            ],
+            "unknown": [
+                "!",
+                34
+            ]
         }
     },
     "commands": [

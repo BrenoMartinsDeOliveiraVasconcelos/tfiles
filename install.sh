@@ -1,4 +1,6 @@
 #!/bin/bash
+
+
 cd "$(dirname "$0")"
 
 echo "Copying files to instalaition directory..."
@@ -24,7 +26,8 @@ echo "Creating tfiles command..."
 cp run.sh /usr/bin/tfiles
 
 echo "Setting permissions..."
-chmod +x /opt/tfiles/tfiles.py
 chmod +x /usr/bin/tfiles
+find /opt/tfiles -type d -exec chmod 777 {} \;
+find /opt/tfiles -type f -exec chmod 777 {} \;
 
 echo "Done."

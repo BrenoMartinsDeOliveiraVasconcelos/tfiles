@@ -8,7 +8,7 @@ import readline
 import time
 import sys
 import helpers as h
-import json
+import init
 
 def main():
     sys.argv.append('')
@@ -16,7 +16,6 @@ def main():
     negation_chars = ['N', 'n']
     correct_binaries = confirmation_chars + negation_chars
     
-    h.kidnap_current_dir()
     strings = h.STRINGS
     config = h.CONFIG_FILE
     
@@ -328,6 +327,20 @@ def main():
             right_index = -2
             
 if __name__ == "__main__":
-    main()
-    h.restore_setterm()
-    h.clear_screen()
+    h.kidnap_current_dir()
+    init_functions = [init.set_language]
+    
+    restart = False
+    
+    for init_function in init_functions:
+        restart = init_function()
+        if restart:
+            break
+    
+    if not restart:
+        main()
+        h.restore_setterm()
+        h.clear_screen()
+    else:
+        h.free_current_dir()
+        os.system(f"{h.SCRIPT_DIR}/run.sh")

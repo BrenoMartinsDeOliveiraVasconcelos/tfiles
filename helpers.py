@@ -13,7 +13,7 @@ TRANSLATION_FOLDER = "translations"
 HELP_FOLDER = "help"
 STRINGS_FOLDER = "strings"
 
-CONFIG_FILE = json.load(open('config.json'))
+CONFIG_FILE = json.load(open('config.json')) # type: dict
 LANG = CONFIG_FILE['language']
 STRINGS = json.load(open(os.path.join(TRANSLATION_FOLDER, STRINGS_FOLDER, f'{LANG}.json')))
 HELP = json.load(open(os.path.join(TRANSLATION_FOLDER, HELP_FOLDER, f'{LANG}.json'))) # type: dict
@@ -24,6 +24,7 @@ COMMANDS = CONFIG_FILE['commands']
 def get_mime_type(file_path):
     
     mime_raw = mimetypes.guess_type(file_path)
+    special_mimes = ['directory', 'binary', 'unknown']
     
     mime = mime_raw[0]
     
@@ -35,8 +36,11 @@ def get_mime_type(file_path):
         else:
             mime = 'unknown'
             
-            
-    return mime.split('/')[0]
+    mime = mime.split('/')[0]
+    if mime not in SYMBOLS['mimes'].keys():
+        mime = 'other'
+    
+    return mime
 
 
 def wait_for_enter(auto_skip=False):
@@ -329,3 +333,7 @@ def print_text(path: str, negation_chars: list):
     text = file.read().decode('utf-8').split('\n')
     
     print_calmly(text, negation_chars)
+    
+
+def free_current_dir():
+    os.chdir(ORIGINAL_DIR)
