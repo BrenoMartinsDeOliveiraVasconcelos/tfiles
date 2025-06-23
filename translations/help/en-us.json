@@ -22,7 +22,6 @@
             "Copy and paste a path",
             "Reads and prints a file content",
             "Move a path",
-            "Go to root",
             "Rename a path",
             "Search for a file with a specific text on its name",
             "Execute shell script",

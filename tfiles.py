@@ -19,6 +19,7 @@ def main():
     
     strings = h.STRINGS
     config = h.CONFIG_FILE
+    commands = h.COMMANDS
     
     run_count = 0
 
@@ -90,6 +91,7 @@ def main():
                 current_path_filesystem = current_path[:-1]
                 
                 command, args = "", ""
+                execute = True
 
                 if len(command_path) > 1:
                     command_path = command_path[1:]
@@ -97,6 +99,18 @@ def main():
                     
                     command = command_parsed[0]
                     args = command_parsed[1:]
+
+                    command_list = [x[0][1:] for x in commands]
+                    arg_list = [x[1] for x in commands]
+
+                    if command in command_list:
+                        num_args = arg_list[command_list.index(command)]
+
+                        if len(args) < num_args:
+                            h.output(strings['not_enough_arguments'] % num_args, enter_to_continue=True)
+                            command = "*"
+                        else:
+                            remove_times += "".join(args).count('/')
                 
                 if command_path == '/':
                     remove_times = 3
@@ -247,7 +261,10 @@ def main():
                     units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
                         file_name = args[0]
-                        file = ''.join(h.clear_extra_separatores(current_path_filesystem)[1:]) + '/' + file_name
+                        if not file_name.startswith('/'): 
+                            file = ''.join(h.clear_extra_separatores(current_path_filesystem)[1:]) + '/' + file_name
+                        else:
+                            file = file_name
                         try:
                             size = h.get_size(file)
                             original_size = size
@@ -275,7 +292,7 @@ def main():
                         run_sudo = 'sudo'
                     else:
                         run_sudo = ''
-                    file_name = h.ask_input(strings['file'])
+                    file_name = args[0]
                     os.system(f"{run_sudo} sh {''.join(current_path_filesystem)}/{file_name}")
                 elif command == 'full':
                     directory_contents = sorted(os.listdir(f"{''.join(current_path_filesystem)}"))

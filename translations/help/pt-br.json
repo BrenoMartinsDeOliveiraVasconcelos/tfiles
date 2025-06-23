@@ -22,7 +22,6 @@
             "Copiar e colar um arquivo ou diretório",
             "Lê um arquivo e exibe seu conteúdo",
             "Mover um arquivo/diretório",
-            "Ir para a pasta root",
             "Renomear um arquivo/diretório",
             "Pesquisa por arquivos/diretórios que contenham uma string especifica",
             "Executa um arquivo em shell",

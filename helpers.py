@@ -310,7 +310,7 @@ def print_help():
             output(f"\n{value['name']}\n")
             index = 0
             for x in value["lines"]:
-                output(f"{COMMANDS[index]} - {x}")
+                output(f"{COMMANDS[index][0]} - {x}")
                 index += 1
                 
 

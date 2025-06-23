@@ -51,5 +51,6 @@
     "editor_not_found": "No editor defined on path. Open it on your own.",
     "is_not_file": "The specified path is not a file.",
     "path_not_found": "The specified path was not found or is not accessible.",
-    "deep_search_name": "Text to search: "
+    "deep_search_name": "Text to search: ",
+    "not_enough_arguments": "Needs at least %s arg(s)."
 }
