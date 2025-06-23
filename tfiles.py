@@ -83,15 +83,14 @@ def main():
                 next_command = '/*'
                 
             next_command = next_command.split('/')
+            no_command_current_path = current_path.copy()
             for item in next_command:
                 current_path.append(f'/{item}')
             command_path = '/'.join(next_command)
             
             if current_path[0] == '/':
-                current_path_filesystem = current_path[:-1]
                 
                 command, args = "", ""
-                execute = True
 
                 if len(command_path) > 1:
                     command_path = command_path[1:]
@@ -111,6 +110,12 @@ def main():
                             command = "*"
                         else:
                             remove_times += "".join(args).count('/')
+
+                            index = 0
+                            for _ in args:
+                                if not args[index].startswith('/'):
+                                    args[index] = h.join_path(no_command_current_path, args[index])
+                                index += 1
                 
                 if command_path == '/':
                     remove_times = 3
@@ -119,46 +124,46 @@ def main():
                 elif command == 'd':
                     n = args[0]
                     
-                    if os.path.exists(h.join_path(current_path_filesystem, n)):
+                    if os.path.exists(n):
                         error_msg = strings['directory_exists_error'] % n
                         h.print_error(FileExistsError(error_msg))
                     
-                    os.mkdir(h.join_path(current_path_filesystem, n))
+                    os.mkdir(n)
                 elif command == 'a':
-                    n = args[0]
-                    if n not in directory_contents:
-                        try:
-                            open(h.join_path(current_path_filesystem, n), 'w+')
-                            h.output(strings['file_created_success'] % n)
-                        except Exception as e:
-                            h.print_error(e)
+                    file = args[0]
+                    print(file)
+                    try:
+                        if os.path.exists(file):
+                            raise FileExistsError(strings['file_exists_error'] % file)
+                        else:
+                            open(file, 'w+').close()
+                            h.output(strings['file_created_success'] % file)
+                    except Exception as e:
+                        h.print_error(e)
                 elif command == 'e':
                     return
                 elif command == 'del':
                     n = args[0]
-                    victim = h.join_path(current_path_filesystem, n)
                     if n == "/":
                         h.print_error(PermissionError(strings['cannot_remove_root']))
                     else:
                         
-                        if not os.path.exists(victim):
+                        if not os.path.exists(n):
                             h.print_error(FileNotFoundError(strings['file_not_found_error'] % n))
                         
-                        if os.path.isfile(victim):
-                            os.remove(victim)
+                        if os.path.isfile(n):
+                            os.remove(n)
                         else:
-                            os.system(f'rm -r "{victim}" >/dev/null 2>&1')
+                            os.system(f'rm -r "{n}" >/dev/null 2>&1')
                 elif command == 'k':
                     src = args[0]
                     dst = args[1]
 
-                    formated_src, formated_dst = h.join_path(current_path_filesystem, src), h.join_path(current_path_filesystem, dst)
-
                     try:
-                        if os.path.isfile(formated_src):
-                            shutil.copy2(formated_src, formated_dst)
+                        if os.path.isfile(src):
+                            shutil.copy2(src, dst)
                         else:
-                            shutil.copytree(formated_src, formated_dst)
+                            shutil.copytree(src, dst)
                             
                         h.output(strings['copied_success'])
                     except Exception as e:
@@ -168,7 +173,8 @@ def main():
                     dst = args[1]
                     if dst and src != '':
                         try:
-                            shutil.move(h.join_path(current_path_filesystem, src), f'{dst}/{src}')
+                            print(src, dst)
+                            shutil.move(src, dst)
                         except Exception as e:
                             h.print_error(e)
                     else:
@@ -177,7 +183,7 @@ def main():
                     src = args[0]
                     dst = args[1]
                     try:
-                        os.rename(h.join_path(current_path_filesystem, src), h.join_path(current_path_filesystem, dst))
+                        os.rename(src, dst)
                     except Exception as e:
                         h.print_error(e)
                 elif command == 'h':
@@ -192,7 +198,7 @@ def main():
                 elif command == 'read':
                     file_name = args[0]
                     try:
-                        h.print_text(h.join_path(current_path_filesystem, file_name), negation_chars)
+                        h.print_text(file_name, negation_chars)
                     except Exception as e:
                         h.print_error(e)
                 elif command == '*':
@@ -204,9 +210,7 @@ def main():
                     enviroment = os.environ
                     default_editor = ""
                     
-                    n = args[0]
-                    
-                    file_path =  h.join_path(current_path_filesystem, n)
+                    file_path = args[0]
                     
                     for key in enviroment.keys():
                         if key == 'EDITOR':
@@ -228,7 +232,7 @@ def main():
                     os.system("bash")
                 elif command == 'search':
                     answ = ''
-                    search_location = ''.join(current_path_filesystem)
+                    search_location =  ''.join(no_command_current_path)
                     
                     while answ not in correct_binaries:
                         answ = h.ask_input(strings['search_prompt'])
@@ -260,11 +264,7 @@ def main():
                 elif command == 'i':
                     units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
                     while True:
-                        file_name = args[0]
-                        if not file_name.startswith('/'): 
-                            file = ''.join(h.clear_extra_separatores(current_path_filesystem)[1:]) + '/' + file_name
-                        else:
-                            file = file_name
+                        file = args[0]
                         try:
                             size = h.get_size(file)
                             original_size = size
@@ -293,9 +293,9 @@ def main():
                     else:
                         run_sudo = ''
                     file_name = args[0]
-                    os.system(f"{run_sudo} sh {''.join(current_path_filesystem)}/{file_name}")
+                    os.system(f"{run_sudo} sh {file_name}")
                 elif command == 'full':
-                    directory_contents = sorted(os.listdir(f"{''.join(current_path_filesystem)}"))
+                    directory_contents = sorted(os.listdir(f"{''.join(no_command_current_path)}"))
                     file_id = -1
                     for item in directory_contents:
                         file_id = file_id + 1
@@ -308,14 +308,10 @@ def main():
                     h.output(" ".join(strings_output))
                 elif command == 'cd':
                     n = args[0]
-                    fixed_path = h.join_path(current_path, n)
-                    
-                    if n.startswith('/'):
-                        fixed_path = n
                         
-                    if os.path.exists(fixed_path):
-                        current_path = [f"/{x}" for x in fixed_path.split('/')]
-                        current_path.append("/JUNK")
+                    if os.path.exists(n):
+                        current_path = ["/"+x for x in n.split('/')]
+                        remove_times = 0
                     else:
                         h.output(strings['path_not_found'])
                     
@@ -327,7 +323,7 @@ def main():
                         
                     text_look = h.ask_input(strings['deep_search_name'])
                     
-                    search_path = "/" if search_on_fs in confirmation_chars else ''.join(current_path_filesystem)
+                    search_path = "/" if search_on_fs in confirmation_chars else ''.join(no_command_current_path)
 
                     founds = []
                     start_time = time.time()
