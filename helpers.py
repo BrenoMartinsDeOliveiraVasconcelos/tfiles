@@ -328,7 +328,6 @@ def print_wait_time(start_time: float, interval: float = 0.05):
 
 
 def print_text(path: str, negation_chars: list):
-    print(path)
     file = open(path, 'rb')
     text = file.read().decode('utf-8').split('\n')
     

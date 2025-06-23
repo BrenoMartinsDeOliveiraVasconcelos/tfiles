@@ -21,7 +21,7 @@ cp ./* -R /opt/tfiles
 
 echo "Installing python3-venv..."
 if command -v apt-get >/dev/null 2>&1; then
-    apt-get install python3-venv
+    apt-get install python3-venv -y
 elif command -v yum >/dev/null 2>&1; then
     yum install python3-venv
 elif command -v dnf >/dev/null 2>&1; then
