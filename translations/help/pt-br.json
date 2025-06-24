@@ -6,8 +6,10 @@
     "commands": {
         "name": "Comandos",
         "lines": [
-            "Voltar ao diretório passado",
-            "Atualizar configurações e o diretório atual",
+            "Mesmo que /*",
+            "Mesmo que /*",
+            "Atualizar o diretório atual",
+            "Vai 1 diretório para trás",
             "Criar um arquivo",
             "Tela de comandos bash para ações mais complexas",
             "Tela de comando rápido",

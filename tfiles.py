@@ -117,13 +117,12 @@ def main():
                                     args[index] = h.join_path(no_command_current_path, args[index])
                                 index += 1
                 
-                if command_path == '/':
+                if command == "..":
                     remove_times = 3
                     auto_skip = True
                     print_finished = False
                 elif command == 'd':
                     n = args[0]
-                    
                     if os.path.exists(n):
                         error_msg = strings['directory_exists_error'] % n
                         h.print_error(FileExistsError(error_msg))
@@ -201,7 +200,7 @@ def main():
                         h.print_text(file_name, negation_chars)
                     except Exception as e:
                         h.print_error(e)
-                elif command == '*':
+                elif command in ['*', '.'] or command_path == "/":
                     auto_skip = True
                 elif command == 'usrbin':
                     remove_times = 0

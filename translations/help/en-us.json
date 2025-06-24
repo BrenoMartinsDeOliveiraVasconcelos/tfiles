@@ -6,8 +6,10 @@
     "commands": {
         "name": "Commands",
         "lines": [
-            "Return to the previous directory",
+            "Same as /*",
+            "Same as /*",
             "Update current directory",
+            "Goes 1 directory back",
             "Create a file",
             "Bash command line",
             "Fast command line",
