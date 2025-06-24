@@ -1,22 +1,22 @@
 # tfiles
 
-Gerenciador de arquivos simples em linha de comando. Feito enquanto aprendia Python em 2021, melhorado em 2025 após 4 anos aprendendo e aprimorando minhas técnicas de programação.
+Simple command-line file manager. Made while learning Python in 2021, improved in 2025 after 4 years of learning and refining my programming skills.
 
 ![alt text](https://i.imgur.com/2MaUULx.png)
 
-## Requisitos minimos
+## Minimum Requirements
 
-| Item | Valor |
+| Item | Value |
 | ---- | ---- |
-| Python | 3.7 ou superior |
-| SO | Unix-like/Posix | 
+| Python | 3.7 or higher |
+| OS | Unix-like/Posix | 
 | RAM | 16 MB* |
-| CPU | Qualquer CPU moderno com pelo menos 1 Ghz
+| CPU | Any modern CPU with at least 1 GHz
 
 
-\*1 GB caso use o comando /deep_search.
+\*1 GB if using the /deep_search command.
 
-# Instalação e execução
+# Installation and Execution
 
 ``` bash
 git clone https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles.git
@@ -24,4 +24,4 @@ cd tfiles
 sudo ./install.sh
 ```
 
-Depois, basta digitar "tfiles" no terminal e o programa rodará. Digite /help para saber os comandos.
+Then, just type "tfiles" in the terminal and the program will run. Type /help to learn about the commands.
