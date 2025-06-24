@@ -1,5 +1,8 @@
 # tfiles
 
+|[Português 🇧🇷](https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles/blob/main/translations/readme/README.pt.md) | [Inglês 🇨🇦](https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles/blob/main/README.md)
+| --- | --- |
+
 Gerenciador de arquivos simples em linha de comando. Feito enquanto aprendia Python em 2021, melhorado em 2025 após 4 anos aprendendo e aprimorando minhas técnicas de programação.
 
 ![alt text](https://i.imgur.com/2MaUULx.png)
