@@ -1,5 +1,8 @@
 # tfiles
 
+|[Portuguese 🇧🇷](https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles/blob/main/translations/readme/README.pt.md) | [English 🇨🇦](https://github.com/BrenoMartinsDeOliveiraVasconcelos/tfiles/blob/main/README.md)
+| --- | --- |
+
 Simple command-line file manager. Made while learning Python in 2021, improved in 2025 after 4 years of learning and refining my programming skills.
 
 ![alt text](https://i.imgur.com/2MaUULx.png)
