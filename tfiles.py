@@ -269,22 +269,26 @@ def main():
                             original_size = size
                             break
                         except Exception as e:
-                            h.print_error(e)
+                            h.print_error(e)                    
                     unit_index = 0
                     unit_format = ''
                     while size > 1000:
                         size /= 1000
                         unit_index += 1
-                    unit_format = units[unit_index]
-                    output_list = [
-                        f"{strings['info_path']}{file}",
-                        f"{strings['info_type']}{h.get_mime_type(file)}",
-                        f"{strings['info_size']}{size:.0f} {unit_format} ({original_size} {units[0]})",
-                        f"{strings['info_created']}{time.ctime(os.path.getctime(file))}",
-                        f"{strings['info_modified']}{time.ctime(os.path.getmtime(file))}"
-                    ]
-                    for stdout in output_list:
-                        h.output(stdout)
+
+                    if os.path.exists(file):
+                        unit_format = units[unit_index]
+                        output_list = [
+                            f"{strings['info_path']}{file}",
+                            f"{strings['info_type']}{h.get_mime_type(file)}",
+                            f"{strings['info_size']}{size:.0f} {unit_format} ({original_size} {units[0]})",
+                            f"{strings['info_created']}{time.ctime(os.path.getctime(file))}",
+                            f"{strings['info_modified']}{time.ctime(os.path.getmtime(file))}"
+                        ]
+                        for stdout in output_list:
+                            h.output(stdout)
+                    else:
+                        h.print_error(FileNotFoundError(" "))
                 elif command == 'shexec':
                     sudo_confirm = h.ask_input(strings['sudo_prompt'])
                     if sudo_confirm in confirmation_chars:
