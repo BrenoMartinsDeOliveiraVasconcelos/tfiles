@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 cd "$(dirname "$0")"
 
 
@@ -17,15 +19,20 @@ fi
 
 echo "Copying files to instalaition directory..."
 mkdir -p /opt/tfiles
-cp ./* -R /opt/tfiles
+
+files=("config.json" "helpers.py" "init.py" "tfiles.py" "translations" "uninstall.sh" "requirements.txt" "README.md" "LICENSE.md" "run.sh")
+
+for file in "${files[@]}"; do
+    cp "./$file" -R /opt/tfiles
+done
 
 echo "Installing python3-venv..."
 if command -v apt-get >/dev/null 2>&1; then
     apt-get install python3-venv -y
 elif command -v yum >/dev/null 2>&1; then
-    yum install python3-venv
+    yum install python3-venv -y
 elif command -v dnf >/dev/null 2>&1; then
-    dnf install python3-venv
+    dnf install python3-venv -y
 else
     echo "Install python3-venv manually if not installed."
 fi
@@ -46,8 +53,13 @@ echo "Creating tfiles command..."
 cp run.sh /usr/bin/tfiles
 
 echo "Setting permissions..."
+
 chmod +x /usr/bin/tfiles
-find /opt/tfiles -type d -exec chmod 777 {} \;
-find /opt/tfiles -type f -exec chmod 777 {} \;
+
+chmod 777 /opt/tfiles
+
+find /opt/tfiles -type d -exec chmod 755 {} \;
+find /opt/tfiles -type f -exec chmod 755 {} \;
+find /opt/tfiles -name "*.json*" -exec chmod 777 {} \;
 
 echo "Done."
