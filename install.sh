@@ -14,7 +14,14 @@ fi
 echo "Checking if config file exists already..."
 if [ -f "/opt/tfiles/config.json" ]; then
     echo "Saving config file..."
-    mv /opt/tfiles/config.json /opt/tfiles/config.json.bak
+
+    bak="/opt/tfiles/config.json.bak"
+
+    if ![ -e "$bak" ]; then
+        mv /opt/tfiles/config.json "$bak"
+    else
+        echo "Found a bak file that is not removed. Maybe the script was ran for a second time by accident? Not overwriting."
+    fi
 fi
 
 echo "Copying files to instalaition directory..."
