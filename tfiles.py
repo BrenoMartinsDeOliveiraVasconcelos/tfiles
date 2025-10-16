@@ -419,3 +419,4 @@ if __name__ == "__main__":
     else:
         h.free_current_dir()
         os.system(f"{h.SCRIPT_DIR}/run.sh")
+        
