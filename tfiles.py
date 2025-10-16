@@ -81,6 +81,9 @@ def main():
                 
             if next_command == '':
                 next_command = '/*'
+
+            if next_command == "..":
+                next_command = "/" + next_command
                 
             next_command = next_command.split('/')
             no_command_current_path = current_path.copy()
