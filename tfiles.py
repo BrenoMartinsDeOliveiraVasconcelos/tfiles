@@ -363,7 +363,7 @@ def main():
                         if output_select is not None:
                             current_path = output_select
                 else:
-                    remove_times = 0
+                    remove_times = 0 if command != '' else 1
                     auto_skip = True
                     print_finished = False
                 current_path = h.remove_last_items(current_path, times=remove_times)
