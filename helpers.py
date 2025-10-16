@@ -14,6 +14,7 @@ HELP_FOLDER = "help"
 STRINGS_FOLDER = "strings"
 
 CONFIG_FILE = json.load(open('config.json')) # type: dict
+CONFIG_FILE_PATH = os.path.join(SCRIPT_DIR, 'config.json')
 LANG = CONFIG_FILE['language']
 STRINGS = json.load(open(os.path.join(TRANSLATION_FOLDER, STRINGS_FOLDER, f'{LANG}.json')))
 HELP = json.load(open(os.path.join(TRANSLATION_FOLDER, HELP_FOLDER, f'{LANG}.json'))) # type: dict
@@ -368,3 +369,8 @@ def ask_yes_no(message: str, yes_chars: list, no_chars: list) -> bool:
         user_input = ask_input(message)
         
     return user_input in yes_chars
+
+
+def write_config_file(config: dict):
+    with open(CONFIG_FILE_PATH, 'w') as file:
+        json.dump(config, file, indent=4)

@@ -54,5 +54,6 @@
     "path_not_found": "The specified path was not found or is not accessible.",
     "deep_search_name": "Text to search: ",
     "not_enough_arguments": "Needs at least %s arg(s).",
-    "root_not_recommended": "Executing as root is not recommended due security risks. Continue only if really needed. Confirm? [Y/N]"
+    "root_not_recommended": "Executing as root is not recommended due security risks. Continue only if really needed. Confirm? [Y/N]",
+    "editor_change": "Editor changed to %s."
 }

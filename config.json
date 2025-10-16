@@ -84,6 +84,7 @@
         ["/usrbin", 0],
         ["/text", 1],
         ["/cd", 1],
-        ["/deep_search", 0]
+        ["/deep_search", 0],
+        ["/seteditor", 1]
     ]
 }

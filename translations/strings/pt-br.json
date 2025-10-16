@@ -54,5 +54,6 @@
     "path_not_found": "O diretório especificado não existe ou não está acessível.",
     "deep_search_name": "Texto a procurar: ",
     "not_enough_arguments": "Necessario pelo menos %s argumento(s).",
-    "root_not_recommended": "Executar como root nao é recomendado devido riscos de segurança. Continue apenas se realmente necessario. Confirmar? [S/N]"
+    "root_not_recommended": "Executar como root nao é recomendado devido riscos de segurança. Continue apenas se realmente necessario. Confirmar? [S/N]",
+    "editor_change": "Editor alterado para %s."
 }

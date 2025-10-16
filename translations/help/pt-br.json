@@ -30,7 +30,8 @@
             "Ir para /usr/bin",
             "Abrir um arquivo em um editor de texto definido pelo comando /seteditor (padrão é nano)",
             "Troca o diretório atual",
-            "Realiza uma pesquisa por arquivos que contenham um texto"
+            "Realiza uma pesquisa por arquivos que contenham um texto",
+            "Define o editor de texto"
         ]
     }
 }

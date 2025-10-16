@@ -361,6 +361,11 @@ def main():
                         
                         if output_select is not None:
                             current_path = output_select
+                elif command == "seteditor":
+                    editor = args[0]
+                    config["text_editor"] = editor
+                    h.write_config_file(config)
+                    h.output(strings['editor_change'] % editor)
                 else:
                     remove_times = 0 if command != '' else 1
                     auto_skip = True

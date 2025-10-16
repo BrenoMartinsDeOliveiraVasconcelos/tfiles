@@ -30,7 +30,8 @@
             "Go to /usr/bin",
             "File edit with the text editor set with /seteditor (default is nano)",
             "Changes current directory",
-            "Look for file that contains a specific text inside."
+            "Look for file that contains a specific text inside.",
+            "Sets the text editor"
         ]
     }
 }
