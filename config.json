@@ -10,6 +10,7 @@
     },
     "initialized": false,
     "language": "en-us",
+    "text_editor": "nano",
     "symbols": {
         "mimes": {
             "text": [

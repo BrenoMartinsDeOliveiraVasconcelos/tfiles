@@ -28,7 +28,7 @@
             "Search for a file with a specific text on its name",
             "Execute shell script",
             "Go to /usr/bin",
-            "File edit",
+            "File edit with the text editor set with /seteditor (default is nano)",
             "Changes current directory",
             "Look for file that contains a specific text inside."
         ]

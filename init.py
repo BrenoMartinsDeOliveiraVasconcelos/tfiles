@@ -44,7 +44,7 @@ def restore_config() -> bool:
     if os.path.exists(bak):
         saved_data = json.load(open(bak))
         
-        relevant_keys = ["language", "initialized"]
+        relevant_keys = ["language", "initialized", "text_editor"]
         for key in relevant_keys:
             if key in saved_data.keys():
                 CONFIG[key] = saved_data[key]

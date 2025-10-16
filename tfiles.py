@@ -213,18 +213,11 @@ def main():
                     remove_times = 0
                     current_path = ['/', '/usr', '/bin']
                 elif command == 'text':
-                    enviroment = os.environ
-                    default_editor = ""
+                    default_editor = config['text_editor']
                     
                     file_path = args[0]
                     
-                    for key in enviroment.keys():
-                        if key == 'EDITOR':
-                            default_editor = enviroment[key]
-                            break
-                    if default_editor == "":
-                        h.output(strings['editor_not_found'])
-                    elif os.path.exists(file_path):
+                    if os.path.exists(file_path):
                         if os.path.isfile(file_path):
                             os.system(f"{default_editor} {file_path}")
                         else:
@@ -400,6 +393,7 @@ def main():
             h.display_files(directory_contents, current_path, terminal_width, left_index, right_index)
             left_index = -1
             right_index = -2
+
             
 if __name__ == "__main__":
     h.kidnap_current_dir()

@@ -16,7 +16,7 @@
             "Criar um diretório",
             "Apagar um diretório",
             "Sair",
-            "/Exibe o nome de um arquivo sem corte",
+            "Exibe o nome de um arquivo sem corte",
             "Vai para a pasta home do user atual",
             "Exibe essa tela",
             "Informações sobre algum arquivo ou diretório",
@@ -28,9 +28,9 @@
             "Pesquisa por arquivos/diretórios que contenham uma string especifica",
             "Executa um arquivo em shell",
             "Ir para /usr/bin",
-            "Abrir um arquivo em um editor de texto",
+            "Abrir um arquivo em um editor de texto definido pelo comando /seteditor (padrão é nano)",
             "Troca o diretório atual",
-            "Realiza uma pesquisa por arquivos que contenham um texto."
+            "Realiza uma pesquisa por arquivos que contenham um texto"
         ]
     }
 }
