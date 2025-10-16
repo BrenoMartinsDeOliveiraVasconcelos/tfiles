@@ -22,6 +22,10 @@ def main():
     commands = h.COMMANDS
     
     run_count = 0
+    
+    if h.is_user_root():
+        if not h.ask_yes_no(strings["root_not_recommended"], confirmation_chars, negation_chars):
+            sys.exit(0)
 
     complete_path = []
     if sys.argv[1] == '':
@@ -233,15 +237,12 @@ def main():
                 elif command == 'bash':
                     os.system("bash")
                 elif command == 'search':
-                    answ = ''
+                    answ = h.ask_yes_no(strings['search_prompt'], confirmation_chars, negation_chars)
                     search_location =  ''.join(no_command_current_path)
-                    
-                    while answ not in correct_binaries:
-                        answ = h.ask_input(strings['search_prompt'])
                         
                     name = h.ask_input(strings['search_name'])     
                         
-                    if answ in confirmation_chars:
+                    if answ:
                         search_location = "/"
                     
                     founds = []
@@ -322,14 +323,11 @@ def main():
                         h.output(strings['path_not_found'])
                     
                 elif command == "deep_search":
-                    search_on_fs = ""
-                    
-                    while search_on_fs not in correct_binaries:
-                        search_on_fs = h.ask_input(strings['search_prompt'])
+                    search_on_fs = h.ask_yes_no(strings['search_prompt'], confirmation_chars, negation_chars)
                         
                     text_look = h.ask_input(strings['deep_search_name'])
                     
-                    search_path = "/" if search_on_fs in confirmation_chars else ''.join(no_command_current_path)
+                    search_path = "/" if search_on_fs else ''.join(no_command_current_path)
 
                     founds = []
                     start_time = time.time()

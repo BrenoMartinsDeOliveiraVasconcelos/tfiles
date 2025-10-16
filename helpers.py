@@ -94,12 +94,16 @@ def output(message, color_code="\033[37m", end='\n', enter_to_continue=False, fl
     
     if enter_to_continue:
         wait_for_enter()
+        
+
+def is_user_root():
+    return getpass.getuser() == 'root'
 
 
 def print_tittle(terminal_width):
         os.system('setterm -background white -foreground white')
         text = STRINGS['terminal_explorer']
-        if getpass.getuser() == 'root':
+        if is_user_root():
             text += STRINGS['root_indicator']
         
         output(f"{f'{text}':^{terminal_width}}", color_code="\033[1;30m")
@@ -356,3 +360,11 @@ def input_index(content: list) -> list | None:
             pass
         else:
             return ["/"+x for x in content[index_num - 1].split('/')]
+        
+
+def ask_yes_no(message: str, yes_chars: list, no_chars: list) -> bool:
+    user_input = ""
+    while user_input.strip() not in yes_chars + no_chars:
+        user_input = ask_input(message)
+        
+    return user_input in yes_chars
