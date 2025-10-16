@@ -31,6 +31,7 @@
     "search_end": "Go to (0 to cancel): ",
     "search_error": "Index not on list.",
     "search_output_continue": "",
+    "search_found_progress": "Found: %s (Files analyzed: %s)",
     "enter_to_continue": "Press enter to continue.",
     "file_not_found": "The specified file was not found.",
     "permission_denied": "Permission denied. Root may be required.",

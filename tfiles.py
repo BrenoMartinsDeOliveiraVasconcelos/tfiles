@@ -332,6 +332,8 @@ def main():
                     founds = []
                     start_time = time.time()
                     blacklist = ["/dev", "/sys", "/proc", "/boot", "/run"]
+                    number_found = 0
+                    number_files = 0
                     for root, _, files in os.walk(search_path):
                         skip = False
                         
@@ -349,10 +351,13 @@ def main():
                                 
                                 if text_look in file_content:
                                     founds.append(os.path.join(root, file))
+                                    number_found += 1
+
+                                number_files += 1
+                                h.output(strings['search_found_progress'] % (number_found, number_files))
                             except Exception as e:
                                 pass
                             
-                    number_found = len(founds)
                     if number_found == 0:
                         h.output(strings['search_not_found'])
                     else:

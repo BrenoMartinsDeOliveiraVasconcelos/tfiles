@@ -31,6 +31,7 @@
     "search_end": "Ir para (0 para cancelar, enter para continuar): ",
     "search_error": "Esse indice não está na lista.",
     "search_output_continue": "",
+    "search_found_progress": "Encontrado: %s (Arquivos analisados: %s)",
     "enter_to_continue": "Enter para continuar.",
     "file_not_found": "O arquivo especificado não foi encontrado.",
     "permission_denied": "Permissão negada. Tente novamente como root.",
