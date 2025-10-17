@@ -57,7 +57,8 @@ python3 -m venv /opt/tfiles/venv
 /opt/tfiles/venv/bin/python3 -m pip install -r requirements.txt
 
 echo "Creating tfiles command..."
-cp run.sh /usr/bin/tfiles
+rm -rf /usr/bin/tfiles
+ln run.sh /usr/bin/tfiles
 
 echo "Setting permissions..."
 

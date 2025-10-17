@@ -400,18 +400,8 @@ def main():
             left_index = -1
             right_index = -2
 
-            
-if __name__ == "__main__":
-    h.kidnap_current_dir()
-    init_functions = [init.set_language, init.restore_config]
-    
-    restart = False
-    
-    for init_function in init_functions:
-        restart = init_function()
-        if restart:
-            break
-    
+
+def prepare_start():
     # Trocar o current dir caso tenha path como argument
     if len(args) > 1:
         path = " ".join(args[1:])
@@ -426,11 +416,24 @@ if __name__ == "__main__":
     if not os.access(h.ORIGINAL_DIR, os.R_OK):
         h.print_error(PermissionError(h.ORIGINAL_DIR), enter_to_continue=True, quit=True)
 
+            
+if __name__ == "__main__":
+    h.kidnap_current_dir()
+    init_functions = [init.set_language, init.restore_config]
+    
+    restart = False
+    
+    for init_function in init_functions:
+        restart = init_function()
+        if restart:
+            break
+
     if not restart:
+        prepare_start()
         main()
         h.restore_setterm()
         h.clear_screen()
     else:
         h.free_current_dir()
-        os.system(f"{h.SCRIPT_DIR}/run.sh")
+        os.system(f"{h.SCRIPT_DIR}/run.sh {' '.join(args[1:])}")
         
