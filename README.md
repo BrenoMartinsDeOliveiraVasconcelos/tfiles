@@ -28,3 +28,10 @@ sudo ./install.sh
 ```
 
 Then, just type "tfiles" in the terminal and the program will run. Type /help to learn about the commands.
+
+You can also start on a specific folder by writing the path as an arg.
+
+```bash
+
+tfiles <path>
+```

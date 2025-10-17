@@ -28,3 +28,10 @@ sudo ./install.sh
 ```
 
 Depois, basta digitar "tfiles" no terminal e o programa rodará. Digite /help para saber os comandos.
+
+Você também pode executar em um diretório especificando um caminho no argumento:
+
+```bash
+
+tfiles <caminho>
+```
