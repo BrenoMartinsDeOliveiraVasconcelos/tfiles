@@ -402,11 +402,6 @@ def main():
 
             
 if __name__ == "__main__":
-    # Trocar o current dir caso tenha path como argument
-    if len(args) > 1:
-        path = " ".join(args[1:])
-        h.ORIGINAL_DIR = path
-
     h.kidnap_current_dir()
     init_functions = [init.set_language, init.restore_config]
     
@@ -417,6 +412,20 @@ if __name__ == "__main__":
         if restart:
             break
     
+    # Trocar o current dir caso tenha path como argument
+    if len(args) > 1:
+        path = " ".join(args[1:])
+        h.ORIGINAL_DIR = path
+
+    if not os.path.exists(h.ORIGINAL_DIR):
+        h.print_error(FileNotFoundError(h.ORIGINAL_DIR), enter_to_continue=True, quit=True)
+
+    if not os.path.isdir(h.ORIGINAL_DIR):
+        h.print_error(NotADirectoryError(h.ORIGINAL_DIR), enter_to_continue=True, quit=True)
+
+    if not os.access(h.ORIGINAL_DIR, os.R_OK):
+        h.print_error(PermissionError(h.ORIGINAL_DIR), enter_to_continue=True, quit=True)
+
     if not restart:
         main()
         h.restore_setterm()
