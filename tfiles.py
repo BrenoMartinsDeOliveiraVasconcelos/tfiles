@@ -10,6 +10,7 @@ import sys
 import shlex
 import helpers as h
 import init
+from sys import argv as args
 
 def main():
     sys.argv.append('')
@@ -401,6 +402,11 @@ def main():
 
             
 if __name__ == "__main__":
+    # Trocar o current dir caso tenha path como argument
+    if len(args) > 1:
+        path = " ".join(args[1:])
+        h.ORIGINAL_DIR = path
+
     h.kidnap_current_dir()
     init_functions = [init.set_language, init.restore_config]
     
