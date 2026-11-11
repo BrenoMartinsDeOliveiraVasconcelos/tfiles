@@ -11,8 +11,8 @@ Simple command-line file manager. Made while learning Python in 2021, improved i
 
 | Item | Value |
 | ---- | ---- |
-| Python | 3.7 or higher |
-| OS | Unix-like/Posix | 
+| Python | 3.12 or higher |
+| OS | Linux | 
 | RAM | 16 MB* |
 | CPU | Any modern CPU with at least 1 GHz
 
