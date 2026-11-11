@@ -25,12 +25,13 @@ if [ -f "/opt/tfiles/config.json" ]; then
 fi
 
 echo "Copying files to instalaition directory..."
-mkdir -p /opt/tfiles
+instf="/opt/tfiles"
+mkdir -p "$instf"
 
 files=("config.json" "helpers.py" "init.py" "tfiles.py" "translations" "uninstall.sh" "requirements.txt" "README.md" "LICENSE.md" "run.sh")
 
 for file in "${files[@]}"; do
-    cp "./$file" -R /opt/tfiles
+    cp "./$file" -R "$instf"
 done
 
 echo "Installing python3-venv..."
@@ -54,11 +55,14 @@ fi
 
 echo "Installing requirements..."
 python3 -m venv /opt/tfiles/venv
-/opt/tfiles/venv/bin/python3 -m pip install -r requirements.txt
+
+cd "/opt/tfiles"
+
+./venv/bin/python3 -m pip install -r requirements.txt
 
 echo "Creating tfiles command..."
 rm -rf /usr/bin/tfiles
-ln -s run.sh /usr/bin/tfiles
+ln -s /opt/tfiles/run.sh /usr/bin/tfiles
 
 echo "Setting permissions..."
 
