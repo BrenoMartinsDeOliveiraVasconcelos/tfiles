@@ -233,7 +233,7 @@ def main():
                 elif command == 'cln':
                     os.system(h.ask_input(strings['command_prompt']))
                 elif command == 'bash':
-                    os.system("bash")
+                    subprocess.run(["bash"])
                 elif command == 'search':
                     answ = h.ask_yes_no(strings['search_prompt'], confirmation_chars, negation_chars)
                     search_location =  ''.join(no_command_current_path)
