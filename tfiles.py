@@ -437,6 +437,6 @@ if __name__ == "__main__":
         h.clear_screen()
     else:
         h.free_current_dir()
-        os.system(f"{h.SCRIPT_DIR}/run.sh {' '.join(args[1:])}")
+        subprocess.run([f"{h.SCRIPT_DIR}/run.sh", *args[1:]])
 
         
