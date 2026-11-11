@@ -195,4 +195,4 @@ cython_debug/
 .cursorindexingignore
 
 # Trash files
-*teste*
+*test*

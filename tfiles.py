@@ -164,7 +164,6 @@ def main():
                             os.remove(n)
                         else:
                             shutil.rmtree(n)
-                            #os.system(f'rm -r "{n}" >/dev/null 2>&1')
                 elif command == 'k':
                     src = args[0]
                     dst = args[1]
@@ -225,7 +224,6 @@ def main():
                         open(f"{file_path}", "w+").write("")
 
                     if os.path.isfile(file_path):
-                        #os.system(f"{default_editor} {file_path}")
                         subprocess.run([f"{default_editor}", f"{file_path}"])
                     else:
                         h.output(strings['is_not_file'])
@@ -298,7 +296,7 @@ def main():
                     else:
                         run_sudo = ''
                     file_name = args[0]
-                    os.system(f"{run_sudo} sh {file_name}")
+                    subprocess.run([f"{run_sudo}", "sh", f"{file_name}"])
                 elif command == 'full':
                     directory_contents = sorted(os.listdir(f"{''.join(no_command_current_path)}"))
                     file_id = -1
