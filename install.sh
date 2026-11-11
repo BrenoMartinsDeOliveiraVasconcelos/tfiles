@@ -17,7 +17,7 @@ if [ -f "/opt/tfiles/config.json" ]; then
 
     bak="/opt/tfiles/config.json.bak"
 
-    if ![ -e "$bak" ]; then
+    if [ ! -e "$bak" ]; then
         mv /opt/tfiles/config.json "$bak"
     else
         echo "Found a bak file that is not removed. Maybe the script was ran for a second time by accident? Not overwriting."
@@ -58,7 +58,7 @@ python3 -m venv /opt/tfiles/venv
 
 echo "Creating tfiles command..."
 rm -rf /usr/bin/tfiles
-ln run.sh /usr/bin/tfiles
+ln -s run.sh /usr/bin/tfiles
 
 echo "Setting permissions..."
 
