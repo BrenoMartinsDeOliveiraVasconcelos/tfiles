@@ -223,7 +223,8 @@ def main():
                     
                     if os.path.exists(file_path):
                         if os.path.isfile(file_path):
-                            os.system(f"{default_editor} {file_path}")
+                            #os.system(f"{default_editor} {file_path}")
+                            subprocess.run([f"{default_editor}", f"{file_path}"])
                         else:
                             h.output(strings['is_not_file'])
                     else:
