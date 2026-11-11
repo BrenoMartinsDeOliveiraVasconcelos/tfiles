@@ -1,6 +1,7 @@
 import json
 import os
 import helpers
+import subprocess
 
 ENVIROMENT = os.environ
 CONFIG = helpers.CONFIG_FILE
@@ -52,7 +53,12 @@ def restore_config() -> bool:
         restart = True
 
         json.dump(CONFIG, open('config.json', 'w'), indent=4)
-        os.remove(bak)
+        
+        try:
+            os.remove(bak)
+        except PermissionError:
+            # Pede a senha de root no terminal para remover apenas este arquivo
+            subprocess.run(["sudo", "rm", "-f", bak], check=True)
         
     return restart
 
