@@ -221,14 +221,14 @@ def main():
                     
                     file_path = args[0]
                     
-                    if os.path.exists(file_path):
-                        if os.path.isfile(file_path):
-                            #os.system(f"{default_editor} {file_path}")
-                            subprocess.run([f"{default_editor}", f"{file_path}"])
-                        else:
-                            h.output(strings['is_not_file'])
+                    if not os.path.exists(file_path):
+                        open(f"{file_path}", "w+").write("")
+                        
+                    if os.path.isfile(file_path):
+                        #os.system(f"{default_editor} {file_path}")
+                        subprocess.run([f"{default_editor}", f"{file_path}"])
                     else:
-                        h.output(strings['file_not_found'])
+                        h.output(strings['is_not_file'])
                     
                 elif command == 'cln':
                     os.system(h.ask_input(strings['command_prompt']))
