@@ -11,6 +11,8 @@ import shlex
 import helpers as h
 import init
 from sys import argv as args
+import subprocess
+import pathlib
 
 def main():
     sys.argv.append('')
@@ -161,7 +163,8 @@ def main():
                         if os.path.isfile(n):
                             os.remove(n)
                         else:
-                            os.system(f'rm -r "{n}" >/dev/null 2>&1')
+                            shutil.rmtree(n)
+                            #os.system(f'rm -r "{n}" >/dev/null 2>&1')
                 elif command == 'k':
                     src = args[0]
                     dst = args[1]
@@ -436,5 +439,5 @@ if __name__ == "__main__":
     else:
         h.free_current_dir()
         os.system(f"{h.SCRIPT_DIR}/run.sh {' '.join(args[1:])}")
-        
+
         
