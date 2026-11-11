@@ -13,6 +13,7 @@
     "destination": "Local de destino: ",
     "new_name": "Novo nome: ",
     "command": "Commando: ",
+    "command_prompt": "Comando: ",
     "sudo_prompt": "Sudo? [S/N]",
     "file": "Arquivo: ",
     "info_path": "Caminho: ",

@@ -223,7 +223,7 @@ def main():
                     
                     if not os.path.exists(file_path):
                         open(f"{file_path}", "w+").write("")
-                        
+
                     if os.path.isfile(file_path):
                         #os.system(f"{default_editor} {file_path}")
                         subprocess.run([f"{default_editor}", f"{file_path}"])
