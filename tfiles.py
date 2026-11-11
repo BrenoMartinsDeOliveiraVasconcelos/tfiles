@@ -229,7 +229,7 @@ def main():
                         h.output(strings['is_not_file'])
                     
                 elif command == 'cln':
-                    os.system(h.ask_input(strings['command_prompt']))
+                    os.system(f"cd {''.join(no_command_current_path)} && "+h.ask_input(strings['command_prompt']))
                 elif command == 'bash':
                     subprocess.run(["bash"])
                 elif command == 'search':
