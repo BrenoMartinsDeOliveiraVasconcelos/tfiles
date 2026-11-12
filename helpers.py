@@ -61,8 +61,6 @@ def print_error(error: Exception, enter_to_continue: bool=False, quit: bool=Fals
         message = STRINGS['not_a_directory']
     elif isinstance(error, FileExistsError):
         message = STRINGS['file_exists']
-    elif isinstance(error, OSError):
-        message = STRINGS['os_error'] + str(error)
     elif isinstance(error, IsADirectoryError):
         message = STRINGS['is_a_directory']
     elif isinstance(error, UnicodeDecodeError):
@@ -71,6 +69,8 @@ def print_error(error: Exception, enter_to_continue: bool=False, quit: bool=Fals
         message = STRINGS['unicode_encode_error']
     elif isinstance(error, KeyboardInterrupt):
         message = STRINGS['keyboard_interrupt']
+    elif isinstance(error, OSError):
+        message = STRINGS['os_error'] + str(error)
     else:
         message = STRINGS['unknown_error'] + str(error)
     
