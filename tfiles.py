@@ -246,9 +246,9 @@ def main():
                     start_time = time.time()
                     for root, _, files in os.walk(search_location):
                         for file in files:
-                            file = file.lower()
+                            file_low = file.lower()
                             h.print_wait_time(start_time)        
-                            if name in file:
+                            if name in file_low:
                                 founds.append(os.path.join(root, file))
                     
                     number_found = len(founds)  
