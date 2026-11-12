@@ -15,7 +15,6 @@ import subprocess
 import pathlib
 
 def main():
-    sys.argv.append('')
     confirmation_chars = ['S', 'Y', 'y', 's']
     negation_chars = ['N', 'n']
     correct_binaries = confirmation_chars + negation_chars
@@ -30,20 +29,18 @@ def main():
         if not h.ask_yes_no(strings["root_not_recommended"], confirmation_chars, negation_chars):
             sys.exit(0)
 
-    complete_path = []
-    if sys.argv[1] == '':
-        current_path = h.ORIGINAL_DIR.split('/')
-    else:
-        try:
-            current_path = sys.argv[1].split('/')
-            os.listdir(pathlib.Path.resolve(pathlib.Path(''.join(current_path))))
-        except Exception as e:
-            h.print_error(e, quit=True)
-    for path_item in current_path:
-        complete_path.append(f'/{path_item}')
-    current_path = complete_path[:]
+    try:
+        initial_path = pathlib.Path(h.ORIGINAL_DIR).expanduser().resolve(strict=True)
 
-    directory_contents = os.listdir(''.join(current_path))
+        if not initial_path.is_dir():
+            raise NotADirectoryError(str(initial_path))
+
+        # O restante do programa representa o caminho como uma lista de
+        # componentes absolutos: ['/', '/home', '/usuario', '/Documentos'].
+        current_path = ["/"] + [f"/{part}" for part in initial_path.parts[1:]]
+        directory_contents = os.listdir(initial_path)
+    except Exception as e:
+        h.print_error(e, quit=True)
     next_command = ''
     n = ''
 
@@ -440,5 +437,3 @@ if __name__ == "__main__":
     else:
         h.free_current_dir()
         subprocess.run([f"{h.SCRIPT_DIR}/run.sh", *args[1:]])
-
-        
