@@ -58,6 +58,7 @@ def restore_config() -> bool:
             os.remove(bak)
         except PermissionError:
             # Pede a senha de root no terminal para remover apenas este arquivo
+            print(helpers.STRINGS["mandatory_root_bak_file_remove"])
             subprocess.run(["sudo", "rm", "-f", bak], check=True)
         
     return restart
