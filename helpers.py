@@ -24,19 +24,16 @@ COMMANDS = CONFIG_FILE['commands']
 
 
 def get_mime_type(file_path):
+    mime = None
     
-    mime_raw = mimetypes.guess_type(file_path)
-    special_mimes = ['directory', 'binary', 'unknown']
-    
-    mime = mime_raw[0]
-    
-    if mime is None:
-        if os.path.isdir(file_path):
-            mime = 'directory'
-        elif os.path.isfile(file_path):
-            mime = 'binary'
-        else:
-            mime = 'unknown'
+    if os.path.isdir(file_path):
+        mime = 'directory'
+    elif os.path.isfile(file_path):
+        mime_raw = mimetypes.guess_type(file_path)
+
+        mime = mime_raw[0] if mime_raw[0] is not None else 'binary'
+    else:
+        mime = 'unknown'
             
     mime = mime.split('/')[0]
     if mime not in SYMBOLS['mimes'].keys():
