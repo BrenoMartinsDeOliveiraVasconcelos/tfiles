@@ -236,7 +236,8 @@ def main():
                     answ = h.ask_yes_no(strings['search_prompt'], confirmation_chars, negation_chars)
                     search_location =  ''.join(no_command_current_path)
                         
-                    name = h.ask_input(strings['search_name'])     
+                    name = h.ask_input(strings['search_name'])
+                    name = name.lower()     
                         
                     if answ:
                         search_location = "/"
@@ -245,6 +246,7 @@ def main():
                     start_time = time.time()
                     for root, _, files in os.walk(search_location):
                         for file in files:
+                            file = file.lower()
                             h.print_wait_time(start_time)        
                             if name in file:
                                 founds.append(os.path.join(root, file))
