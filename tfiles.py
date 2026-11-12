@@ -345,8 +345,8 @@ def main():
                         for file in files:
                             try:
                                 h.print_wait_time(start_time, interval=0.01)
-                                with open(os.path.join(root, file), 'r', encoding='utf-8') as f:
-                                    for _, line in enumerate(f, 1):
+                                with open(os.path.join(root, file), 'rb', encoding='utf-8') as f:
+                                    for _, line in enumerate(f, start=1):
                                         if text_look in line:
                                             founds.append(os.path.join(root, file))
                                             number_found += 1
