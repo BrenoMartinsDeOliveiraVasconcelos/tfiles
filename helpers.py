@@ -30,7 +30,6 @@ def get_mime_type(file_path):
         mime = 'directory'
     elif os.path.isfile(file_path):
         mime_raw = mimetypes.guess_type(file_path)
-
         mime = mime_raw[0] if mime_raw[0] is not None else 'binary'
     else:
         mime = 'unknown'

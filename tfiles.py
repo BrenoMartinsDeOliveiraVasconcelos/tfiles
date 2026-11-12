@@ -36,7 +36,7 @@ def main():
     else:
         try:
             current_path = sys.argv[1].split('/')
-            os.listdir(f'/{sys.argv[1]}')
+            os.listdir(pathlib.Path.resolve(pathlib.Path(''.join(current_path))))
         except Exception as e:
             h.print_error(e, quit=True)
     for path_item in current_path:
