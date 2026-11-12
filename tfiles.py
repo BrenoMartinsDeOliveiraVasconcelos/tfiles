@@ -345,17 +345,12 @@ def main():
                         for file in files:
                             try:
                                 h.print_wait_time(start_time, interval=0.01)
-                                with open(os.path.join(root, file), 'rb', encoding='utf-8') as f:
-                                    for _, line in enumerate(f, start=1):
-                                        if text_look in line:
-                                            founds.append(os.path.join(root, file))
-                                            number_found += 1
-                                            break
                                 file_content = open(os.path.join(root, file), 'rb').read().decode('utf-8')
                                 
                                 if text_look in file_content:
                                     founds.append(os.path.join(root, file))
                                     number_found += 1
+
                                 number_files += 1
                                 h.output(strings['search_found_progress'] % (number_found, number_files))
                             except Exception as e:
