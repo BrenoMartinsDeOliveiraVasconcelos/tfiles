@@ -4,6 +4,7 @@ import mimetypes
 import json
 import time
 import datetime
+import subprocess
 
 ORIGINAL_DIR = os.getcwd()
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -101,40 +102,50 @@ def is_user_root():
     return getpass.getuser() == 'root'
 
 
+def setterm_set_background(background: str, foreground: str):
+    valid_colors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
+
+    if background not in valid_colors or foreground not in valid_colors:
+        raise ValueError(f"Invalid color. Valid colors are: {', '.join(valid_colors)}")
+    
+    subprocess.run(['setterm', '-background', background, '-foreground', foreground], check=True)
+
+
 def print_tittle(terminal_width):
-        os.system('setterm -background white -foreground white')
+        setterm_set_background('white', 'white')
         text = STRINGS['terminal_explorer']
         if is_user_root():
             text += STRINGS['root_indicator']
         
         output(f"{f'{text}':^{terminal_width}}", color_code="\033[1;30m")
-        os.system('setterm -background black foreground black')
+        setterm_set_background('black', 'black')
         
 
 def print_separator(terminal_width):
-        os.system('setterm -background white -foreground white')
+        setterm_set_background('white', 'white')
         columns_text = f''
         output(f"{columns_text}", color_code="\033[1;30m", end='')
         output(' '* int(terminal_width - len(columns_text)))
-        os.system('setterm -background black -foreground black')
+        setterm_set_background('black', 'black')
         
         
 def switch_emptiness(black: bool):
     color = 'black' if black else 'white'
     
-    os.system(f"setterm -background {color} -foreground {color}")
+    setterm_set_background(color, color)
     
 
 def switch_font_blackness(black: bool):
     background = 'black' if not black else 'white'
     foregound = 'black' if black else 'white'
     
-    os.system(f"setterm -background {background} -foreground {foregound}")
+    setterm_set_background(background, foregound)
+
 
 
 def restore_setterm():
     print("\n\033[0m")
-    os.system('setterm -default')
+    subprocess.run(['setterm', '-default'], check=True)
 
 
 def display_files(directory_contents: list, current_path: list, terminal_width: int, left_index: int, right_index: int):
@@ -211,7 +222,7 @@ def remove_last_items(item_list: list, times: int=2) -> list:
 
 
 def clear_screen():
-    os.system("clear")
+    subprocess.run(['clear'], check=True)
 
 
 def clear_extra_separatores(item_list: list) -> list:
