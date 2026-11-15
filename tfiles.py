@@ -332,17 +332,24 @@ def main():
                         for file in files:
                             number_files += 1
                             full_path = os.path.join(root, file)
+
+                            # Check if path is blacklisted
+                            is_blacklisted = [pathlib.Path(full_path).is_relative_to(pathlib.Path(x)) for x in blacklist]
+
+                            if any(is_blacklisted):
+                                continue
+ 
                             st = os.lstat(full_path)
 
                             if not stat.S_ISREG(st.st_mode):
                                 continue
 
                             try:
-                                h.output(strings["current_file"] % (full_path))
                                 with open(full_path, "r") as f: 
                                         for line_number, line in enumerate(f, start=1):
                                             h.print_wait_time(start_time, interval=0.01)
-                                            pos = line.find(text_look)
+                                            linelow = line.lower()
+                                            pos = linelow.find(text_look.lower())
 
                                             if pos != -1:
                                                 founds.append({
