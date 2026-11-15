@@ -13,6 +13,7 @@ import init
 from sys import argv as args
 import subprocess
 import pathlib
+import stat
 
 def main():
     confirmation_chars = ['S', 'Y', 'y', 's']
@@ -317,49 +318,7 @@ def main():
                         remove_times = 0
                     else:
                         h.output(strings['path_not_found'])
-                    
                 elif command == "deep_search":
-                    search_on_fs = h.ask_yes_no(strings['search_prompt'], confirmation_chars, negation_chars)
-                        
-                    text_look = h.ask_input(strings['deep_search_name'])
-                    
-                    search_path = "/" if search_on_fs else ''.join(no_command_current_path)
-
-                    founds = []
-                    start_time = time.time()
-                    
-                    number_found = 0
-                    number_files = 0
-                    for root, _, files in os.walk(search_path):
-                        skip = False
-
-                        
-                        for file in files:
-                            try:
-                                h.print_wait_time(start_time, interval=0.01)
-                                file_content = open(os.path.join(root, file), 'rb', encoding='utf-8').read()
-                                
-                                if text_look in file_content:
-                                    founds.append(os.path.join(root, file))
-                                    number_found += 1
-
-                                number_files += 1
-                                h.output(strings['search_found_progress'] % (number_found, number_files))
-                            except Exception as e:
-                                pass
-
-                    h.print_runtime(start_time)
-                    if number_found == 0:
-                        h.output(strings['search_not_found'])
-                    else:
-                        h.output(strings['search_found'] % number_found)
-                        h.print_calmly(founds, negation_chars)
-                        
-                        output_select = h.input_index(founds)
-                        
-                        if output_select is not None:
-                            current_path = output_select
-                elif command == "locate_text":
                     # Searchs for files containing a text and outputs the path and exact location
                     search_on_fs = h.ask_yes_no(strings['search_prompt'], confirmation_chars, negation_chars)    
                     text_look = h.ask_input(strings['deep_search_name'])
@@ -369,20 +328,18 @@ def main():
 
                     start_time = time.time()
                     number_files = 0
-                    for root, dirs, files in os.walk(search_path):
-                        number_files += 1
-                        dirs[:] = [
-                                    d for d in dirs
-                                    if not any(os.path.join(root, d).startswith(b) for b in blacklist)
-                                    ]
-
-                        if any(root.startswith(b) for b in blacklist):
-                            continue
-
+                    for root, _, files in os.walk(search_path):
                         for file in files:
+                            number_files += 1
                             full_path = os.path.join(root, file)
+                            st = os.lstat(full_path)
+
+                            if not stat.S_ISREG(st.st_mode):
+                                continue
+
                             try:
-                                with open(full_path, "r", encoding='utf-8') as f:    
+                                h.output(strings["current_file"] % (full_path))
+                                with open(full_path, "r") as f: 
                                         for line_number, line in enumerate(f, start=1):
                                             h.print_wait_time(start_time, interval=0.01)
                                             pos = line.find(text_look)
@@ -394,7 +351,7 @@ def main():
                                                     "column": pos + 1,
                                                 })
                                                 h.output(strings['matches_found_progress'] % (len(founds), number_files, full_path))
-                            except (OSError, UnicodeDecodeError):
+                            except (OSError, UnicodeDecodeError, FileNotFoundError):
                                 pass
 
                     h.print_runtime(start_time)

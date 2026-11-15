@@ -60,5 +60,6 @@
     "mandatory_root_bak_file_remove": "Permissão de root é necessária para limpar arquivos antigos. Por favor, digite sua senha para continuar.",
     "located_position": "%s (linha: %s, coluna: %s)",
     "matches_found_progress": "Encontrado %s correspondências (%s arquivos analisados, caminho atual: %s)",
-    "runtime": "Rodou em %s segundos."
+    "runtime": "Rodou em %s segundos.",
+    "current_file": "Arquivo: %s"
 }

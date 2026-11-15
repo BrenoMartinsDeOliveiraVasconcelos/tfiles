@@ -60,5 +60,6 @@
     "mandatory_root_bak_file_remove": "Root permission is needed to clean up old files. Please enter your password to continue.",
     "located_position": "%s (line: %s, columbn: %s)",
     "matches_found_progress": "Found %s matches (Files analyzed: %s, Current path: %s')",
-    "runtime": "Ran in %s seconds."
+    "runtime": "Ran in %s seconds.",
+    "current_file": "File: %s"
 }

@@ -31,8 +31,7 @@
             "Abrir um arquivo em um editor de texto definido pelo comando /seteditor (padrão é nano)",
             "Troca o diretório atual",
             "Realiza uma pesquisa por arquivos que contenham um texto",
-            "Define o editor de texto",
-            "Procura por arquivos que contenham um texto e retorna sua exata posição."
+            "Define o editor de texto"
         ]
     }
 }
