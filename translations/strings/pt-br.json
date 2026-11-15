@@ -32,7 +32,7 @@
     "search_end": "Ir para (0 para cancelar, enter para continuar): ",
     "search_error": "Esse indice não está na lista.",
     "search_output_continue": "",
-    "search_found_progress": "Encontrado: %s (Arquivos analisados: %s)",
+    "search_found_progress": "Encontrado %s arquivos (Arquivos analisados: %s)",
     "enter_to_continue": "Enter para continuar.",
     "file_not_found": "O arquivo especificado não foi encontrado.",
     "permission_denied": "Permissão negada. Tente novamente como root.",
@@ -57,5 +57,8 @@
     "not_enough_arguments": "Necessario pelo menos %s argumento(s).",
     "root_not_recommended": "Executar como root nao é recomendado devido riscos de segurança. Continue apenas se realmente necessario. Confirmar? [S/N]",
     "editor_change": "Editor alterado para %s.",
-    "mandatory_root_bak_file_remove": "Permissão de root é necessária para limpar arquivos antigos. Por favor, digite sua senha para continuar."
+    "mandatory_root_bak_file_remove": "Permissão de root é necessária para limpar arquivos antigos. Por favor, digite sua senha para continuar.",
+    "located_position": "%s (linha: %s, coluna: %s)",
+    "matches_found_progress": "Encontrado %s correspondências (%s arquivos analisados, caminho atual: %s)",
+    "runtime": "Rodou em %s segundos."
 }

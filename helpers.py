@@ -381,3 +381,9 @@ def ask_yes_no(message: str, yes_chars: list, no_chars: list) -> bool:
 def write_config_file(config: dict):
     with open(CONFIG_FILE_PATH, 'w') as file:
         json.dump(config, file, indent=4)
+
+
+def print_runtime(start_time):
+    end_time = time.time()
+    output(STRINGS["runtime"] % ((end_time - start_time)))
+    

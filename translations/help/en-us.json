@@ -31,7 +31,8 @@
             "File edit with the text editor set with /seteditor (default is nano)",
             "Changes current directory",
             "Look for file that contains a specific text inside.",
-            "Sets the text editor"
+            "Sets the text editor",
+            "Looks for a file that contains a specific text inside, together with exact poisition."
         ]
     }
 }
